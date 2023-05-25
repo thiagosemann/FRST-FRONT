@@ -15,33 +15,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: 'landing', component: LandingComponent,canActivate: [AuthGuardService]  },
-
-
-  {
-    path: 'content',
-    component: ContentComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      title: 'Home'
-    },
-    children: [
-      {
-        path: 'profile',
-        canActivate: [AuthGuardService],
-
-        loadChildren: () =>
-          import('./content/profile/profile.module').then((m) => m.ProfileModule)
-      },
-      {
-        path: 'logGastos',
-        canActivate: [AuthGuardService],
-
-        loadChildren: () =>
-          import('./content/log-gastos/log-gastos.module').then((m) => m.LogGastosModule)
-      },
-      // Adicione mais rotas e componentes filhos aqui
-    ]
-  }
+  { path: 'content', component: ContentComponent, canActivate: [AuthGuardService] }
 
   // Outras rotas do seu aplicativo
 ];

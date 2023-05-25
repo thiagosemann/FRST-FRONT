@@ -1,2 +1,29 @@
-<app-nav-bar></app-nav-bar>
-<router-outlet></router-outlet>
+<app-nav-bar class="mb-4"></app-nav-bar>
+
+<div class="app container-fluid d-flex flex-column vh-100">
+    <div class="row flex-grow-1 mobile-block"> <!-- Primeiro bloco -->
+        <div class="col-12 d-flex rectangle">
+            <div class="col text-center">
+                <button class="floating-button larger-button">LER QRCODE</button>
+            </div>
+            <div class="col text-center">
+                <button class="floating-button larger-button">COLOCAR CRÉDITO</button>
+            </div>
+        </div>
+    </div>
+    <div class="row flex-grow-1 mobile-block"> <!-- Segundo bloco -->
+        <div class="col-12">
+            <app-status-maquinas></app-status-maquinas>
+        </div>
+    </div>
+    <div class="row flex-grow-1 mobile-block"> <!-- Terceiro bloco -->
+        <div class="col-12 d-flex rectangle">
+            <div class="col">
+                <app-log-gastos></app-log-gastos>
+            </div>
+            <div class="col">
+                <app-log-mensal></app-log-mensal>
+            </div>
+        </div>
+    </div>
+</div>

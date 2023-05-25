@@ -1,0 +1,53 @@
+.app {
+    overflow: hidden;
+}
+
+/* Regra de mídia para telas de 600px ou menos */
+@media (max-width: 600px) {
+    .app {
+        overflow: auto;
+    }
+
+    .app .row {
+        flex-direction: column;
+    }
+
+    .rectangle {
+        flex-direction: column;
+    }
+}
+
+.floating-button {
+    background-color: #80c34f; /* Replace with your desired green color */
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    font-size: 18px;
+    border-radius: 8px;
+    margin: 16px auto; /* Add auto margin on the top and bottom, and auto on the left and right */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    font-weight: bold; /* Add bold font weight */
+    width: calc(100% - 32px); /* Calculate the width to occupy full screen width with left and right margin */
+    max-width: 400px; /* Set a maximum width for the button */
+    height: 60px; /* Set a fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-button:hover {
+    transform: translateY(-4px);
+}
+
+.floating-button:active {
+    transform: translateY(2px);
+}
+
+.larger-button {
+    padding: 20px 40px;
+    font-size: 20px;
+    width: calc(100% - 32px); /* Calculate the width to occupy full screen width with left and right margin */
+    max-width: 480px; /* Set a maximum width for the button */
+    height: 150px; /* Set a larger fixed height */
+}

@@ -6,7 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgxMaskModule } from 'ngx-mask';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgChartsModule  } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,8 +18,10 @@ import { LandingComponent } from './landing/landing.component';
 import { ContentComponent } from './content/content.component';
 import { NavBarComponent } from './content/nav-bar/nav-bar.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { NgxMaskModule } from 'ngx-mask'
-
+import { StatusMaquinasComponent } from './content/status-maquinas/status-maquinas.component'
+import { LogGastosComponent } from './content/log-gastos/log-gastos.component';
+import { LogMensalComponent } from './content/log-mensal/log-mensal.component';
+import { ComprarCreditoComponent } from './content/comprar-credito/comprar-credito.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,11 @@ import { NgxMaskModule } from 'ngx-mask'
     ContentComponent,
     NavBarComponent,
     ForgotPasswordComponent,
+    StatusMaquinasComponent,
+    LogGastosComponent,
+    LogMensalComponent,
+    ComprarCreditoComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -37,7 +46,11 @@ import { NgxMaskModule } from 'ngx-mask'
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    NgChartsModule,
+    BsDatepickerModule 
+    
+
   ],
   providers: [],
   bootstrap: [AppComponent]
