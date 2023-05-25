@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  .rectangle {
+    height: 100vh; /* Faz o retângulo ter altura total da tela */
+    background-color: #e6e6e6;
+    border-left: 5vw solid #d4d4d4;
+    border-right: 5vw solid #d4d4d4;
+    box-sizing: border-box; /* Isso faz com que a borda seja incluída no cálculo da largura total */
+
+}

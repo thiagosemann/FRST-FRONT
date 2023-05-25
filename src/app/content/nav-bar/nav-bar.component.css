@@ -1,0 +1,28 @@
+.navbar {
+    background-color: #006400;
+    box-shadow: 0 8px 7px -7px black;
+}
+
+.navbar .nav-link {
+    color: #fff;
+}
+
+.navbar .nav-link:hover {
+    color: #ccc;
+}
+
+.dropdown-menu {
+    background-color: #006400;
+}
+
+.dropdown-item {
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    color: #ccc;
+    background-color: #004d00;
+}
+.navbar-dark .navbar-toggler-icon {
+    filter: invert(100%);
+}
