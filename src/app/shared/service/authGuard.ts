@@ -8,12 +8,10 @@ import { Observable } from 'rxjs';
 export class AuthGuardService implements CanActivate {
 
   constructor(private router: Router) {
-    console.log('AuthGuard instanciado');
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    console.log('Token:', token); // adicione essa linha
     if (token) {
       return true;
     } else {

@@ -3,26 +3,28 @@
     box-shadow: 0 8px 7px -7px black;
 }
 
-.navbar .nav-link {
-    color: #fff;
+/* CSS para nome e créditos do usuário */
+.navbar-username-credits {
+    color: white;
+    font-weight: bold;
+    margin-right: 2rem; /* Adicionada margem à direita para separar do botão de logout */
+
 }
 
-.navbar .nav-link:hover {
-    color: #ccc;
+/* CSS para o botão de saída */
+.navbar-logout-btn {
+    background-color: white;
+    color: #006400; 
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+    margin-right: 30px;
+    padding: 5px 20px;
 }
 
-.dropdown-menu {
-    background-color: #006400;
-}
-
-.dropdown-item {
-    color: #fff;
-}
-
-.dropdown-item:hover {
-    color: #ccc;
-    background-color: #004d00;
-}
-.navbar-dark .navbar-toggler-icon {
-    filter: invert(100%);
+/* Efeito de hover no botão de saída */
+.navbar-logout-btn:hover {
+    background-color: lightgray;
 }

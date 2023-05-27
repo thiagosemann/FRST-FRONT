@@ -62,4 +62,15 @@ export class AuthenticationService {
     }
     return localStorage.getItem('token') !== null || sessionStorage.getItem('token') !== null;
   }
+
+getUser(): User | null {
+    if (!this.user) {
+        if (localStorage.getItem('user') !== null) {
+            this.user = JSON.parse(localStorage.getItem('user')!);
+        } else if (sessionStorage.getItem('user') !== null) {
+            this.user = JSON.parse(sessionStorage.getItem('user')!);
+        }
+    }
+    return this.user;
+}
 }

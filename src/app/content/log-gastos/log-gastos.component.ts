@@ -23,7 +23,6 @@ export class LogGastosComponent implements OnInit {
           next: history => {
             this.userUsageHistory = history;
             this.formatUsageHistory(user); // Formatar o histórico de uso, passando o usuário como argumento
-            console.log(this.formattedUsageHistory);
           },
           error: error => {
             console.log('Error getting user usage history:', error);

@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container d-flex justify-content-center align-items-center">
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let machine of machines">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4" *ngFor="let machine of machines">
             <div class="card">
-                <img class="card-img-top" src="path-to-your-image" alt="Imagem da máquina">
+                <img class="card-img-top" src="" alt="Imagem da máquina">
                 <div class="card-body">
                     <h5 class="card-title">{{machine.name}}</h5>
-                    <p class="card-text">{{machine.status}}</p>
+                    <p class="card-text">{{machine.is_in_use ? 'Ligada' : 'Desligada'}}</p>
+                    <p class="card-text">{{machine.type}}</p>
                 </div>
             </div>
         </div>
