@@ -22,6 +22,10 @@ import { StatusMaquinasComponent } from './content/status-maquinas/status-maquin
 import { LogGastosComponent } from './content/log-gastos/log-gastos.component';
 import { LogMensalComponent } from './content/log-mensal/log-mensal.component';
 import { ComprarCreditoComponent } from './content/comprar-credito/comprar-credito.component';
+import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { LiberacaoMaquinasComponent } from './content/liberacao-maquinas/liberacao-maquinas.component';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +40,8 @@ import { ComprarCreditoComponent } from './content/comprar-credito/comprar-credi
     LogGastosComponent,
     LogMensalComponent,
     ComprarCreditoComponent,
+    QrCodeScannerComponent,
+    LiberacaoMaquinasComponent,
     
   ],
   imports: [
@@ -48,10 +54,9 @@ import { ComprarCreditoComponent } from './content/comprar-credito/comprar-credi
     BrowserAnimationsModule,
     NgxMaskModule.forRoot(),
     NgChartsModule,
-    BsDatepickerModule 
-    
-
-  ],
+    BsDatepickerModule,
+    ZXingScannerModule 
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

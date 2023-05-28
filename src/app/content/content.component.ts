@@ -6,4 +6,12 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css']
 })
-export class ContentComponent {}
+export class ContentComponent {
+
+  constructor( private router: Router) {}
+
+  goToQrCode(): void {
+    this.router.navigate(['/qrCode']);
+
+  }
+}

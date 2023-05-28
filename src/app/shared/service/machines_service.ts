@@ -20,12 +20,22 @@ export class MachineService {
     return this.http.get<Machine[]>(this.apiUrl, { headers: this.getHeaders() });
   }
 
-  getMachinesByBuilding(building_id: number): Observable<Machine[]> {
-    return this.http.get<Machine[]>(`${this.apiUrl}/${building_id}`, { headers: this.getHeaders() });
+  getMachineById(machineId: number): Observable<Machine> {
+    const url = `${this.apiUrl}/${machineId}`;
+    return this.http.get<Machine>(url, { headers: this.getHeaders() });
+  }
+
+  getMachinesByBuilding(buildingId: number): Observable<Machine[]> {
+    const url = `${this.apiUrl}/building/${buildingId}`;
+    return this.http.get<Machine[]>(url, { headers: this.getHeaders() });
   }
 
   createMachine(machine: Machine): Observable<Machine> {
     return this.http.post<Machine>(this.apiUrl, machine, { headers: this.getHeaders() });
   }
-
+  
+  updateMachineStatus(machineId: number, status: boolean): Observable<Machine> {
+    const url = `${this.apiUrl}/${machineId}`;
+    return this.http.put<Machine>(url, { is_in_use: status }, { headers: this.getHeaders() });
+  }
 }
