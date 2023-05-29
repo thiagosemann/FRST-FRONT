@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private url = 'http://localhost:3333/login';
+  private url = 'http://192.168.1.7:3333/login';
   private user: User | null = null;
 
   constructor(private http: HttpClient) {}
@@ -38,7 +38,7 @@ export class AuthenticationService {
           if (error.status === 401) {
             resolve({logado: false, erro: error.error.message}); 
           } else {
-            reject({logado: false, erro: 'Erro na autenticação'}); 
+            reject({logado: false, erro: 'Erro na autenticação2'}); 
           }
         }
       );

@@ -21,11 +21,20 @@ export class UsageHistoryService {
     return this.http.get<UsageHistory[]>(url, { headers: this.getHeaders() });
   }
 
+  getMachineUsageHistory(machineId: number): Observable<UsageHistory[]> {
+    const url = `${this.apiUrl}/machine/${machineId}`;
+    return this.http.get<UsageHistory[]>(url, { headers: this.getHeaders() });
+  }
+
   getAllUsageHistory(): Observable<UsageHistory[]> {
     return this.http.get<UsageHistory[]>(this.apiUrl, { headers: this.getHeaders() });
   }
 
   createUsageHistory(usageHistory: UsageHistory): Observable<UsageHistory> {
     return this.http.post<UsageHistory>(this.apiUrl, usageHistory, { headers: this.getHeaders() });
+  }
+  updateUsageHistory(usageHistory: UsageHistory): Observable<UsageHistory> {
+    const url = `${this.apiUrl}/${usageHistory.id}`;
+    return this.http.put<UsageHistory>(url, usageHistory, { headers: this.getHeaders() });
   }
 }

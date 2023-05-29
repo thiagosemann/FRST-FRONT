@@ -47,13 +47,21 @@ export class LogGastosComponent implements OnInit {
     return null;
   }
 
-  formatUsageHistory(user: User) { // Receber o usuário como argumento
+  formatUsageHistory(user: User) {
     this.formattedUsageHistory = this.userUsageHistory.map(history => ({
-      start_time: new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      end_time: new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      building: user.building_name, // Usar a propriedade correta do usuário
-      date: new Date(history.end_time).toLocaleDateString(),
-      total_cost: parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) // Converte para número e formata o valor para reais
+      start_time: history.start_time 
+        ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+        : "--",
+      end_time: history.end_time 
+        ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+        : "--",
+      building: user.building_name,
+      date: history.end_time 
+        ? new Date(history.end_time).toLocaleDateString() 
+        : "--",
+      total_cost: history.total_cost 
+        ? parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
+        : "--"
     }));
   }
 }

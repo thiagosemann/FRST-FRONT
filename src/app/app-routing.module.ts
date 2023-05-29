@@ -11,6 +11,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
 import { LiberacaoMaquinasComponent } from './content/liberacao-maquinas/liberacao-maquinas.component';
 
+
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
