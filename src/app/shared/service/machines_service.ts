@@ -7,7 +7,7 @@ import { Machine } from '../utilitarios/machines';  // atualize o caminho se nec
   providedIn: 'root'
 })
 export class MachineService {
-  private apiUrl = 'http://localhost:3333/machines';
+  private apiUrl = 'http://192.168.1.9:3333/machines';
 
   constructor(private http: HttpClient) { }
 

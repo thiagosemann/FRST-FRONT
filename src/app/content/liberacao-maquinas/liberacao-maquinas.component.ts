@@ -7,7 +7,8 @@ import { User } from '../../shared/utilitarios/user';
 import { AuthenticationService } from '../../shared/service/authentication';
 import { UsageHistoryService } from '../../shared/service/usageHistory_service';
 import { UsageHistory } from '../../shared/utilitarios/usageHistory';
-
+import { BuildingService } from 'src/app/shared/service/buildings_service';
+import { TransactionsService } from '../../shared/service/transactionsService';
 
 
 @Component({
@@ -26,7 +27,10 @@ export class LiberacaoMaquinasComponent implements OnInit {
     private authService: AuthenticationService,
     private usageHistoryService: UsageHistoryService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private buildingService: BuildingService,
+    private transactionsService: TransactionsService,
+
   ) { 
     this.id = '';
   }
@@ -70,10 +74,58 @@ export class LiberacaoMaquinasComponent implements OnInit {
   
     if (lastUsage) {
       this.updateMachineStatus(false);
+      const endTime = new Date(); 
+      const timezoneOffset = -3; // Brasília é GMT-3
+      endTime.setHours(endTime.getHours() + timezoneOffset);
+      const formattedEndTime = endTime.toISOString().slice(0, 19).replace('T', ' ');
   
-   
-      // atualize o transaction history
-      // TODO: você precisará implementar isso
+      let totalCost = 10; // valor default
+      
+      // Se existir um prédio associado à máquina, obtemos a taxa horária
+      if (this.machine?.building_id) {
+        const building = await this.buildingService.getBuildingById(this.machine.building_id).toPromise();
+        
+        // Verificamos se o building existe antes de tentar acessar a propriedade hourly_rate
+        if(building && lastUsage.start_time){
+           // Parse both dates to get the time difference in seconds
+           const startTime = Date.parse(lastUsage.start_time);
+           const endTime = Date.parse(formattedEndTime);
+           const timeDifferenceInSeconds = (endTime - startTime) / 1000;
+           
+           // Calcular totalCost com base na diferença de tempo e na taxa horária
+           totalCost = (building.hourly_rate / 3600) * timeDifferenceInSeconds;
+        }
+      }
+  
+      // Atualiza o objeto lastUsage com end_time e total_cost.
+      lastUsage.end_time = formattedEndTime;
+      lastUsage.total_cost = totalCost;
+    
+      // Chame o serviço para atualizar o usageHistory no backend.
+      this.usageHistoryService.updateUsageHistory(lastUsage).subscribe({
+        next: () => {
+          if(lastUsage.end_time && lastUsage.start_time){
+            // Após a atualização bem-sucedida do histórico de uso, crie a transação
+            const transactionTime = (Date.parse(lastUsage.end_time) - Date.parse(lastUsage.start_time)) / 1000; // tempo em segundos
+        
+            const transaction = {
+              user_id: lastUsage.user_id,
+              usage_history_id:  lastUsage.id ?? 0,
+              transaction_time: lastUsage.end_time,
+              amount: lastUsage.total_cost ?? 0
+            };
+            if(transaction){
+              this.transactionsService.createTransaction(transaction).subscribe({
+                next: () => {
+                  // código a ser executado quando a transação é criada com sucesso
+                },
+                error: (error: any) => console.log('Error creating transaction:', error)
+              });
+            }
+          }
+        },
+        error: (error: any) => console.log('Error updating usage history:', error)
+      });
   
       resp = "Máquina desligada";
     } else {
@@ -82,6 +134,7 @@ export class LiberacaoMaquinasComponent implements OnInit {
   
     return resp;
   }
+  
   
   isUserUsingMachine(user: User | null): Promise<UsageHistory | null> {
     return new Promise((resolve, reject) => {
@@ -143,6 +196,7 @@ export class LiberacaoMaquinasComponent implements OnInit {
       }  
     }
     
+  
 
 
 }
