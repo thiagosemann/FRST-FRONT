@@ -1,14 +1,38 @@
 .navbar {
-    background-color: #006400;
-    box-shadow: 0 8px 7px -7px black;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
 }
+
+/* CSS para o nome da empresa */
+.company-name {
+    margin-left: 10px;
+    font-size: 48px;
+    color: #333;  /* Altere conforme necessário */
+}
+
+/* CSS para a foto de perfil */
+.profile-picture {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-right: 40px;
+}
+
+.notification-icon {
+    width: 40px;
+    height: 50px;
+    margin-right: 50px;
+    margin-top:5px;
+}
+
 
 /* CSS para nome e créditos do usuário */
 .navbar-username-credits {
     color: white;
     font-weight: bold;
     margin-right: 2rem; /* Adicionada margem à direita para separar do botão de logout */
-
 }
 
 /* CSS para o botão de saída */
@@ -28,3 +52,17 @@
 .navbar-logout-btn:hover {
     background-color: lightgray;
 }
+
+.navbar-toggler {
+    border-color: #ffffff; /* Ajuste a cor conforme necessário */
+  }
+  
+  .navbar-toggler-icon {
+    background-color: #ffffff; /* Ajuste a cor conforme necessário */
+  }
+  
+  .collapse.navbar-collapse.show .notification-icon,
+  .collapse.navbar-collapse.show .profile-picture {
+    display: inline-block;
+    margin-left: 10px; /* Ajuste a margem conforme necessário */
+  }

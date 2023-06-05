@@ -7,7 +7,7 @@ import { Transaction } from '../utilitarios/transactions';  // Atualize o caminh
   providedIn: 'root'
 })
 export class TransactionsService {
-  private apiUrl = 'http://192.168.1.9:3333/transactions';  // Atualize o URL se necessário
+  private apiUrl = 'http://localhost:3333/transactions';  // Atualize o URL se necessário
 
   constructor(private http: HttpClient) { }
 

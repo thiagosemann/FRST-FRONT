@@ -1,53 +1,97 @@
-.app {
-    overflow: hidden;
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
+.app-nav-bar {
+    z-index: 1000;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    height: calc(100vh - 10px); /* Adjust based on the height of your nav-bar */
+}
+
+.sidebar {
+    width: 200px;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.app-content {
+    margin-left: 50px;
+    margin-right: 20px;
+    overflow: hidden;
+    flex-grow: 1;
+    width: calc(100% - 250px);
+    background-color: white ;
+    border-radius: 20px;
+
+
+}
 /* Regra de mídia para telas de 600px ou menos */
 @media (max-width: 600px) {
-    .app {
-        overflow: auto;
+    .main-layout {
+        overflow: hidden;
     }
-
-    .app .row {
+    .main-layout.row {
         flex-direction: column;
     }
+    .app-content {
+        overflow: auto;
+        margin-left: 20px;
 
+    }
     .rectangle {
         flex-direction: column;
     }
+    
+    /* Adicione esta regra para esconder a barra lateral em telas menores que 600px */
+    .sidebar {
+        display: none;
+    }
 }
-
-.floating-button {
-    background-color: #80c34f; /* Replace with your desired green color */
-    color: white;
-    border: none;
-    padding: 16px 32px;
-    font-size: 18px;
-    border-radius: 8px;
-    margin: 16px auto; /* Add auto margin on the top and bottom, and auto on the left and right */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    font-weight: bold; /* Add bold font weight */
-    width: calc(100% - 32px); /* Calculate the width to occupy full screen width with left and right margin */
-    max-width: 400px; /* Set a maximum width for the button */
-    height: 60px; /* Set a fixed height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.floating-button:hover {
-    transform: translateY(-4px);
-}
-
-.floating-button:active {
-    transform: translateY(2px);
+.button-container {
+    background: #F6F6F6;
+    border-radius: 15px;
+    padding: 10px; /* Space around the button */
+    margin: 10px; /* Space between the buttons */
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center contents horizontally */
+    align-items: center; /* Center contents vertically */
+    height: 100%; /* Take full height of the parent element */
 }
 
 .larger-button {
-    padding: 20px 40px;
-    font-size: 20px;
-    width: calc(100% - 32px); /* Calculate the width to occupy full screen width with left and right margin */
-    max-width: 480px; /* Set a maximum width for the button */
-    height: 150px; /* Set a larger fixed height */
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    color: #7B7B84; /* White text */
+    display: flex; /* Align image and text */
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center; /* Center the contents */
+    justify-content: center; /* Center the contents */
+    text-align: center; /* Center the text */
+    padding: 20px; /* Padding around the content */
+    transition: transform 0.3s ease; /* Transition for hover effect */
+    font-family: 'LayarBahtera Doomsday';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 29px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.larger-button:hover {
+    transform: scale(1.1); /* Make the button slightly larger when hovering */
+}
+
+.button-icon {
+    width: 100px; /* Width of the image */
+    height: 100px; /* Height of the image */
+    margin-bottom: 10px; /* Space between the image and the text */
 }

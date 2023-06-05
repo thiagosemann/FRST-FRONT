@@ -23,4 +23,5 @@ export class NavBarComponent implements OnInit {
     this.toastr.error("Deslogado.")
     this.router.navigate(['/login']);
   }
+  
 }

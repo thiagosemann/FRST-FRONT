@@ -1,29 +1,44 @@
-<app-nav-bar class="mb-4"></app-nav-bar>
+<div class="main-layout">
+    <app-nav-bar class="mb-4"></app-nav-bar>
+    <div class="content-wrapper">
+      <div class="sidebar">
+          <app-menu-lateral></app-menu-lateral>
+      </div>
+      <div class="app-content container-fluid d-flex flex-column">
+        <div class="row flex-grow-1 mobile-block"> <!-- Primeiro bloco -->
+            <div class="col-12 d-flex rectangle">
+                <div class="col text-center button-container">
+                    <button class="larger-button" (click)="goToQrCode()">
+                        <img src="  ../../assets/images/qr-code.svg" alt="QR Code" class="button-icon"/>
+                        <span>LER QR CODE</span>
+                    </button>
+                </div>
+                <div class="col text-center button-container">
+                    <button class="larger-button">
+                        <img src=" ../../assets/images/insert-credit.svg" alt="Add Credit" class="button-icon"/>
+                        <span>COLOCAR CRÉDITO</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+          <div class="row flex-grow-1 mobile-block d-flex justify-content-center align-items-center"> <!-- Segundo bloco -->
+              <div class="col-12">
+                  <app-status-maquinas></app-status-maquinas>
+              </div>
+          </div>
+          <div class="row flex-grow-1 mobile-block"> <!-- Terceiro bloco -->
+              <div class="col-12 d-flex rectangle">
+                  <div class="col">
+                      <app-log-gastos></app-log-gastos>
+                  </div>
+                  <div class="col">
+                      <app-log-mensal></app-log-mensal>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
 
-<div class="app container-fluid d-flex flex-column vh-100">
-    <div class="row flex-grow-1 mobile-block"> <!-- Primeiro bloco -->
-        <div class="col-12 d-flex rectangle">
-            <div class="col text-center">
-                <button class="floating-button larger-button" (click)="goToQrCode()">LER QRCODE</button>
-            </div>
-            <div class="col text-center">
-                <button class="floating-button larger-button">COLOCAR CRÉDITO</button>
-            </div>
-        </div>
-    </div>
-    <div class="row flex-grow-1 mobile-block d-flex justify-content-center align-items-center"> <!-- Segundo bloco -->
-        <div class="col-12">
-            <app-status-maquinas></app-status-maquinas>
-        </div>
-    </div>
-    <div class="row flex-grow-1 mobile-block"> <!-- Terceiro bloco -->
-        <div class="col-12 d-flex rectangle">
-            <div class="col">
-                <app-log-gastos></app-log-gastos>
-            </div>
-            <div class="col">
-                <app-log-mensal></app-log-mensal>
-            </div>
-        </div>
-    </div>
-</div>
+

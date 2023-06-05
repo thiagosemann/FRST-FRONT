@@ -7,7 +7,7 @@ import { UsageHistory } from '../utilitarios/usageHistory';  // atualize o camin
   providedIn: 'root'
 })
 export class UsageHistoryService {
-  private apiUrl = 'http://192.168.1.9:3333/usageHistory';
+  private apiUrl = 'http://localhost:3333/usageHistory';
 
   constructor(private http: HttpClient) { }
 

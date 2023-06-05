@@ -12,9 +12,8 @@ import { TransactionsService } from '../../shared/service/transactionsService';
 
 
 @Component({
-  selector: 'app-liberacao-maquinas',
-  templateUrl: './liberacao-maquinas.component.html',
-  styleUrls: ['./liberacao-maquinas.component.css']
+  selector: 'app-my-component',
+  template: ''
 })
 export class LiberacaoMaquinasComponent implements OnInit {
   id: string;
