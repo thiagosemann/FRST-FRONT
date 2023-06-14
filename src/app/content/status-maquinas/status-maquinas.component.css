@@ -5,8 +5,8 @@
 .card {
     margin-bottom: 20px;
     background-color: #F6F6F6;
-    width: 30vh;
-    height: 30vh;
+    width: 20vh;
+    height: 20vh;
     border-style: none;
     display: flex;
     flex-direction: column;
@@ -26,9 +26,22 @@
 .card-body {
     text-align: center;
     padding: 0;
-    margin: 0;
+    margin-top: 5px;
 }
 
 .img-container {
     text-align: center;
 }
+/* Estilos para máquinas livres */
+.free-machine {
+    color: #0E7F3B;
+    font-weight: bold;
+  }
+  
+  /* Estilos para máquinas em uso */
+  .in-use-machine {
+    color: #E81515;
+    font-weight: bold;
+
+    /* Outros estilos personalizados para máquinas em uso */
+  }

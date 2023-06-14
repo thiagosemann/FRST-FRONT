@@ -11,4 +11,5 @@ export interface User {
     password: string;
     token:string;
     building_name: string;
+    apt_name:string;
   }

@@ -60,4 +60,13 @@ export class UserService {
     this.updateUserList();
     return this.getUserListObservable();
   }
+
+  getUser(userId: number): Observable<User> {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+
+    return this.http.get<User>(`${this.url}/users/${userId}`, { headers });
+  }
 }

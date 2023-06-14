@@ -9,7 +9,7 @@ import { UsageHistoryService } from '../../shared/service/usageHistory_service';
 import { UsageHistory } from '../../shared/utilitarios/usageHistory';
 import { BuildingService } from 'src/app/shared/service/buildings_service';
 import { TransactionsService } from '../../shared/service/transactionsService';
-
+import { LogGastosComponent } from '../log-gastos/log-gastos.component';
 
 @Component({
   selector: 'app-my-component',
@@ -47,13 +47,21 @@ export class LiberacaoMaquinasComponent implements OnInit {
         if (this.machine?.is_in_use) {
           const status =  await this.manageMachineInUse(this.user); // Chamada da função await aqui
           this.toastr.info(status);
+
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+
           this.router.navigate(['/content']);
           return;
         }
         this.user = this.authService.getUser();
         if (!this.user || this.user.credito < 10) {
           this.toastr.error("Crédito insuficiente!");
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+
           this.router.navigate(['/content']);
+
           return;
         }
         
