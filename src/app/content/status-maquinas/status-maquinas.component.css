@@ -8,12 +8,11 @@
   
  
   .card-container{
-    margin-bottom: 20px;
     margin-left: 25px;
     background: #F6F6F6;
     border-radius: 15px;
     width: 25vh;
-    height: 25vh;
+    height: 20vh;
     border-style: none;
     display: flex;
     flex-direction: column;

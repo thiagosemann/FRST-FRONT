@@ -19,6 +19,13 @@ export class LoginComponent {
     this.password = '';
     this.rememberMe = false;
   }
+  ngOnInit(): void {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (token) {
+      // Se não existe um token, redirecione para a página de login
+      this.router.navigate(['/content']);
+    } 
+  }
 
   login(): void {
     // Lógica de autenticação aqui

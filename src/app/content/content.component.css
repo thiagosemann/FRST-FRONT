@@ -65,6 +65,13 @@
     align-items: center; /* Center contents vertically */
     height: 100%; /* Take full height of the parent element */
 }
+.terceiroBloco-container {
+    background: #F6F6F6;
+    border-radius: 15px;
+    padding: 10px; /* Space around the button */
+    height: 100%; /* Take full height of the parent element */
+    margin: 0px 10px 10px 10px;
+}
 
 .larger-button {
     background-color: transparent; /* No background */

@@ -37,6 +37,11 @@ export class LiberacaoMaquinasComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
     this.verificacaoMaquinas(this.id);
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!token) {
+      // Se não existe um token, redirecione para a página de login
+      this.router.navigate(['/login']);
+    }
   }
 
   verificacaoMaquinas(id: string): void {

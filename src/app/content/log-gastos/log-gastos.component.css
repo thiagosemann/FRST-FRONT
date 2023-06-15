@@ -1,5 +1,9 @@
-.table-light-green {
-  background-color: #d9f4d9; /* Replace with your desired light green color */
+.container{
+  background: #F6F6F6;
+  border-radius: 15px;
+}
+.table-light-gray {
+  background-color: #F6F6F6; /* Replace with your desired light green color */
 }
 
 .table-light {
@@ -18,14 +22,24 @@
 }
 
 .table-wrapper::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 .table-wrapper::-webkit-scrollbar-thumb {
-  background-color: #888;
+  background-color: #B7B7B7;
   border-radius: 4px;
 }
 
 .table-wrapper::-webkit-scrollbar-thumb:hover {
   background-color: #555;
+}
+.log-gastos-title{
+  font-family: 'LayarBahtera Doomsday';
+  font-style: normal;
+  font-weight: 550;
+  font-size: 25px;
+  color: #7B7B84; /* White text */
+}
+.table tr, .table td, .table th {
+  border: none;
 }

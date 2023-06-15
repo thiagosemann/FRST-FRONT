@@ -11,6 +11,14 @@ export class QrCodeScannerComponent {
 
   BarcodeFormat = BarcodeFormat; // Make BarcodeFormat available in template
   constructor(private router: Router) {}
+  
+  ngOnInit(): void {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!token) {
+      // Se não existe um token, redirecione para a página de login
+      this.router.navigate(['/login']);
+    } 
+  }
 
   handleQrCodeResult(resultString: string) {
     console.log('Result: ', resultString);

@@ -17,7 +17,9 @@ const routes: Routes = [
   { path: 'landing', component: LandingComponent, canActivate: [AuthGuardService] },
   { path: 'content', component: ContentComponent, canActivate: [AuthGuardService] },
   { path: 'qrCode', component: QrCodeScannerComponent, canActivate: [AuthGuardService] },
-  { path: 'maquinas/:id', component: LiberacaoMaquinasComponent, canActivate: [AuthGuardService] }
+  { path: 'maquinas/:id', component: LiberacaoMaquinasComponent, canActivate: [AuthGuardService] },
+  { path: '', redirectTo: '/content', pathMatch: 'full' }, // redireciona para '/home' quando o caminho é vazio
+  { path: '**', component: ContentComponent, canActivate: [AuthGuardService] }, // rota de fallback quando nenhuma outra corresponder
 
   // Outras rotas do seu aplicativo
 ];

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h2>Últimos Usos de Máquinas de Lavar</h2>
+      <span class="log-gastos-title">Últimos Usos de Máquinas de Lavar</span>
       <div class="table-wrapper">
         <table class="table">
           <thead>
@@ -15,7 +15,7 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let usageHistory of formattedUsageHistory; let even = even">
-              <tr [class.table-light]="even" [class.table-light-green]="!even">
+              <tr [class.table-light]="even" [class.table-light-gray]="!even">
                 <td>{{ usageHistory.start_time }}</td>
                 <td>{{ usageHistory.end_time }}</td>
                 <td>{{ usageHistory.building }}</td>
