@@ -8,7 +8,6 @@ import { NgChartsModule } from 'ng2-charts';
   styleUrls: ['./log-mensal.component.css']
 })
 export class LogMensalComponent {
-  selectedMonth: Date = new Date();
   monthlyValues: {[key: string]: number} = {
     '01/2023': 1000,
     '02/2023': 2000,

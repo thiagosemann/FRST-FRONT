@@ -2,16 +2,15 @@
     <div class="row">
       <div class="col-12">
         <h2>Resumo Mensal</h2>
-        <div class="form-group">
-          <label for="month-picker">Escolha o mês:</label>
-          <input id="month-picker" type="text" class="form-control" bsDatepicker [(bsValue)]="selectedMonth" [bsConfig]="{ dateInputFormat: 'MM/YYYY' }">
+        <div >
+          <select><option>Janeiro</option></select> 
+          <label style="margin-left: 10px;"> Valores Mensais</label>         
         </div>
-        <h3>Valor para {{selectedMonth | date:'MM/yyyy'}}: {{monthlyValues[selectedMonth.toString()] | currency:'BRL'}}</h3>
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
-        <canvas baseChart
+      <div >
+        <canvas id="chartCanvas"  baseChart
                 [datasets]="chartData"
                 [labels]="chartLabels"
                 [options]="chartOptions"
@@ -21,3 +20,5 @@
       </div>
     </div>
   </div>
+
+
