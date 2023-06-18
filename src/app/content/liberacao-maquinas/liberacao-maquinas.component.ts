@@ -9,7 +9,9 @@ import { UsageHistoryService } from '../../shared/service/usageHistory_service';
 import { UsageHistory } from '../../shared/utilitarios/usageHistory';
 import { BuildingService } from 'src/app/shared/service/buildings_service';
 import { TransactionsService } from '../../shared/service/transactionsService';
-import { LogGastosComponent } from '../log-gastos/log-gastos.component';
+import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
+import { throwError,Observable, lastValueFrom  } from 'rxjs';
+
 
 @Component({
   selector: 'app-my-component',
@@ -29,7 +31,7 @@ export class LiberacaoMaquinasComponent implements OnInit {
     private toastr: ToastrService,
     private buildingService: BuildingService,
     private transactionsService: TransactionsService,
-
+    private nodemcuService : NodemcuService
   ) { 
     this.id = '';
   }
@@ -44,109 +46,137 @@ export class LiberacaoMaquinasComponent implements OnInit {
     }
   }
 
+
   verificacaoMaquinas(id: string): void {
-    this.machineService.getMachineById(+id).subscribe(
-      async (machine: Machine) => { 
-        this.machine = machine;
-        this.user = this.authService.getUser();
-        if (this.machine?.is_in_use) {
-          const status =  await this.manageMachineInUse(this.user); // Chamada da função await aqui
-          this.toastr.info(status);
+      this.machineService.getMachineById(+id).subscribe(
+          (machine: Machine) => { 
+              this.machine = machine;
+              console.log(this.machine)
+              this.user = this.authService.getUser();
 
-          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-          this.router.onSameUrlNavigation = 'reload';
+              if (!this.user || this.user.credito < 10) {
+                  this.toastr.error("Crédito insuficiente!");
+                  this.navigateToContent();
+                  return;
+              }
 
-          this.router.navigate(['/content']);
-          return;
-        }
-        this.user = this.authService.getUser();
-        if (!this.user || this.user.credito < 10) {
-          this.toastr.error("Crédito insuficiente!");
-          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-          this.router.onSameUrlNavigation = 'reload';
-
-          this.router.navigate(['/content']);
-
-          return;
-        }
-        
-        this.createUsageHistory();
-        this.toastr.success("Máquina ligada com sucesso!");
-
-      },
-      (error: any) => {
-        console.log('Error retrieving machine:', error);
-      }
-    );
-  }
-
-  async manageMachineInUse(user: User | null): Promise<string> {
-    const lastUsage = await this.isUserUsingMachine(this.user);
-    let resp = "";
-  
-    if (lastUsage) {
-      this.updateMachineStatus(false);
-      const endTime = new Date(); 
-      const timezoneOffset = -3; // Brasília é GMT-3
-      endTime.setHours(endTime.getHours() + timezoneOffset);
-      const formattedEndTime = endTime.toISOString().slice(0, 19).replace('T', ' ');
-  
-      let totalCost = 10; // valor default
-      
-      // Se existir um prédio associado à máquina, obtemos a taxa horária
-      if (this.machine?.building_id) {
-        const building = await this.buildingService.getBuildingById(this.machine.building_id).toPromise();
-        
-        // Verificamos se o building existe antes de tentar acessar a propriedade hourly_rate
-        if(building && lastUsage.start_time){
-           // Parse both dates to get the time difference in seconds
-           const startTime = Date.parse(lastUsage.start_time);
-           const endTime = Date.parse(formattedEndTime);
-           const timeDifferenceInSeconds = (endTime - startTime) / 1000;
-           
-           // Calcular totalCost com base na diferença de tempo e na taxa horária
-           totalCost = (building.hourly_rate / 3600) * timeDifferenceInSeconds;
-        }
-      }
-  
-      // Atualiza o objeto lastUsage com end_time e total_cost.
-      lastUsage.end_time = formattedEndTime;
-      lastUsage.total_cost = totalCost;
-    
-      // Chame o serviço para atualizar o usageHistory no backend.
-      this.usageHistoryService.updateUsageHistory(lastUsage).subscribe({
-        next: () => {
-          if(lastUsage.end_time && lastUsage.start_time){
-            // Após a atualização bem-sucedida do histórico de uso, crie a transação
-            const transactionTime = (Date.parse(lastUsage.end_time) - Date.parse(lastUsage.start_time)) / 1000; // tempo em segundos
-        
-            const transaction = {
-              user_id: lastUsage.user_id,
-              usage_history_id:  lastUsage.id ?? 0,
-              transaction_time: lastUsage.end_time,
-              amount: lastUsage.total_cost ?? 0
-            };
-            if(transaction){
-              this.transactionsService.createTransaction(transaction).subscribe({
-                next: () => {
-                  // código a ser executado quando a transação é criada com sucesso
-                },
-                error: (error: any) => console.log('Error creating transaction:', error)
-              });
-            }
+              if (this.machine?.is_in_use) {
+                  this.handleMachineInUse();
+              } else {
+                  this.handleMachineNotInUse();
+              }
+          },
+          (error: any) => {
+              console.log('Error retrieving machine:', error);
+              this.toastr.error("Erro ao ligar a máquina.");
+              this.navigateToContent();
           }
-        },
-        error: (error: any) => console.log('Error updating usage history:', error)
-      });
-  
-      resp = "Máquina desligada";
-    } else {
-      resp = "Máquina em uso";
-    }
-  
-    return resp;
+      );
   }
+
+  handleMachineInUse(): void {
+      //Desliga a máquina
+      this.turnOffMachine().subscribe({
+          next: (data) => {  
+              console.log('Resposta do servidor: ', data)
+              this.manageMachineInUse(this.user); 
+              this.toastr.info("Máquina desligada com sucesso!");
+          },
+          error: error => {
+              console.error('Erro ao desligar a máquina: ', error)
+              this.toastr.error("Máquina não conectada.");
+              this.navigateToContent();
+          }
+      });
+  }
+
+  handleMachineNotInUse(): void {
+    //Liga a máquina
+    this.turnOnMachine().subscribe({
+        next: data => {
+            console.log('Resposta do servidor: ', data)
+            this.createUsageHistory(); // Criar o histórico de uso e liga a máquina
+            this.toastr.success("Máquina ligada com sucesso!");
+        },
+        error: error => {
+            console.error('Erro ao ligar a máquina: ', error)
+            this.toastr.error("Máquina não conectada.");
+            this.navigateToContent();
+        }
+    });
+  }
+
+navigateToContent():void{
+  this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  this.router.onSameUrlNavigation = 'reload';
+  this.router.navigate(['/content']);
+}
+
+
+
+async manageMachineInUse(user: User | null): Promise<void> {
+  const lastUsage = await this.isUserUsingMachine(this.user);
   
+  if (!lastUsage) {
+    console.log("Máquina em uso");
+    return;
+  }
+
+  this.updateMachineStatus(false);
+  const endTime = new Date(); 
+  const timezoneOffset = -3; // Brasília é GMT-3
+  endTime.setHours(endTime.getHours() + timezoneOffset);
+  const formattedEndTime = endTime.toISOString().slice(0, 19).replace('T', ' ');
+  let totalCost = 10; // valor default
+    
+  // Se existir um prédio associado à máquina, obtemos a taxa horária
+  if (this.machine?.building_id) {
+    const building = await this.buildingService.getBuildingById(this.machine.building_id).toPromise();
+      
+    // Verificamos se o building existe antes de tentar acessar a propriedade hourly_rate
+    if(building && lastUsage.start_time){
+      // Calcular totalCost com base na diferença de tempo e na taxa horária
+      totalCost = this.calculateCost(building.hourly_rate, lastUsage.start_time, formattedEndTime);
+    }
+  }
+
+  // Atualiza o objeto lastUsage com end_time e total_cost.
+  lastUsage.end_time = endTime.toISOString().slice(0, 19).replace('T', ' ');
+  lastUsage.total_cost = totalCost;
+
+  // Atualiza o histórico de uso no backend e cria transação
+  this.updateUsageHistoryAndCreateTransaction(lastUsage);
+
+  console.log("Máquina desligada");
+}
+
+calculateCost(hourlyRate: number, startTime: string, endTime: string): number {
+const start = Date.parse(startTime);
+const end = Date.parse(endTime); // already in milliseconds
+const timeDifferenceInSeconds = (end - start) / 1000;
+return (hourlyRate / 3600) * timeDifferenceInSeconds;
+}
+
+updateUsageHistoryAndCreateTransaction(lastUsage: any): void {
+this.usageHistoryService.updateUsageHistory(lastUsage).subscribe({
+  next: () => {
+    if(lastUsage.end_time && lastUsage.start_time){
+      const transaction = {
+        user_id: lastUsage.user_id,
+        usage_history_id:  lastUsage.id ?? 0,
+        transaction_time: lastUsage.end_time,
+        amount: lastUsage.total_cost ?? 0
+      };
+
+      this.transactionsService.createTransaction(transaction).subscribe({
+        error: (error: any) => console.log('Error creating transaction:', error)
+      });
+    }
+  },
+  error: (error: any) => console.log('Error updating usage history:', error)
+});
+}
+
   
   isUserUsingMachine(user: User | null): Promise<UsageHistory | null> {
     return new Promise((resolve, reject) => {
@@ -171,18 +201,19 @@ export class LiberacaoMaquinasComponent implements OnInit {
     });
   }
 
-  // ...
 
-  updateMachineStatus(isInUse: boolean): void {
+
+    updateMachineStatus(isInUse: boolean): void {
       if(this.machine){
-        this.machineService.updateMachineStatus(this.machine.id, isInUse).subscribe(
-          () => {
+        this.machineService.updateMachineStatus(this.machine.id, isInUse).subscribe({
+          next: () => {
             this.router.navigate(['/content']);
           },
-          (error: any) => console.log('Error updating machine status:', error)
-        );
+          error: (error: any) => console.log('Error updating machine status:', error)
+        });
       }
     }
+
 
 
     createUsageHistory(): void {
@@ -200,15 +231,34 @@ export class LiberacaoMaquinasComponent implements OnInit {
           machine_id: this.machine.id,
           start_time: formattedStartTime
         };
-    
-        this.usageHistoryService.createUsageHistory(usageHistory).subscribe(
-          () => this.updateMachineStatus(true),
-          (error: any) => console.log('Error creating usage history:', error)
-        );
+
+        //Cria o historico se conseguir
+        this.usageHistoryService.createUsageHistory(usageHistory).subscribe({
+          next: () => this.updateMachineStatus(true),
+          error: (error: any) => console.log('Error creating usage history:', error)
+        });
+        
       }  
+    }
+
+
+    turnOnMachine(): Observable<any> {
+      if(this.machine){
+        return this.nodemcuService.turnOnNodemcu(this.machine.idNodemcu);
+      } else {
+        return throwError(new Error("Máquina não definida."));
+      }
     }
     
   
+    turnOffMachine(): Observable<any> {
+      if(this.machine){
+          return this.nodemcuService.turnOffNodemcu(this.machine.idNodemcu);
+      } else {
+          return throwError(new Error("Máquina não definida."));
+      }
+    }
+  }
+  
 
 
-}

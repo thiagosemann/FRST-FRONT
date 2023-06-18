@@ -7,7 +7,7 @@ import { Building } from '../utilitarios/buildings';  // atualize o caminho se n
   providedIn: 'root'
 })
 export class BuildingService {
-  private apiUrl = 'http://localhost:3333/buildings';  // atualize o URL se necessário
+  private apiUrl = 'http://192.168.1.7:3333/buildings';  // atualize o URL se necessário
 
   constructor(private http: HttpClient) { }
 

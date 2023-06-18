@@ -76,9 +76,6 @@ export class StatusMaquinasComponent implements OnInit {
           };
 
           this.machines.push(machineVisualization);
-
-          console.log(`Machine with id: ${machine.id} is being used by user with id: ${userId}`);
-          console.log(`User's apartment name: ${aptName}`);
         }
       },
       (error) => {

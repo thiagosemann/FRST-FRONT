@@ -7,7 +7,7 @@ import { User } from '../utilitarios/user';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'http://localhost:3333';
+  private url = 'http://192.168.1.7:3333';
   private users: User[] = [];
   private userListSubject: Subject<User[]> = new Subject<User[]>();
 
