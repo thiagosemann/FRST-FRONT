@@ -1,53 +1,43 @@
 <div class="main-layout">
     <app-nav-bar class="mb-4"></app-nav-bar>
+    <div class="app-nav-bar mb-4"></div>
     <div class="content-wrapper">
-      <div class="sidebar">
-          <app-menu-lateral></app-menu-lateral>
-      </div>
-      <div class="app-content container-fluid d-flex flex-column">
-        <div class="row flex-grow-1 mobile-block"> <!-- Primeiro bloco -->
-            <div class="col-12 d-flex rectangle">
-                <div class="col text-center button-container">
-                    <button class="larger-button" (click)="goToQrCode()">
-                        <img src="  ../../assets/images/qr-code.svg" alt="QR Code" class="button-icon"/>
-                        <span>LER QR CODE</span>
-                    </button>
-                </div>
-                <div class="col text-center button-container">
-                    <button class="larger-button">
-                        <img src=" ../../assets/images/insert-credit.svg" alt="Add Credit" class="button-icon"/>
-                        <span>COLOCAR CRÉDITO</span>
-                    </button>
-                </div>
-            </div>
+        <div class="sidebar">
+            <app-menu-lateral></app-menu-lateral>
         </div>
-        <div class="row flex-grow-1 mobile-block d-flex justify-content-center align-items-center"> <!-- Segundo bloco -->
-            <div class="col-12">
-              <app-status-maquinas></app-status-maquinas>
-            </div>
-        </div>
-        <div class="row flex-grow-1 mobile-block"> <!-- Terceiro bloco -->
-            <div class="col-12 d-flex rectangle">
-                <div class="col text-center terceiroBloco-container">
-                    <div class="row">
-                        <div class="col-12">
-                            <app-log-gastos></app-log-gastos>
-                        </div>
+        <div class="app-content container-fluid d-flex flex-column">
+            <div class="row flex-grow-1 mobile-block"> <!-- Primeiro bloco -->
+                <div class="col-12 d-flex rectangle">
+                    <div class="col text-center button-container">
+                        <button class="larger-button" (click)="goToQrCode()">
+                            <img src="../../assets/images/qr-code.svg" alt="QR Code" class="button-icon"/>
+                            <span>LER QR CODE</span>
+                        </button>
+                    </div>
+                    <div class="col text-center button-container">
+                        <button class="larger-button">
+                            <img src="../../assets/images/insert-credit.svg" alt="Add Credit" class="button-icon"/>
+                            <span>COLOCAR CRÉDITO</span>
+                        </button>
                     </div>
                 </div>
-                <div class="col text-center terceiroBloco-container">
-                    <div class="row">
-                        <div class="col-12">
-                            <app-log-mensal></app-log-mensal>
+            </div>
+            <div class="row flex-grow-1 mobile-block d-flex justify-content-center align-items-center"> <!-- Segundo bloco -->
+                <div class="col-12">
+                    <app-status-maquinas></app-status-maquinas>
+                </div>
+            </div>
+            <div class="row flex-grow-1 mobile-block"> <!-- Terceiro bloco -->
+                <div class="col-12 d-flex rectangle">
+                    <div class="col text-center terceiroBloco-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <app-log-gastos></app-log-gastos>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-      </div>
     </div>
-  </div>
-  
-
-
+</div>

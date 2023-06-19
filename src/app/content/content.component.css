@@ -28,33 +28,35 @@
     overflow: hidden;
     flex-grow: 1;
     width: calc(100% - 250px);
-    background-color: white ;
+    background-color: white;
     border-radius: 20px;
-
-
 }
+
 /* Regra de mídia para telas de 600px ou menos */
 @media (max-width: 600px) {
     .main-layout {
         overflow: hidden;
     }
+
     .main-layout.row {
         flex-direction: column;
     }
+
     .app-content {
         overflow: auto;
         margin-left: 20px;
-
     }
+
     .rectangle {
         flex-direction: column;
     }
-    
+
     /* Adicione esta regra para esconder a barra lateral em telas menores que 600px */
     .sidebar {
         display: none;
     }
 }
+
 .button-container {
     background: #F6F6F6;
     border-radius: 15px;
@@ -65,12 +67,10 @@
     align-items: center; /* Center contents vertically */
     height: 100%; /* Take full height of the parent element */
 }
+
 .terceiroBloco-container {
-    background: yellow;
     border-radius: 15px;
-    padding: 10px; /* Space around the button */
-    height: 70%; /* Take full height of the parent element */
-    margin: 0px 10px 10px 10px;
+    height: 50%; /* Take full height of the parent element */
 }
 
 .larger-button {

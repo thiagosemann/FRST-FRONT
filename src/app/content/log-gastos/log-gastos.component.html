@@ -1,31 +1,33 @@
 <div class="container">
   <div class="row">
-    <div class="col-12">
-      <div class="log-gastos-title"><p>Últimos Usos de Máquinas de Lavar</p></div>
-      <div class="table-wrapper d-flex">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Horário Inicial</th>
-              <th scope="col">Horário Final</th>
-              <th scope="col">Prédio</th>
-              <th scope="col">Data</th>
-              <th scope="col">Total Gasto</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let usageHistory of formattedUsageHistory; let even = even">
-              <tr [class.table-light]="even" [class.table-light-gray]="!even">
-                <td>{{ usageHistory.start_time }}</td>
-                <td>{{ usageHistory.end_time }}</td>
-                <td>{{ usageHistory.building }}</td>
-                <td>{{ usageHistory.date }}</td>
-                <td>{{ usageHistory.total_cost }}</td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
+      <div class="col-12">
+          <div class="log-gastos-title">
+              <p>Últimos Usos de Máquinas de Lavar</p>
+          </div>
+          <div class="table-wrapper">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th scope="col">Horário Inicial</th>
+                          <th scope="col">Horário Final</th>
+                          <th scope="col">Prédio</th>
+                          <th scope="col">Data</th>
+                          <th scope="col">Total Gasto</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <ng-container *ngFor="let usageHistory of formattedUsageHistory; let even = even">
+                          <tr [class.table-light]="even" [class.table-light-gray]="!even">
+                              <td>{{ usageHistory.start_time }}</td>
+                              <td>{{ usageHistory.end_time }}</td>
+                              <td>{{ usageHistory.building }}</td>
+                              <td>{{ usageHistory.date }}</td>
+                              <td>{{ usageHistory.total_cost }}</td>
+                          </tr>
+                      </ng-container>
+                  </tbody>
+              </table>
+          </div>
       </div>
-    </div>
   </div>
 </div>

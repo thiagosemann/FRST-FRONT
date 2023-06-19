@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
 
@@ -7,26 +7,36 @@ import { Router } from '@angular/router';
   templateUrl: './qr-code-scanner.component.html',
   styleUrls: ['./qr-code-scanner.component.css']
 })
-export class QrCodeScannerComponent {
-
+export class QrCodeScannerComponent implements OnInit {
   BarcodeFormat = BarcodeFormat; // Make BarcodeFormat available in template
+  loadingCamera = true; // Variable to control camera loading
+
   constructor(private router: Router) {}
-  
+
   ngOnInit(): void {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!token) {
       // Se não existe um token, redirecione para a página de login
       this.router.navigate(['/login']);
-    } 
+    }
+
+    // Simulando o evento ou momento em que a câmera está pronta
+    setTimeout(() => {
+      this.loadingCamera = false; // Atualize a variável quando a câmera estiver pronta
+    }, 1500); // Tempo de espera simulado de 2 segundos, substitua com o evento ou momento correto da biblioteca
   }
 
   handleQrCodeResult(resultString: string) {
     console.log('Result: ', resultString);
-  
+
     // Construa a rota com base na URL fornecida
     const route = resultString.replace('http://192.168.1.7:4200', '');
-  
+
     // Realize o redirecionamento
     this.router.navigateByUrl(route);
+  }
+
+  goBack() {
+    this.router.navigate(['/content']);
   }
 }
