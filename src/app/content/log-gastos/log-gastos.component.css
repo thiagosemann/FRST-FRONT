@@ -38,16 +38,26 @@
   background-color: #555;
 }
 
+.table tr,
+.table td,
+.table th {
+  border: none;
+}
+.gasto-mes{
+  font-family: 'LayarBahtera Doomsday';
+  font-style: normal;
+  font-weight: 550;
+  font-size: 25px;
+  color: #7B7B84; /* White text */
+  margin-top:10px;
+}
+
 .log-gastos-title {
   font-family: 'LayarBahtera Doomsday';
   font-style: normal;
   font-weight: 550;
   font-size: 25px;
   color: #7B7B84; /* White text */
-}
+  margin-top:10px;
 
-.table tr,
-.table td,
-.table th {
-  border: none;
 }

@@ -9,25 +9,27 @@ import { User } from '../../shared/utilitarios/user';
 })
 export class LogGastosComponent implements OnInit {
   users: User[] = [];
-  userUsageHistory: any[] = []; // Atribua um valor inicial vazio
+  userUsageHistory: any[] = [];
   formattedUsageHistory: any[] = [];
+  valorGasto: string = "R$ 25,00"; // Valor para exibição inicial
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    const user: User | null = this.getCurrentUser(); // Obter o usuário atualmente logado
+    const user: User | null = this.getCurrentUser();
 
     if (user && user.id !== undefined) {
       this.userService.getUserUsageHistory(user.id)
         .subscribe({
           next: history => {
             this.userUsageHistory = history;
-            this.formatUsageHistory(user); // Formatar o histórico de uso, passando o usuário como argumento
+            this.formatUsageHistory(user);
           },
           error: error => {
             console.log('Error getting user usage history:', error);
           }
         });
+
     }
   }
 
@@ -63,5 +65,11 @@ export class LogGastosComponent implements OnInit {
         ? parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
         : "--"
     }));
+
+    this.formattedUsageHistory.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
   }
 }
