@@ -29,6 +29,21 @@ export class LoginComponent {
 
   login(): void {
     // Lógica de autenticação aqui
+    if (!this.username && !this.password) {
+      this.toastr.error("Digite o login e a senha!");
+      return;
+    }
+  
+    if (!this.username) {
+      this.toastr.error("Digite o login!");
+      return;
+    }
+  
+    if (!this.password) {
+      this.toastr.error("Digite a senha!");
+      return;
+    }
+    
     this.authService.login(this.username,  this.password, this.rememberMe).then(result => {
       if (result.logado) {
         console.log('Logado com sucesso!');

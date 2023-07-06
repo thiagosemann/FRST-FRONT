@@ -12,4 +12,5 @@ export interface User {
     token:string;
     building_name: string;
     apt_name:string;
+    ldap:string;
   }
