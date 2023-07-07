@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class NodemcuService {
-  private apiUrl = 'http://192.168.1.7:3333/nodemcu';  // Atualize o URL se necessário
+  private apiUrl = 'http://18.231.159.240:3333/nodemcu';  // Atualize o URL se necessário
 
   constructor(private http: HttpClient) { }
 
