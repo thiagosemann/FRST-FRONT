@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node@1.11.0"
+      }
+    ],
+    "install": {
+      "npm": {
+        "arguments": "--legacy-peer-deps"
+      }
+    }
+  }
