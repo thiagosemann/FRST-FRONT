@@ -6,9 +6,5 @@
         "use": "@vercel/node@1.11.0"
       }
     ],
-    "install": {
-      "npm": {
-        "arguments": "--legacy-peer-deps"
-      }
-    }
+    "installCommand": "npm install --legacy-peer-deps"
   }
