@@ -8,10 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMaskModule } from 'ngx-mask';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgChartsModule } from 'ng2-charts';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // Adicione o NgbModule
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -58,7 +55,6 @@ import { MenuLateralComponent } from './content/menu-lateral/menu-lateral.compon
     NgChartsModule,
     BsDatepickerModule,
     ZXingScannerModule,
-    NgbModule, // Adicione o NgbModule aos imports
   ],
   providers: [],
   bootstrap: [AppComponent],
