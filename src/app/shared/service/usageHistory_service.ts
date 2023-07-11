@@ -7,7 +7,7 @@ import { UsageHistory } from '../utilitarios/usageHistory';  // atualize o camin
   providedIn: 'root'
 })
 export class UsageHistoryService {
-  private apiUrl = 'http://frst-back.vercel.app/usageHistory';
+  private apiUrl = 'https://frst-back-l7c333yy9-thiagosemann.vercel.app/usageHistory';
 
   constructor(private http: HttpClient) { }
 

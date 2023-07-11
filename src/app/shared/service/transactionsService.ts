@@ -7,7 +7,7 @@ import { Transaction } from '../utilitarios/transactions';  // Atualize o caminh
   providedIn: 'root'
 })
 export class TransactionsService {
-  private apiUrl = 'http://frst-back.vercel.app/transactions';  // Atualize o URL se necessário
+  private apiUrl = 'https://frst-back-l7c333yy9-thiagosemann.vercel.app/transactions';  // Atualize o URL se necessário
 
   constructor(private http: HttpClient) { }
 

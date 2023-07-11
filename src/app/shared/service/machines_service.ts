@@ -7,7 +7,7 @@ import { Machine } from '../utilitarios/machines';  // atualize o caminho se nec
   providedIn: 'root'
 })
 export class MachineService {
-  private apiUrl = 'http://frst-back.vercel.app/machines';
+  private apiUrl = 'https://frst-back-l7c333yy9-thiagosemann.vercel.app/machines';
 
   constructor(private http: HttpClient) { }
 

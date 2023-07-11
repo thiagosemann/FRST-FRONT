@@ -7,7 +7,7 @@ import { User } from '../utilitarios/user';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'http://frst-back.vercel.app';
+  private url = 'https://frst-back-l7c333yy9-thiagosemann.vercel.app';
   private users: User[] = [];
   private userListSubject: Subject<User[]> = new Subject<User[]>();
 

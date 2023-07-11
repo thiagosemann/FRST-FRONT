@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private url = 'http://frst-back.vercel.app/login';
+  private url = 'https://frst-back-l7c333yy9-thiagosemann.vercel.app/login';
   private user: User | null = null;
 
   constructor(private http: HttpClient) {}

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class NodemcuService {
-  private apiUrl = 'http://frst-back.vercel.app/nodemcu';  // Atualize o URL se necessário
+  private apiUrl = 'https://frst-back-l7c333yy9-thiagosemann.vercel.app/nodemcu';  // Atualize o URL se necessário
 
   constructor(private http: HttpClient) { }
 
