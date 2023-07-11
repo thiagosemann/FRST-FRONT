@@ -7,7 +7,7 @@ import { Building } from '../utilitarios/buildings';  // atualize o caminho se n
   providedIn: 'root'
 })
 export class BuildingService {
-  private apiUrl = 'http://18.231.159.240:3333/buildings';  // atualize o URL se necessário
+  private apiUrl = 'http://frst-back.vercel.app/buildings';  // atualize o URL se necessário
 
   constructor(private http: HttpClient) { }
 
