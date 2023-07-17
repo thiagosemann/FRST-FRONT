@@ -7,11 +7,7 @@ import { Transaction } from '../utilitarios/transactions';  // Atualize o caminh
   providedIn: 'root'
 })
 export class TransactionsService {
-<<<<<<< HEAD
   private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/transactions';  // Atualize o URL se necessário
-=======
-  private apiUrl = 'https://frst-back-l7c333yy9-thiagosemann.vercel.app/transactions';  // Atualize o URL se necessário
->>>>>>> a14f0270cac4e61aeb64bcc27a17bc4458f905ad
 
   constructor(private http: HttpClient) { }
 
