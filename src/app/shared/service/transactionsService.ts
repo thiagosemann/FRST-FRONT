@@ -7,7 +7,7 @@ import { Transaction } from '../utilitarios/transactions';  // Atualize o caminh
   providedIn: 'root'
 })
 export class TransactionsService {
-  private apiUrl = 'http://18.231.159.240:3333/transactions';  // Atualize o URL se necessário
+  private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/transactions';  // Atualize o URL se necessário
 
   constructor(private http: HttpClient) { }
 

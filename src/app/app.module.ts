@@ -23,7 +23,6 @@ import { LogGastosComponent } from './content/log-gastos/log-gastos.component';
 import { LogMensalComponent } from './content/log-mensal/log-mensal.component';
 import { ComprarCreditoComponent } from './content/comprar-credito/comprar-credito.component';
 import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
-import { LiberacaoMaquinasComponent } from './content/liberacao-maquinas/liberacao-maquinas.component';
 import { MenuLateralComponent } from './content/menu-lateral/menu-lateral.component';
 
 @NgModule({
@@ -40,7 +39,6 @@ import { MenuLateralComponent } from './content/menu-lateral/menu-lateral.compon
     LogMensalComponent,
     ComprarCreditoComponent,
     QrCodeScannerComponent,
-    LiberacaoMaquinasComponent,
     MenuLateralComponent,
   ],
   imports: [

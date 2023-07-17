@@ -7,7 +7,7 @@ import { UsageHistory } from '../utilitarios/usageHistory';  // atualize o camin
   providedIn: 'root'
 })
 export class UsageHistoryService {
-  private apiUrl = 'http://18.231.159.240:3333/usageHistory';
+  private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/usageHistory';
 
   constructor(private http: HttpClient) { }
 

@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private url = 'http://18.231.159.240:3333/login';
+  private url = 'https://frst-back-02b607761078.herokuapp.com/login';
   private user: User | null = null;
 
   constructor(private http: HttpClient) {}
