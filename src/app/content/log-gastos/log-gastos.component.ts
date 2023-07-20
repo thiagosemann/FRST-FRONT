@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../shared/service/user_service';
 import { User } from '../../shared/utilitarios/user';
+import { UsageHistoryService } from 'src/app/shared/service/usageHistory_service';
 
 @Component({
   selector: 'app-log-gastos',
@@ -11,15 +11,14 @@ export class LogGastosComponent implements OnInit {
   users: User[] = [];
   userUsageHistory: any[] = [];
   formattedUsageHistory: any[] = [];
-  valorGasto: string = "R$ 25,00"; // Valor para exibição inicial
 
-  constructor(private userService: UserService) {}
+  constructor(private usageHistoryService: UsageHistoryService) {}
 
   ngOnInit() {
     const user: User | null = this.getCurrentUser();
 
     if (user && user.id !== undefined) {
-      this.userService.getUserUsageHistory(user.id)
+      this.usageHistoryService.getUserUsageHistory(user.id)
         .subscribe({
           next: history => {
             this.userUsageHistory = history;

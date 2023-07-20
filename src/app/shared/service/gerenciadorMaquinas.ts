@@ -96,10 +96,8 @@ export class GerenciadorMaquinasService {
 
     this.updateMachineStatus(false);
     const endTime = new Date();
-    const timezoneOffset = -3; // Brasília é GMT-3
-    endTime.setHours(endTime.getHours() + timezoneOffset);
     const formattedEndTime = endTime.toISOString().slice(0, 19).replace('T', ' ');
-    let totalCost = 10; // valor default
+    let totalCost = 0; // valor default
 
     // Se existir um prédio associado à máquina, obtemos a taxa horária
     if (this.machine?.building_id) {
@@ -108,7 +106,8 @@ export class GerenciadorMaquinasService {
       // Verificamos se o building existe antes de tentar acessar a propriedade hourly_rate
       if (building && lastUsage.start_time) {
         // Calcular totalCost com base na diferença de tempo e na taxa horária
-        totalCost = this.calculateCost(building.hourly_rate, lastUsage.start_time, formattedEndTime);
+        totalCost = this.calculateCost(building.hourly_rate, lastUsage.start_time, endTime);
+        console.log(totalCost)
       }
     }
 
@@ -122,12 +121,14 @@ export class GerenciadorMaquinasService {
     console.log('Máquina desligada');
   }
 
-  calculateCost(hourlyRate: number, startTime: string, endTime: string): number {
-    const start = Date.parse(startTime);
-    const end = Date.parse(endTime); // already in milliseconds
-    const timeDifferenceInSeconds = (end - start) / 1000;
+  calculateCost(hourlyRate: number, startTime: string, endTime: Date): number {
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    const timeDifferenceInSeconds = (end.getTime() - start.getTime()) / 1000;
     return (hourlyRate / 3600) * timeDifferenceInSeconds;
   }
+  
+  
 
   updateUsageHistoryAndCreateTransaction(lastUsage: any): void {
     this.usageHistoryService.updateUsageHistory(lastUsage).subscribe({
@@ -188,10 +189,7 @@ export class GerenciadorMaquinasService {
       const startTime = new Date();
 
       // Para ajustar para o fuso horário de Brasília, adicione/subtraia a diferença em horas
-      const timezoneOffset = -3; // Brasília é GMT-3
-      startTime.setHours(startTime.getHours() + timezoneOffset);
-
-      const formattedStartTime = startTime.toISOString().slice(0, 19).replace('T', ' ');
+       const formattedStartTime = startTime.toISOString().slice(0, 19).replace('T', ' ');
 
       const usageHistory: UsageHistory = {
         user_id: this.user.id,

@@ -22,15 +22,6 @@ export class UserService {
     return this.http.get<User[]>(`${this.url}/users`, { headers });
   }
 
-  getUserUsageHistory(userId: number): Observable<any> {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + token
-    });
-
-    return this.http.get<any>(`${this.url}/usageHistory/user/${userId}`, { headers });
-  }
-
   addUser(user: User): Observable<any> {
     console.log(user)
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');

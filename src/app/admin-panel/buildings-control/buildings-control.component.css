@@ -1,0 +1,71 @@
+@media (max-width: 600px) {
+    .main-layout {
+        overflow: hidden;
+    }
+
+    .main-layout.row {
+        flex-direction: column;
+    }
+
+    .app-content {
+        overflow: auto;
+        margin-left: 20px;
+    }
+
+    .rectangle {
+        flex-direction: column;
+    }
+
+    /* Adicione esta regra para esconder a barra lateral em telas menores que 600px */
+    .sidebar {
+        display: none;
+    }
+}
+
+/* buildings-control.component.css */
+  .button-container {
+    background: white;
+    border-radius: 15px;
+    padding: 10px; /* Espaço em volta dos botões */
+    margin: 10px; /* Espaço entre os botões */
+    display: flex; /* Usar Flexbox */
+    flex-wrap: wrap; /* Quebrar linha quando não houver espaço suficiente */
+    justify-content: flex-start; /* Alinhar os botões à esquerda */
+    align-items: center; /* Alinhar os botões verticalmente */
+    flex-grow: 1; /* Ocupar todo o espaço disponível na direção do eixo principal */
+  }
+  
+  .larger-button {
+    background-color: #f6f6f6; /* Sem cor de fundo */
+    border-radius: 15px;
+    border: none; /* Sem borda */
+    color: #7B7B84; /* Texto em branco */
+    padding: 50px; /* Espaçamento em volta do conteúdo */
+    transition: transform 0.3s ease; /* Transição para efeito de hover */
+    font-family: 'LayarBahtera Doomsday';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 29px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-left: 40px;
+    margin-bottom: 40px;
+    
+  }
+  
+  .button-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button-icon {
+    width: 150px; /* Largura da imagem */
+    height: 150px; /* Altura da imagem */
+    margin-bottom: 10px; /* Espaço entre a imagem e o texto */
+  }
+  
+  .button-text {
+    font-size: 25px;
+  }

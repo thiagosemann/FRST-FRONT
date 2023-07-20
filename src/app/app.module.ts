@@ -23,7 +23,9 @@ import { LogGastosComponent } from './content/log-gastos/log-gastos.component';
 import { LogMensalComponent } from './content/log-mensal/log-mensal.component';
 import { ComprarCreditoComponent } from './content/comprar-credito/comprar-credito.component';
 import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
-import { MenuLateralComponent } from './content/menu-lateral/menu-lateral.component';
+import { MenuLateralComponent } from './admin-panel/menu-lateral/menu-lateral.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { BuildingsControlComponent } from './admin-panel/buildings-control/buildings-control.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { MenuLateralComponent } from './content/menu-lateral/menu-lateral.compon
     ComprarCreditoComponent,
     QrCodeScannerComponent,
     MenuLateralComponent,
+    AdminPanelComponent,
+    BuildingsControlComponent,
   ],
   imports: [
     BrowserModule,

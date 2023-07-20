@@ -4,13 +4,13 @@ export interface User {
     last_name: string;
     cpf: string;
     email: string;
-    data_nasc: Date;
-    telefone: number;
+    data_nasc?: Date;
+    telefone?: string;
     building_id: string;
-    credito: number;
+    credito?: string;
     password: string;
     token:string;
     building_name: string;
     apt_name:string;
-    ldap:string;
+    role:string;
   }
