@@ -28,9 +28,9 @@ export class QrCodeScannerComponent implements OnInit {
 
   handleQrCodeResult(resultString: string) {
     console.log('Result: ', resultString);
-
+    console.log(resultString)
     // Construa a rota com base na URL fornecida
-    const route = resultString.replace('http://192.168.1.7:4200', '');
+    const route = resultString.replace('https://frst-seven.vercel.app', '');
 
     // Realize o redirecionamento
     this.router.navigateByUrl(route);
