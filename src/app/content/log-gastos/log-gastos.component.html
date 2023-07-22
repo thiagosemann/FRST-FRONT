@@ -9,29 +9,29 @@
   <div class="row">
     <div class="col-12">
       <div class="table-wrapper">
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th scope="col">Horário Inicial</th>
-                          <th scope="col">Horário Final</th>
-                          <th scope="col">Prédio</th>
-                          <th scope="col">Data</th>
-                          <th scope="col">Total Gasto</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <ng-container *ngFor="let usageHistory of formattedUsageHistory.slice().reverse(); let even = even">
-                      <tr [class.table-light]="even" [class.table-light-gray]="!even">
-                              <td>{{ usageHistory.start_time }}</td>
-                              <td>{{ usageHistory.end_time }}</td>
-                              <td>{{ usageHistory.building }}</td>
-                              <td>{{ usageHistory.date }}</td>
-                              <td>{{ usageHistory.total_cost }}</td>
-                          </tr>
-                      </ng-container>
-                  </tbody>
-              </table>
-          </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="desktop-only">Horário Inicial</th>
+              <th scope="col" >Horário Final</th>
+              <th scope="col" class="desktop-only">Prédio</th>
+              <th scope="col" >Data</th>
+              <th scope="col" >Total Gasto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let usageHistory of formattedUsageHistory.slice().reverse(); let even = even">
+              <tr [class.table-light]="even" [class.table-light-gray]="!even">
+                <td class="desktop-only">{{ usageHistory.start_time }}</td>
+                <td >{{ usageHistory.end_time }}</td>
+                <td class="desktop-only">{{ usageHistory.building }}</td>
+                <td >{{ usageHistory.date }}</td>
+                <td >{{ usageHistory.total_cost }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </div>
+    </div>
   </div>
 </div>
