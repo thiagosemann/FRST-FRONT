@@ -60,4 +60,15 @@ export class UserService {
 
     return this.http.get<User>(`${this.url}/users/${userId}`, { headers });
   }
+  
+  updateUser(user: User): Observable<any> {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+
+    const userId = user.id; // Assuming the User object has an 'id' property
+
+    return this.http.put(`${this.url}/users/${userId}`, user, { headers });
+  }
 }

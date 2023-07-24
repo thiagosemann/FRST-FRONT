@@ -1,0 +1,33 @@
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.h-custom {
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .h-custom {
+    height: calc(100% - 112px);
+  }
+}
+
+.invalid {
+  border: 2px solid red;
+}
+
+/* Additional CSS for the profile page */
+.profile-info {
+  border: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.profile-info h2 {
+  margin-bottom: 10px;
+}

@@ -9,6 +9,7 @@ import { ContentComponent } from './content/content.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { ProfileComponent } from './content/profile/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'landing', component: LandingComponent, canActivate: [AuthGuardService] },
   { path: 'content/:id', component: ContentComponent, canActivate: [AuthGuardService] },
   { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuardService] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'qrCode', component: QrCodeScannerComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: '/content', pathMatch: 'full' }, // redireciona para '/home' quando o caminho é vazio
   { path: '**', component: ContentComponent, canActivate: [AuthGuardService] }, // rota de fallback quando nenhuma outra corresponder

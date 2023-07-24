@@ -26,6 +26,7 @@ import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanne
 import { MenuLateralComponent } from './admin-panel/menu-lateral/menu-lateral.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { BuildingsControlComponent } from './admin-panel/buildings-control/buildings-control.component';
+import { ProfileComponent } from './content/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { BuildingsControlComponent } from './admin-panel/buildings-control/build
     MenuLateralComponent,
     AdminPanelComponent,
     BuildingsControlComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
