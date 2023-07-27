@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../shared/service/authentication';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-nav-bar',
