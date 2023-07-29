@@ -87,7 +87,7 @@
     font-family: 'LayarBahtera Doomsday';
     font-style: normal;
     font-weight: 400;
-    font-size: 25px;
+    font-size: 20px;
     line-height: 29px;
     text-align: center;
     text-transform: uppercase;
@@ -115,19 +115,20 @@
     line-height: 29px;
     text-align: center;
     text-transform: uppercase;
-    color: #006400; /* White text */
+    color: #0E7F3B; /* White text */
 
 }
 .faturaMensalDescricao{
     font-family: 'LayarBahtera Doomsday';
-    color: #006400; /* White text */
+    color: #7B7B84; /* White text */
     font-style: normal;
     font-weight: 400;
-    font-size: 25px;
+    font-size: 15px;
     line-height: 29px;
     text-align: center;
     text-transform: uppercase;
     margin-bottom: 25px;
+    margin-top:15px;
 }
 
 .button-icon {
