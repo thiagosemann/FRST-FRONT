@@ -13,4 +13,5 @@ export interface User {
     building_name: string;
     apt_name:string;
     role:string;
+    create_time?:string;
   }
