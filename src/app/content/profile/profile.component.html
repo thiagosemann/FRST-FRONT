@@ -46,8 +46,12 @@
           <div class="profile-info">
             <p class="seuPerfil">Seu Perfil<p>
             <div class="profile-row">
-              <strong>Nome Completo:</strong>
-              <input class="profile-text" type="text" value="{{ user.first_name }} {{ user.last_name }}" disabled>
+              <strong>Nome:</strong>
+              <input class="profile-text" type="text" value="{{ user.first_name }}" disabled>
+            </div>
+            <div class="profile-row">
+              <strong>Sobrenome:</strong>
+              <input class="profile-text" type="text" value=" {{ user.last_name }}" disabled>
             </div>
             <div class="profile-row">
               <strong>CPF:</strong>
