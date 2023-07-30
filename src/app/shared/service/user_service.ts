@@ -28,8 +28,8 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     });
-
-    return this.http.post(`${this.url}/users`, user, { headers });
+     return this.http.post(`http://localhost:3333/users`, user, { headers });
+    //return this.http.post(`${this.url}/users`, user, { headers });
   }
 
   updateUserList(): void {

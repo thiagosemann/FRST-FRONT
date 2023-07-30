@@ -6,7 +6,7 @@ export interface User {
     email: string;
     data_nasc?: Date;
     telefone?: string;
-    building_id: string;
+    building_id: number;
     credito?: string;
     password: string;
     token:string;

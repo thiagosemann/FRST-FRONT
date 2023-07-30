@@ -42,7 +42,21 @@
             <label class="form-label" for="birthDate">Data de Nascimento</label>
             <input type="date" id="birthDate" name="birthDate" class="form-control" formControlName="data_nasc" required/>
           </div>
-        
+
+          <div class="form-outline mb-3">
+            <label class="form-label" for="building_id">Prédio ID:</label>
+            <select id="building_id" name="building_id" class="form-control" formControlName="building_id" required>
+              <option value="" disabled selected>Selecione o ID do prédio</option>
+              <!-- Loop through the buildings array and create an option for each building -->
+              <option *ngFor="let building of buildings" [value]="building.id">{{ building.id }}</option>
+            </select>
+          </div>
+          
+          <div class="form-outline mb-3">
+            <label class="form-label" for="role">Função:</label>
+            <input type="text" id="role" name="role" class="form-control" formControlName="role" required />
+          </div>
+
           <div formGroupName="emailGroup">
             <div class="form-outline mb-3">
               <label class="form-label" for="email">Endereço de e-mail</label>

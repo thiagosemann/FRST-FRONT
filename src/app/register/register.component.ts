@@ -4,7 +4,8 @@ import { UserService } from '../shared/service/user_service';
 import { User } from '../shared/utilitarios/user';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-
+import { BuildingService } from '../shared/service/buildings_service';
+import { Building } from '../shared/utilitarios/buildings';
 
 
 export const ConfirmValidator = (controlName: string, matchingControlName: string): ValidatorFn => {
@@ -24,10 +25,25 @@ export const ConfirmValidator = (controlName: string, matchingControlName: strin
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   user!: User;
+  buildings : Building []=[];
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private toastr: ToastrService, private router:Router) { }
+  constructor(private formBuilder: FormBuilder,
+              private userService: UserService,
+              private toastr: ToastrService, 
+              private router:Router,
+              private buildingService : BuildingService
+              ) { }
 
   ngOnInit(): void {
+    this.buildingService.getAllBuildings().subscribe(
+      (buildings: Building[]) => {
+        this.buildings = buildings; // Set the value inside the subscription
+      },
+      (error) => {
+        console.error('Error fetching buildings:', error);
+      }
+    );
+
     this.registerForm = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
@@ -42,11 +58,12 @@ export class RegisterComponent implements OnInit {
       }, { validator: ConfirmValidator('password', 'confirmPassword') }),
       data_nasc: ['', Validators.required],
       telefone: ['', Validators.required],
-      predio: ['Capri'],
-      credito: [10],
-      token: ['10']
+      building_id: [null, Validators.required], // Use `null` as the initial value
+      role: ['', Validators.required], // Adicionando a validação para o campo role
+      credito: [10]
     });
   }
+  
 
   onSubmit(): void {
     if (this.registerForm.valid) {
@@ -56,7 +73,9 @@ export class RegisterComponent implements OnInit {
         email: emailGroup.email,
         password: passwordGroup.password,
       };
-  
+      this.user.building_id = Number(this.user.building_id);
+      this.user.data_nasc = new Date(this.user.data_nasc!);
+      
       this.userService.addUser(this.user).subscribe(
         (res) => {
           this.toastr.success("Cadastrado com sucesso!")
@@ -64,10 +83,19 @@ export class RegisterComponent implements OnInit {
           this.resetForm();
         },
         (err) => {
-          this.toastr.error(err.error.error);
+          console.log(err)
+          this.toastr.error(err);
         }
       );
     } else {
+          // Mostra quais campos estão inválidos e seus respectivos estados de validação
+    for (const controlName in this.registerForm.controls) {
+      const control = this.registerForm.get(controlName);
+
+      if (control && control.invalid) {
+        console.log(`Campo ${controlName} inválido. Estado de validação:`, control.errors);
+      }
+    }
       this.toastr.error('Por favor, corrija os erros no formulário');
     }
   }
@@ -87,9 +115,9 @@ export class RegisterComponent implements OnInit {
       },
       data_nasc: '',
       telefone: '',
-      predio: 'Capri',
+      building_id: null,
+      role:'',
       credito: 10,
-      token: '10'
     });
   }
 }
