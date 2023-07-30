@@ -13,7 +13,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './admin-panel/register/register.component';
 import { LandingComponent } from './landing/landing.component';
 import { ContentComponent } from './content/content.component';
 import { NavBarComponent } from './content/nav-bar/nav-bar.component';
@@ -27,6 +27,7 @@ import { MenuLateralComponent } from './admin-panel/menu-lateral/menu-lateral.co
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { BuildingsControlComponent } from './admin-panel/buildings-control/buildings-control.component';
 import { ProfileComponent } from './content/profile/profile.component';
+import { UserControlComponent } from './admin-panel/user-control/user-control.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ProfileComponent } from './content/profile/profile.component';
     MenuLateralComponent,
     AdminPanelComponent,
     BuildingsControlComponent,
-    ProfileComponent
+    ProfileComponent,
+    UserControlComponent
   ],
   imports: [
     BrowserModule,

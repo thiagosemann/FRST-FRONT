@@ -23,12 +23,11 @@ export class UserService {
   }
 
   addUser(user: User): Observable<any> {
-    console.log(user)
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     });
-    // return this.http.post(`http://localhost:3333/users`, user, { headers });
+
     return this.http.post(`${this.url}/users`, user, { headers });
   }
 
@@ -70,5 +69,23 @@ export class UserService {
     const userId = user.id; // Assuming the User object has an 'id' property
 
     return this.http.put(`${this.url}/users/${userId}`, user, { headers });
+  }
+
+  getUsersByBuilding(buildingId: number): Observable<User[]> {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+
+    return this.http.get<User[]>(`${this.url}/users/building/${buildingId}`, { headers });
+  }
+  
+  deleteUser(userId: number): Observable<any> {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+
+    return this.http.delete(`${this.url}/users/${userId}`, { headers });
   }
 }

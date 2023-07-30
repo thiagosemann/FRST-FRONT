@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
-import { UserService } from '../shared/service/user_service';
-import { User } from '../shared/utilitarios/user';
+import { UserService } from '../../shared/service/user_service';
+import { User } from '../../shared/utilitarios/user';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { BuildingService } from '../shared/service/buildings_service';
-import { Building } from '../shared/utilitarios/buildings';
+import { BuildingService } from '../../shared/service/buildings_service';
+import { Building } from '../../shared/utilitarios/buildings';
+import { AuthenticationService } from '../../shared/service/authentication';
 
 export const ConfirmValidator = (controlName: string, matchingControlName: string): ValidatorFn => {
   return (control: AbstractControl): {[key: string]: boolean} | null => {
@@ -30,10 +31,16 @@ export class RegisterComponent implements OnInit {
               private userService: UserService,
               private toastr: ToastrService,
               private router: Router,
-              private buildingService: BuildingService
+              private buildingService: BuildingService,
+              private authentication : AuthenticationService
   ) {}
 
   ngOnInit(): void {
+    const user = this.authentication.getUser();
+    if(user && user.role.toLocaleUpperCase() !="ADMIN"){
+      this.router.navigate(['/content']);
+      return;
+    }
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
         this.buildings = buildings; // Set the value inside the subscription
@@ -77,8 +84,7 @@ export class RegisterComponent implements OnInit {
       
       this.userService.addUser(this.user).subscribe(
         (res) => {
-          this.toastr.success("Cadastrado com sucesso!")
-          this.router.navigate(['/login']);
+          
           this.resetForm();
         },
         (err) => {
