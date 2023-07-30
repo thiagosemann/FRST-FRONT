@@ -6,6 +6,8 @@ import { UserService } from 'src/app/shared/service/user_service';
 import { Building } from 'src/app/shared/utilitarios/buildings';
 import { User } from 'src/app/shared/utilitarios/user';
 import { FormGroup, FormControl } from '@angular/forms'; // Import form-related modules
+import { Machine } from 'src/app/shared/utilitarios/machines';
+import { MachineService } from 'src/app/shared/service/machines_service';
 
 @Component({
   selector: 'app-buildings-control',
@@ -16,12 +18,17 @@ export class BuildingsControlComponent implements OnInit {
   buildings: Building[] = [];
   users: User[] = [];
   myGroup: FormGroup; // Add a FormGroup property
+  machines: Machine[] = [];
 
+
+  
   constructor(
     private buildingService: BuildingService,
     private authentication: AuthenticationService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private machineService: MachineService,
+
   ) {
     this.myGroup = new FormGroup({
       building_id: new FormControl('') // Create a form control for 'building_id'
@@ -56,10 +63,23 @@ export class BuildingsControlComponent implements OnInit {
           console.error('Error fetching users by building:', error);
         }
       );
+      this.machineService.getMachinesByBuilding(buildingId).subscribe(
+        async (machines) => {
+          this.machines = machines;
+          console.log(machines)
+
+        },
+        (error) => {
+          console.error('Error fetching machines:', error);
+        }
+      );
     } else {
       // Limpar a lista de usuários quando nenhum prédio for selecionado
       this.users = [];
     }
+
+
+    
   }
   editUser(user: User): void {
     // Implement the logic to navigate to the edit user page
@@ -80,5 +100,9 @@ export class BuildingsControlComponent implements OnInit {
         // Handle the error if needed
       }
     );
+  }
+
+  mudarEstadoMaquina(machine:Machine):void{
+    console.log(machine)
   }
 }

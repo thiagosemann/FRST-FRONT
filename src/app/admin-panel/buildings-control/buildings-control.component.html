@@ -1,21 +1,24 @@
 <!-- buildings-control.component.html -->
 <div class="container" [formGroup]="myGroup"> <!-- Add the formGroup directive -->
   <select id="building_id" name="building_id" class="form-control" formControlName="building_id" required (change)="onBuildingSelect($event)">
-    <option value="" disabled selected>Selecione o ID do prédio</option>
+    <option value="" disabled selected>Selecione o prédio</option>
     <!-- Loop through the buildings array and create an option for each building -->
-    <option *ngFor="let building of buildings" [value]="building.id">{{ building.id }}</option>
+    <option *ngFor="let building of buildings" [value]="building.id">{{ building.name }}</option>
   </select>
 
-  <div class="col button-container">
+  <div class="col button-container" >
     <!-- Adicionamos a classe "button-row" para alinhar os botões à esquerda -->
-    <div class="button-row">
+    <div class="button-row" *ngFor="let machine of machines">
       <!-- Repita esta estrutura para cada botão que deseja exibir -->
-      <button class="larger-button" *ngFor="let user of users">
-        <div class="button-content">
-          <img src="../../../assets/images/predio.svg" class="button-icon" />
-          <span class="button-text">{{ user.first_name }} {{ user.last_name }}</span>
+      <div >
+        <div class="larger-button">
+          <div class="button-content">
+            <img src="../../../assets/images/maquinaLavar.svg" class="button-icon" />
+            <span class="button-text">{{ machine.name }}</span>
+          </div>
+          <button class="btn btn-success mt-4" (click)="mudarEstadoMaquina(machine)">Liberar</button>
         </div>
-      </button>
+      </div>
     </div>
   </div>
 

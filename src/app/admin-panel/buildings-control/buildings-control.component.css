@@ -23,17 +23,18 @@
 }
 
 /* buildings-control.component.css */
-  .button-container {
-    background: white;
-    border-radius: 15px;
-    padding: 10px; /* Espaço em volta dos botões */
-    margin: 10px; /* Espaço entre os botões */
-    display: flex; /* Usar Flexbox */
-    flex-wrap: wrap; /* Quebrar linha quando não houver espaço suficiente */
-    justify-content: flex-start; /* Alinhar os botões à esquerda */
-    align-items: center; /* Alinhar os botões verticalmente */
-    flex-grow: 1; /* Ocupar todo o espaço disponível na direção do eixo principal */
-  }
+.button-container {
+  background: white;
+  border-radius: 15px;
+  padding: 10px; /* Espaço em volta dos botões */
+  margin: 10px; /* Espaço entre os botões */
+  display: flex; /* Usar Flexbox */
+  flex-wrap: wrap; /* Quebrar linha quando não houver espaço suficiente */
+  justify-content: flex-start; /* Alinhar os botões à esquerda */
+  align-items: center; /* Alinhar os botões verticalmente */
+  flex-grow: 1; /* Ocupar todo o espaço disponível na direção do eixo principal */
+}
+
   
   .larger-button {
     background-color: #f6f6f6; /* Sem cor de fundo */
@@ -109,3 +110,31 @@
   .table th {
     border: none;
   }
+
+
+  /* Style the input elements */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    width: 100%; /* Set the width to fill the container */
+    padding: 4px 8px; /* Add some padding for better appearance */
+    border: none; /* Remove the border */
+    background-color: #f2f2f2; /* Set a background color to distinguish the input area */
+    border-radius: 4px; /* Add a slight border radius for a subtle effect */
+    font-size: 14px; /* Adjust the font size as needed */
+  }
+
+  /* Style the input placeholders */
+  input::placeholder {
+    color: #777; /* Set a color for the placeholder text */
+  }
+
+  /* Optionally, you can add some margin between inputs for better spacing */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] + input[type="text"],
+  input[type="number"] + input[type="text"],
+  input[type="date"] + input[type="number"] {
+    margin-bottom: 8px; /* Adjust the margin as needed */
+  }
+
