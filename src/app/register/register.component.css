@@ -1,3 +1,4 @@
+/* O CSS permanece o mesmo */
 .divider:after,
 .divider:before {
   content: "";
@@ -10,11 +11,7 @@
   height: 100%;
 }
 
-@media (min-width: 768px) {
-  .h-custom {
-    height: calc(100% - 112px);
-  }
-}
+
 .invalid {
   border: 2px solid red;
 }

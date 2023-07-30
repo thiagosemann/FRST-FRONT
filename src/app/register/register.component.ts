@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { BuildingService } from '../shared/service/buildings_service';
 import { Building } from '../shared/utilitarios/buildings';
 
-
 export const ConfirmValidator = (controlName: string, matchingControlName: string): ValidatorFn => {
   return (control: AbstractControl): {[key: string]: boolean} | null => {
     const input = control.get(controlName);
@@ -25,14 +24,14 @@ export const ConfirmValidator = (controlName: string, matchingControlName: strin
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   user!: User;
-  buildings : Building []=[];
+  buildings: Building[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
-              private toastr: ToastrService, 
-              private router:Router,
-              private buildingService : BuildingService
-              ) { }
+              private toastr: ToastrService,
+              private router: Router,
+              private buildingService: BuildingService
+  ) {}
 
   ngOnInit(): void {
     this.buildingService.getAllBuildings().subscribe(
@@ -58,12 +57,12 @@ export class RegisterComponent implements OnInit {
       }, { validator: ConfirmValidator('password', 'confirmPassword') }),
       data_nasc: ['', Validators.required],
       telefone: ['', Validators.required],
+      apt_name: ['', Validators.required], // Novo campo "apt_name" adicionado ao formulário
       building_id: [null, Validators.required], // Use `null` as the initial value
       role: ['', Validators.required], // Adicionando a validação para o campo role
       credito: [10]
     });
   }
-  
 
   onSubmit(): void {
     if (this.registerForm.valid) {
