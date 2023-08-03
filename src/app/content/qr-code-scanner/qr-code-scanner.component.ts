@@ -30,6 +30,7 @@ export class QrCodeScannerComponent implements OnInit {
     console.log('Result: ', resultString);
     console.log(resultString)
     // Construa a rota com base na URL fornecida
+    
     const route = resultString.replace('https://www.frst.com.br', '');
 
     // Realize o redirecionamento
