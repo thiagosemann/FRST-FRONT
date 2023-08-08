@@ -151,6 +151,39 @@
     font-weight: bolder;
   }
   
+  .faturaMensal{
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    display: flex; /* Align image and text */
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center; /* Center the contents */
+    justify-content: center; /* Center the contents */
+    text-align: center; /* Center the text */
+    padding: 20px; /* Padding around the content */
+}
+.faturaMensalValor{
+    font-family: 'LayarBahtera Doomsday';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 45px;
+    line-height: 29px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #0E7F3B; /* White text */
+
+}
+.faturaMensalDescricao{
+    font-family: 'LayarBahtera Doomsday';
+    color: #7B7B84; /* White text */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 29px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    margin-top:15px;
+}
 
 
 

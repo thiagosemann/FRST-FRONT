@@ -5,31 +5,45 @@
     <!-- Loop through the buildings array and create an option for each building -->
     <option *ngFor="let building of buildings" [value]="building.id">{{ building.name }}</option>
   </select>
-
-  <div class="col button-container" >
-    <!-- Adicionamos a classe "button-row" para alinhar os botões à esquerda -->
-    <div class="button-row" *ngFor="let machine of machines">
-      <!-- Repita esta estrutura para cada botão que deseja exibir -->
-        <div class="larger-button" [ngClass]="{'card-body': machine.isConnected, 'card-body-off': !machine.isConnected}">
-          <div class="button-content" >
-            <img *ngIf= "machine.isConnected" src="../../../assets/images/maquinaLavar.svg" class="button-icon" />
-            <img *ngIf= "!machine.isConnected" src="../../../assets/images/maquinaLavarDesconectada.svg" class="button-icon" />
-            <!-- Primeira imagem, mostrada quando trocarImagem for verdadeiro -->
-           
-            <span class="button-text">{{ machine.name }}</span>
-            <p class="card-text" [class.free-machine]="!machine.is_in_use" [class.in-use-machine]="machine.is_in_use">
-              <ng-container *ngIf="machine.is_in_use; else notInUse">
-                Em uso - {{ machine.apt_in_use }}
-              </ng-container>
-              <ng-template #notInUse>
-                Livre
-              </ng-template>
-            </p>
-          </div>
-          <button class="btn btn-success mt-4"  [ngClass]="{'btn-success': !machine.is_in_use, 'btn-danger':machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">{{machine.is_in_use ? "Desligar":"Ligar"}}</button>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="col button-container" >
+        <!-- Adicionamos a classe "button-row" para alinhar os botões à esquerda -->
+        <div class="button-row" *ngFor="let machine of machines">
+          <!-- Repita esta estrutura para cada botão que deseja exibir -->
+            <div class="larger-button" [ngClass]="{'card-body': machine.isConnected, 'card-body-off': !machine.isConnected}">
+              <div class="button-content" >
+                <img *ngIf= "machine.isConnected" src="../../../assets/images/maquinaLavar.svg" class="button-icon" />
+                <img *ngIf= "!machine.isConnected" src="../../../assets/images/maquinaLavarDesconectada.svg" class="button-icon" />
+                <!-- Primeira imagem, mostrada quando trocarImagem for verdadeiro -->
+               
+                <span class="button-text">{{ machine.name }}</span>
+                <p class="card-text" [class.free-machine]="!machine.is_in_use" [class.in-use-machine]="machine.is_in_use">
+                  <ng-container *ngIf="machine.is_in_use; else notInUse">
+                    Em uso - {{ machine.apt_in_use }}
+                  </ng-container>
+                  <ng-template #notInUse>
+                    Livre
+                  </ng-template>
+                </p>
+              </div>
+              <button class="btn btn-success mt-4"  [ngClass]="{'btn-success': !machine.is_in_use, 'btn-danger':machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">{{machine.is_in_use ? "Desligar":"Ligar"}}</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-12 faturaMensalValor mt-4">
+                <span>R$ {{valorTotal | number:'.2-2'}}</span>
+            </div>  
+            <div class="col-12 faturaMensalDescricao">
+                <span>Fatura para o mês de {{ mesAtual }}</span> 
+            </div>
         </div>
     </div>
   </div>
+
 
   <!-- Table to display user properties -->
   <div class="table-wrapper">

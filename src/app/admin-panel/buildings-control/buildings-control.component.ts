@@ -182,6 +182,7 @@ export class BuildingsControlComponent implements OnInit {
         .subscribe({
           next: history => {
             const valorTotal = this.calcularValorTotal(history);
+            this.valorTotal += valorTotal;
             // Emita o valor total para o observador.
             observer.next(valorTotal);
             // Complete o observable.
