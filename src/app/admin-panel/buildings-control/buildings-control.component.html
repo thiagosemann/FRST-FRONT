@@ -16,7 +16,6 @@
                 <img *ngIf= "machine.isConnected" src="../../../assets/images/maquinaLavar.svg" class="button-icon" />
                 <img *ngIf= "!machine.isConnected" src="../../../assets/images/maquinaLavarDesconectada.svg" class="button-icon" />
                 <!-- Primeira imagem, mostrada quando trocarImagem for verdadeiro -->
-               
                 <span class="button-text">{{ machine.name }}</span>
                 <p class="card-text" [class.free-machine]="!machine.is_in_use" [class.in-use-machine]="machine.is_in_use">
                   <ng-container *ngIf="machine.is_in_use; else notInUse">
@@ -35,12 +34,20 @@
     <div class="col-md-4">
         <div class="row">
             <div class="col-12 faturaMensalValor mt-4">
-                <span>R$ {{valorTotal | number:'.2-2'}}</span>
+                <span>COND: R$ {{valorTotal | number:'.2-2'}}</span>
             </div>  
             <div class="col-12 faturaMensalDescricao">
                 <span>Fatura para o mês de {{ mesAtual }}</span> 
             </div>
         </div>
+        <div class="row">
+          <div class="col-12 faturaMensalValor mt-4">
+              <span>FRST: R$ {{valorTotal*0.18 | number:'.2-2'}}</span>
+          </div>  
+          <div class="col-12 faturaMensalDescricao">
+              <span>Fatura para o mês de {{ mesAtual }}</span> 
+          </div>
+      </div>
     </div>
   </div>
 

@@ -88,7 +88,7 @@
   }
   
   .table-wrapper {
-    max-height: 450px; /* You can change this value as needed */
+    max-height: 400px; /* You can change this value as needed */
     overflow-y: auto; /* Add scroll functionality if content overflows */
   }
   
