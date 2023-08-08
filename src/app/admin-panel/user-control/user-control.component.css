@@ -1,0 +1,96 @@
+@media (max-width: 600px) {
+    .main-layout {
+        overflow: hidden;
+    }
+
+    .main-layout.row {
+        flex-direction: column;
+    }
+
+    .app-content {
+        overflow: auto;
+        margin-left: 20px;
+    }
+
+    .rectangle {
+        flex-direction: column;
+    }
+
+    /* Adicione esta regra para esconder a barra lateral em telas menores que 600px */
+    .sidebar {
+        display: none;
+    }
+}
+
+  
+
+  .table-light-gray {
+    background-color: #F6F6F6; /* Replace with your desired light green color */
+  }
+  
+  .table-light {
+    background-color: white; /* Replace with your desired background color */
+  }
+  
+  .table-wrapper {
+    max-height: 680px; /* You can change this value as needed */
+    overflow-y: auto; /* Add scroll functionality if content overflows */
+  }
+  
+  .table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #f8f9fa;
+    color: #494A50;
+    font-family: 'LayarBahtera Doomsday';
+  }
+  
+  .table-wrapper::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #B7B7B7;
+    border-radius: 4px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  .table tr,
+  .table td,
+  .table th {
+    border: none;
+  }
+
+
+  /* Style the input elements */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    width: 100%; /* Set the width to fill the container */
+    padding: 4px 8px; /* Add some padding for better appearance */
+    border: none; /* Remove the border */
+    background-color: #f2f2f2; /* Set a background color to distinguish the input area */
+    border-radius: 4px; /* Add a slight border radius for a subtle effect */
+    font-size: 14px; /* Adjust the font size as needed */
+  }
+
+  /* Style the input placeholders */
+  input::placeholder {
+    color: #777; /* Set a color for the placeholder text */
+  }
+
+  /* Optionally, you can add some margin between inputs for better spacing */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] + input[type="text"],
+  input[type="number"] + input[type="text"],
+  input[type="date"] + input[type="number"] {
+    margin-bottom: 8px; /* Adjust the margin as needed */
+  }
+
+
+

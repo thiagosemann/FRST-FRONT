@@ -53,45 +53,72 @@
 
 
   <!-- Table to display user properties -->
-  <div class="table-wrapper">
+  <div class="table-wrapper" *ngIf="!selectedUser">
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">First_Name</th>
-          <th scope="col">Last_Name</th>
-          <th scope="col" >CPF</th>
-          <th scope="col">E-mail</th>
-          <th scope="col">Telefone</th>
-          <th scope="col">Valor</th>
-          <th scope="col" >Prédio_Id</th>
           <th scope="col">Apartamento</th>
+          <th scope="col">Nome</th>
+          <th scope="col" >CPF</th>
+          <th scope="col">Valor</th>
           <th scope="col">Função</th>
-          <th scope="col">Ações</th>
+          <th scope="col">Ação</th>
+
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of users; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
-          <td>{{ user.first_name }}</td>
-          <td>{{ user.last_name }}</td>
-          <td>{{ user.cpf }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.telefone }}</td>
-          <td [ngClass]="{'valorTotal': user.valorTotal! > 0,}" >{{ user.valorTotal?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
-          <td>{{ user.building_id }}</td>
           <td>{{ user.apt_name }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.cpf }}</td>
+          <td [ngClass]="{'valorTotal': user.valorTotal! > 0,}" >{{ user.valorTotal?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
           <td>{{ user.role }}</td>
           <td>
-            <!-- Button for making changes to the user -->
-            <button class="btn btn-primary" (click)="editUser(user)">
-              <i class="fas fa-edit"></i> 
-            </button>
-            <!-- Button for deleting the user -->
-            <button class="btn btn-danger" (click)="deleteUser(user)">
-              <i class="fas fa-trash"></i> 
+            <button class="btn btn-primary" (click)="exibirDetalhesUsuario(user)">
+              <i class=" fas fa-info"></i>
             </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+  <div *ngIf="selectedUser" class="user-details">
+    <!-- ... Outras informações do usuário ... -->
+  
+    <!-- Tabela para exibir os detalhes de gastos do usuário -->
+    <div class="row align-items-center">
+
+      <div class="col-md-9 text-center">
+        <h3>Últimos Gastos do Usuário</h3>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary" (click)="voltarParaLista()">Voltar para a lista</button>
+      </div>
+    </div>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="desktop-only">Horário Inicial</th>
+                <th scope="col" >Horário Final</th>
+                <th scope="col" class="desktop-only">Prédio</th>
+                <th scope="col" >Data</th>
+                <th scope="col" >Total Gasto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let usageHistory of formattedUsageHistory.slice().reverse(); let even = even">
+                <tr [class.table-light]="even" [class.table-light-gray]="!even">
+                  <td class="desktop-only">{{ usageHistory.start_time }}</td>
+                  <td >{{ usageHistory.end_time }}</td>
+                  <td class="desktop-only">{{ usageHistory.building }}</td>
+                  <td >{{ usageHistory.date }}</td>
+                  <td >{{ usageHistory.total_cost }}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+  </div>
+  
 </div>

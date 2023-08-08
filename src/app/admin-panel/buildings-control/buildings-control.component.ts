@@ -25,8 +25,13 @@ export class BuildingsControlComponent implements OnInit {
   machines: Machine[] = [];
   mesAtual: string = "";
   valorTotal: number = 0;
+  // Adicione a propriedade 'selectedUserGastos' ao seu componente
+  selectedUser: User | null = null;
+  selectedUserGastos: any[] = []; // Substitua 'any[]' pelo tipo apropriado
+  showUserDetails = false;
+  userUsageHistory: any[] = [];
+  formattedUsageHistory: any[] = [];
 
-  
   constructor(
     private buildingService: BuildingService,
     private authentication: AuthenticationService,
@@ -60,10 +65,53 @@ export class BuildingsControlComponent implements OnInit {
         console.error('Error fetching buildings:', error);
       }
     );
-
-
-
+  }
   
+  voltarParaLista(): void {
+    this.selectedUser = null;
+    this.showUserDetails = false;
+  }
+  // Atualize o método 'exibirDetalhesUsuario' para carregar os gastos do usuário
+  exibirDetalhesUsuario(user: User): void {
+    this.selectedUser = user;
+
+    if (user && user.id !== undefined) {
+      this.usageHistoryService.getUserUsageHistory( this.selectedUser.id)
+        .subscribe({
+          next: history => {
+            this.userUsageHistory = history;
+            this.formatUsageHistory(user);
+          },
+          error: error => {
+            console.log('Error getting user usage history:', error);
+          }
+        });
+
+    }
+    console.log(user)
+  }
+  formatUsageHistory(user: User) {
+    this.formattedUsageHistory = this.userUsageHistory.map(history => ({
+      start_time: history.start_time 
+        ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+        : "--",
+      end_time: history.end_time 
+        ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+        : "--",
+      building: user.building_name,
+      date: history.end_time 
+        ? new Date(history.end_time).toLocaleDateString() 
+        : "--",
+      total_cost: history.total_cost 
+        ? parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
+        : "--"
+    }));
+
+    this.formattedUsageHistory.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
   }
 
   onBuildingSelect(event: any): void {
@@ -119,27 +167,6 @@ export class BuildingsControlComponent implements OnInit {
       // Limpar a lista de usuários quando nenhum prédio for selecionado
       this.users = [];
     }
-  }
-
-  editUser(user: User): void {
-    // Implement the logic to navigate to the edit user page
-    // For example, you can use the Router to navigate:
-    this.router.navigate(['/edit-user', user.id]);
-  }
-
-  deleteUser(user: User): void {
-    // Implement the logic to delete the user
-    // For example, you can use the UserService to call the API to delete the user:
-    this.userService.deleteUser(user.id).subscribe(
-      () => {
-        // User deleted successfully, remove the user from the local array
-        this.users = this.users.filter((u) => u.id !== user.id);
-      },
-      (error) => {
-        console.error('Error deleting user:', error);
-        // Handle the error if needed
-      }
-    );
   }
 
   mudarEstadoMaquina(machine:Machine):void{
