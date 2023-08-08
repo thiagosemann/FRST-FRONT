@@ -35,7 +35,7 @@
 /* Regra de mídia para telas de 600px ou menos */
 @media (max-width: 600px) {
     .main-layout {
-        overflow: hidden;
+        overflow: auto;
     }
 
     .main-layout.row {
@@ -43,7 +43,7 @@
     }
 
     .app-content {
-        overflow: auto;
+        overflow: hidden;
         margin-left: 20px;
     }
 
