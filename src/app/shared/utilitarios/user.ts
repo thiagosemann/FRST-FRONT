@@ -14,4 +14,5 @@ export interface User {
     apt_name:string;
     role:string;
     create_time?:string;
+    valorTotal?:number;
   }

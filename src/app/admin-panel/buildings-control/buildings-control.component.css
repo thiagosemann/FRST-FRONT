@@ -39,20 +39,28 @@
   .larger-button {
     background-color: #f6f6f6; /* Sem cor de fundo */
     border-radius: 15px;
-    border: none; /* Sem borda */
     color: #7B7B84; /* Texto em branco */
-    padding: 50px; /* Espaçamento em volta do conteúdo */
+    padding: 30px; /* Espaçamento em volta do conteúdo */
     transition: transform 0.3s ease; /* Transição para efeito de hover */
     font-family: 'LayarBahtera Doomsday';
     font-style: normal;
     font-weight: 400;
-    font-size: 25px;
-    line-height: 29px;
+    font-size: 20px;
+    line-height: 25px;
     text-align: center;
     text-transform: uppercase;
-    margin-left: 20px;
-    margin-bottom: 20px;
-    
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  .free-machine {
+    color: #0E7F3B;
+  }
+  
+  /* Estilos para máquinas em uso */
+  .in-use-machine {
+    color: #E81515;
+    /* Outros estilos personalizados para máquinas em uso */
   }
   
   .button-content {
@@ -68,7 +76,7 @@
   }
   
   .button-text {
-    font-size: 25px;
+    font-size: 15px;
   }
 
   .table-light-gray {
@@ -80,7 +88,8 @@
   }
   
   .table-wrapper {
-    overflow-y: auto;
+    max-height: 450px; /* You can change this value as needed */
+    overflow-y: auto; /* Add scroll functionality if content overflows */
   }
   
   .table thead {
@@ -137,4 +146,11 @@
   input[type="date"] + input[type="number"] {
     margin-bottom: 8px; /* Adjust the margin as needed */
   }
+
+  .valorTotal{
+    font-weight: bolder;
+  }
+  
+
+
 

@@ -6,4 +6,6 @@ export interface Machine {
     is_in_use: boolean;
     building_id: number;
     idNodemcu: string;
+    isConnected?:boolean;
+    apt_in_use?:string;
 }
