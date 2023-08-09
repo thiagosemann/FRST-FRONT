@@ -184,6 +184,21 @@
     margin-bottom: 25px;
     margin-top:15px;
 }
+/* Add this to your styles.css or styles.scss file */
+.delete-button {
+  background-color: red;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 14px; /* Adjust the font size as needed */
+  padding: 5px 10px; /* Adjust the padding as needed */
+}
+
+.delete-button:hover {
+  background-color: #d9534f; /* Slightly lighter shade of red on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
 
 
 

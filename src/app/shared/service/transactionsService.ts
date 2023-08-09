@@ -28,4 +28,14 @@ export class TransactionsService {
   createTransaction(transaction: Transaction): Observable<Transaction> {
     return this.http.post<Transaction>(this.apiUrl, transaction, { headers: this.getHeaders() });
   }
+
+  getTransactionByUsageHistoryId(usageHistoryID: number): Observable<Transaction> {
+    const url = `${this.apiUrl}/${usageHistoryID}`;
+    return this.http.get<Transaction>(url, { headers: this.getHeaders() });
+  }
+  
+  deleteTransactionById(id: number): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete(url, { headers: this.getHeaders() });
+  }
 }

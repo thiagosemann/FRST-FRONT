@@ -48,4 +48,9 @@ export class UsageHistoryService {
     const url = `${this.apiUrl}/${usageHistory.id}`;
     return this.http.put<UsageHistory>(url, usageHistory, { headers: this.getHeaders() });
   }
+  
+  deleteUsageHistoryById(id: number): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete(url, { headers: this.getHeaders() });
+  }
 }

@@ -12,6 +12,8 @@ import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
 import { UsageHistory } from 'src/app/shared/utilitarios/usageHistory';
 import { UsageHistoryService } from 'src/app/shared/service/usageHistory_service';
 import { Observable } from 'rxjs';
+import { TransactionsService } from 'src/app/shared/service/transactionsService';
+import { Transaction } from 'src/app/shared/utilitarios/transactions';
 
 @Component({
   selector: 'app-buildings-control',
@@ -39,7 +41,8 @@ export class BuildingsControlComponent implements OnInit {
     private userService: UserService,
     private machineService: MachineService,
     private nodeMcuService: NodemcuService,
-    private usageHistoryService: UsageHistoryService
+    private usageHistoryService: UsageHistoryService,
+    private transactionsService: TransactionsService
 
   ) {
     this.myGroup = new FormGroup({
@@ -91,7 +94,9 @@ export class BuildingsControlComponent implements OnInit {
     console.log(user)
   }
   formatUsageHistory(user: User) {
+    console.log(this.userUsageHistory)
     this.formattedUsageHistory = this.userUsageHistory.map(history => ({
+      id: history.id,
       start_time: history.start_time 
         ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
         : "--",
@@ -227,4 +232,42 @@ export class BuildingsControlComponent implements OnInit {
     return history.reduce((total, item) => total + Number(item.total_cost), 0);
   }
 
+
+  deleteUsageHistory(id: number) {
+    this.transactionsService.getTransactionByUsageHistoryId(id).subscribe(
+      (transaction: Transaction) => {
+        if (transaction && transaction.id) {
+          // Excluir a transação
+          this.transactionsService.deleteTransactionById(transaction.id).subscribe(
+            () => {  
+              // Excluir o histórico de uso
+              this.usageHistoryService.deleteUsageHistoryById(id).subscribe(
+                () => {  
+                  // Remova o item excluído do array formattedUsageHistory
+                  this.formattedUsageHistory = this.formattedUsageHistory.filter(item => item.id !== id);
+                  if(this.selectedUser && this.selectedUser.valorTotal){
+                    this.selectedUser.valorTotal = this.selectedUser?.valorTotal - Number(transaction.amount)
+                    this.valorTotal = this.valorTotal - Number(transaction.amount)
+                  }
+                },
+                (deleteError: any) => {
+                  console.log('Error deleting usage history:', deleteError);
+                }
+              );
+            },
+            (deleteError: any) => {
+              console.log('Error deleting transaction:', deleteError);
+            }
+          );
+        }
+      },
+      (error: any) => {
+        console.log('Error retrieving transaction by usage history:', error);
+      }
+    );
+  }
+  
+  
+  
+  
 }

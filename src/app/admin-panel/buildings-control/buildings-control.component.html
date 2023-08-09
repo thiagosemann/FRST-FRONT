@@ -99,11 +99,11 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" class="desktop-only">Horário Inicial</th>
+                <th scope="col" >Horário Inicial</th>
                 <th scope="col" >Horário Final</th>
-                <th scope="col" class="desktop-only">Prédio</th>
                 <th scope="col" >Data</th>
                 <th scope="col" >Total Gasto</th>
+                <th scope="col" >Ação</th>
               </tr>
             </thead>
             <tbody>
@@ -111,9 +111,12 @@
                 <tr [class.table-light]="even" [class.table-light-gray]="!even">
                   <td class="desktop-only">{{ usageHistory.start_time }}</td>
                   <td >{{ usageHistory.end_time }}</td>
-                  <td class="desktop-only">{{ usageHistory.building }}</td>
                   <td >{{ usageHistory.date }}</td>
                   <td >{{ usageHistory.total_cost }}</td>
+                  <button class="btn btn-danger delete-button" (click)="deleteUsageHistory(usageHistory.id)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  
                 </tr>
               </ng-container>
             </tbody>
