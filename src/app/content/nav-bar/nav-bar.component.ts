@@ -35,7 +35,10 @@ export class NavBarComponent implements OnInit {
   profile(): void {
     this.router.navigate(['/profile']);
   }
-
+  admin(): void {
+      this.router.navigate(['/admin']);
+  }
+    
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
