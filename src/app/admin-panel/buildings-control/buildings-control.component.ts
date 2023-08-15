@@ -120,6 +120,7 @@ export class BuildingsControlComponent implements OnInit {
   }
 
   onBuildingSelect(event: any): void {
+    this.valorTotal = 0;
     const buildingId = event.target.value;
     if (buildingId) {
       this.userService.getUsersByBuilding(parseInt(buildingId, 10)).subscribe(

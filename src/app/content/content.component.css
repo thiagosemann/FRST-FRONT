@@ -12,7 +12,6 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    height: calc(100vh - 10px); /* Adjust based on the height of your nav-bar */
 }
 
 .sidebar {
@@ -70,7 +69,8 @@
 
 .terceiroBloco-container {
     border-radius: 15px;
-    height: 50%; /* Take full height of the parent element */
+    overflow-y: auto; /* Add this to enable vertical scrolling */
+    height: 100%; /* Take full height of the parent element */
 }
 
 .larger-button {

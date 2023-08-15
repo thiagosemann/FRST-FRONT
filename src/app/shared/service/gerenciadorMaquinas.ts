@@ -42,7 +42,7 @@ export class GerenciadorMaquinasService {
         this.user = this.authService.getUser();
 
         if (this.machine?.is_in_use) {
-          this.handleMachineInUse();
+          this.handleMachineInUse(this.machine.id);
         } else {
           this.handleMachineNotInUse();
         }
@@ -54,23 +54,32 @@ export class GerenciadorMaquinasService {
     );
   }
 
-  handleMachineInUse(): void {
+ async handleMachineInUse(machineId : number): Promise<void> {
     //Desliga a máquina
-    this.turnOffMachine().subscribe({
-      next: (data) => {
-        console.log('Resposta do servidor: ', data);
-        this.manageMachineInUse(this.user);
-        this.toastr.info('Máquina desligada com sucesso!');
-      },
-      error: (error) => {
-        console.error('Erro ao desligar a máquina: ', error);
-        this.toastr.error('Máquina não conectada.');
-      }
-    });
+    const userId = await this.getUserUsingMachine(machineId);
+    console.log("Teste",userId)
+    if(this.user && this.user.id && userId == this.user.id){
+      this.turnOffMachine().subscribe({
+        next: (data) => {
+          console.log('Resposta do servidor: ', data);
+          this.manageMachineInUse(this.user);
+          this.toastr.info('Máquina desligada com sucesso!');
+        },
+        error: (error) => {
+          console.error('Erro ao desligar a máquina: ', error);
+          this.toastr.error('Máquina não conectada.');
+        }
+      });
+    }else{
+      this.toastr.error("Essa máquina está ligada para outro usuário.")
+    }
+
   }
 
   handleMachineNotInUse(): void {
     //Liga a máquina
+
+
     this.turnOnMachine().subscribe({
       next: (data) => {
         console.log('Resposta do servidor: ', data);
@@ -82,8 +91,27 @@ export class GerenciadorMaquinasService {
         this.toastr.error('Máquina não conectada.');
       }
     });
+    
   }
 
+  getUserUsingMachine(machineId: number): Promise<number | null> {
+    return new Promise((resolve, reject) => {
+      this.usageHistoryService.getMachineUsageHistory(machineId).subscribe(
+        (usageHistory: UsageHistory[]) => {
+          const lastUsage = usageHistory[usageHistory.length - 1];
+          if (lastUsage) {
+            resolve(lastUsage.user_id);
+          } else {
+            resolve(null);
+          }
+        },
+        (error: any) => {
+          console.log('Error retrieving machine usage history:', error);
+          reject(null);
+        }
+      );
+    });
+  }
 
 
   async manageMachineInUse(user: User | null): Promise<void> {
