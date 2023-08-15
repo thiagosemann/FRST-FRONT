@@ -54,27 +54,45 @@ export class GerenciadorMaquinasService {
     );
   }
 
- async handleMachineInUse(machineId : number): Promise<void> {
-    //Desliga a máquina
-    const userId = await this.getUserUsingMachine(machineId);
-    console.log("Teste",userId)
-    if(this.user && this.user.id && userId == this.user.id){
-      this.turnOffMachine().subscribe({
-        next: (data) => {
-          console.log('Resposta do servidor: ', data);
-          this.manageMachineInUse(this.user);
-          this.toastr.info('Máquina desligada com sucesso!');
-        },
-        error: (error) => {
-          console.error('Erro ao desligar a máquina: ', error);
-          this.toastr.error('Máquina não conectada.');
-        }
-      });
-    }else{
-      this.toastr.error("Essa máquina está ligada para outro usuário.")
+  async handleMachineInUse(machineId: number): Promise<void> {
+    try {
+      // Desliga a máquina
+      const userId = await this.getUserUsingMachine(machineId);
+      console.log("Teste", userId);
+  
+      if (this.user && this.user.id && userId === this.user.id) {
+        this.turnOffMachine().subscribe({
+          next: (data) => {
+            console.log('Resposta do servidor: ', data);
+            this.manageMachineInUse(this.user);
+            this.toastr.info('Máquina desligada com sucesso!');
+          },
+          error: (error) => {
+            console.error('Erro ao desligar a máquina: ', error);
+            this.toastr.error('Erro ao desligar a máquina.');
+          },
+        });
+      } else if (this.user && this.user.role && this.user.role === 'admin') {
+        this.turnOffMachine().subscribe({
+          next: (data) => {
+            console.log('Resposta do servidor: ', data);
+            this.manageMachineInUse(this.user);
+            this.toastr.info('Máquina desligada com sucesso!');
+          },
+          error: (error) => {
+            console.error('Erro ao desligar a máquina: ', error);
+            this.toastr.error('Erro ao desligar a máquina.');
+          },
+        });
+      } else {
+        this.toastr.error("Essa máquina está ligada para outro usuário.");
+      }
+    } catch (error) {
+      console.error('Erro ao obter informações da máquina: ', error);
+      this.toastr.error('Erro ao obter informações da máquina.');
     }
-
   }
+  
 
   handleMachineNotInUse(): void {
     //Liga a máquina

@@ -14,6 +14,7 @@ import { UsageHistoryService } from 'src/app/shared/service/usageHistory_service
 import { Observable } from 'rxjs';
 import { TransactionsService } from 'src/app/shared/service/transactionsService';
 import { Transaction } from 'src/app/shared/utilitarios/transactions';
+import { GerenciadorMaquinasService } from 'src/app/shared/service/gerenciadorMaquinas';
 
 @Component({
   selector: 'app-buildings-control',
@@ -42,7 +43,9 @@ export class BuildingsControlComponent implements OnInit {
     private machineService: MachineService,
     private nodeMcuService: NodemcuService,
     private usageHistoryService: UsageHistoryService,
-    private transactionsService: TransactionsService
+    private transactionsService: TransactionsService,
+    private gerenciadorMaquinasService: GerenciadorMaquinasService,
+
 
   ) {
     this.myGroup = new FormGroup({
@@ -176,7 +179,7 @@ export class BuildingsControlComponent implements OnInit {
   }
 
   mudarEstadoMaquina(machine:Machine):void{
-    console.log(machine)
+    this.gerenciadorMaquinasService.verificacaoMaquinas(machine.id.toString());
   }
 
   getUserUsingMachine(machineId: number): Promise<number | null> {
