@@ -33,6 +33,15 @@
     </div>
     <div class="col-md-4">
         <div class="row">
+          <div class="billing-info">
+            <div class="month-select">
+              <select id="month_id" name="month_id" class="form-control" required (change)="onMonthSelect()">
+                <option value="" disabled selected>Selecione o mês</option>
+                <option *ngFor="let month of months" [value]="month.id">{{ month.name }}</option>
+              </select>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-12 faturaMensalValor mt-4">
                 <span>COND: R$ {{valorTotal | number:'.2-2'}}</span>
             </div>  
@@ -50,8 +59,15 @@
       </div>
     </div>
   </div>
-
-
+  <div class="row align-items-center">
+    <div class="col-md-9 text-center">
+    </div>
+    <div class="download-button-container col-md-3 text-center">
+      <button class="btn btn-primary download-button" (click)="downloadTableData()">
+        <i class="fas fa-download"></i> Download Table Data
+      </button>
+    </div>
+  </div>
   <!-- Table to display user properties -->
   <div class="table-wrapper" *ngIf="!selectedUser">
     <table class="table">
@@ -83,15 +99,12 @@
     </table>
   </div>
   <div *ngIf="selectedUser" class="user-details">
-    <!-- ... Outras informações do usuário ... -->
-  
-    <!-- Tabela para exibir os detalhes de gastos do usuário -->
     <div class="row align-items-center">
-
       <div class="col-md-9 text-center">
         <h3>Últimos Gastos do Usuário</h3>
       </div>
       <div class="col-md-3">
+        <button class="btn btn-primary" (click)="voltarParaLista()">Voltar para a lista</button>
         <button class="btn btn-primary" (click)="voltarParaLista()">Voltar para a lista</button>
       </div>
     </div>

@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { TransactionsService } from 'src/app/shared/service/transactionsService';
 import { Transaction } from 'src/app/shared/utilitarios/transactions';
 import { GerenciadorMaquinasService } from 'src/app/shared/service/gerenciadorMaquinas';
+import { ExcelService } from 'src/app/shared/service/excelService';
 
 @Component({
   selector: 'app-buildings-control',
@@ -34,6 +35,9 @@ export class BuildingsControlComponent implements OnInit {
   showUserDetails = false;
   userUsageHistory: any[] = [];
   formattedUsageHistory: any[] = [];
+  months:any[] =[{name:"Janeiro",id:'1'}];
+  excelArray : UsageHistory[] = [];
+
 
   constructor(
     private buildingService: BuildingService,
@@ -45,7 +49,7 @@ export class BuildingsControlComponent implements OnInit {
     private usageHistoryService: UsageHistoryService,
     private transactionsService: TransactionsService,
     private gerenciadorMaquinasService: GerenciadorMaquinasService,
-
+    private excelService: ExcelService
 
   ) {
     this.myGroup = new FormGroup({
@@ -94,7 +98,6 @@ export class BuildingsControlComponent implements OnInit {
         });
 
     }
-    console.log(user)
   }
   formatUsageHistory(user: User) {
     console.log(this.userUsageHistory)
@@ -141,6 +144,7 @@ export class BuildingsControlComponent implements OnInit {
               }
             );
           }
+
         },
         (error) => {
           console.error('Error fetching users by building:', error);
@@ -172,6 +176,7 @@ export class BuildingsControlComponent implements OnInit {
           console.error('Error fetching machines:', error);
         }
       );
+      console.log(this.users)
     } else {
       // Limpar a lista de usuários quando nenhum prédio for selecionado
       this.users = [];
@@ -217,6 +222,9 @@ export class BuildingsControlComponent implements OnInit {
       this.usageHistoryService.getUserUsageHistory(userId, month.toString())
         .subscribe({
           next: history => {
+            history.forEach(x =>{
+              this.excelArray.push(x)
+            })
             const valorTotal = this.calcularValorTotal(history);
             this.valorTotal += valorTotal;
             // Emita o valor total para o observador.
@@ -271,7 +279,47 @@ export class BuildingsControlComponent implements OnInit {
     );
   }
   
+  downloadTableData(){
+    console.log(this.excelArray);
+  
+    const formattedExcelArray = this.excelArray.map(history => {
+      const user = this.users.find(user => user.id === history.user_id);
+      const userApt = user ? user.apt_name : "--";
+      const userName = user ? user.first_name: "--";
+      const userCPF = user ? user.cpf: "--";
+  
+      return {
+        userApt: userApt,
+        userName: userName,
+        userCPF: userCPF,
+        start_time: history.start_time 
+          ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+          : "--",
+        end_time: history.end_time 
+          ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+          : "--",
+        date: history.end_time 
+          ? new Date(history.end_time).toLocaleDateString() 
+          : "--",
+        total_cost: history.total_cost 
+          ? history.total_cost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
+          : "--"
+      };
+    });
+  
+    formattedExcelArray.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+  
+    console.log(formattedExcelArray);
+    this.excelService.exportToExcel(formattedExcelArray, "Teste");
+  }
   
   
+  onMonthSelect(){
+
+  }
   
 }
