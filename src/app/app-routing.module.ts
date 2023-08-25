@@ -13,7 +13,7 @@ import { ProfileComponent } from './content/profile/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register/:id', component: RegisterComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: 'landing', component: LandingComponent, canActivate: [AuthGuardService] },
   { path: 'content/:id', component: ContentComponent, canActivate: [AuthGuardService] },

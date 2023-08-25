@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup, ValidatorFn, AbstractControl, FormC
 import { UserService } from '../../shared/service/user_service';
 import { User } from '../../shared/utilitarios/user';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BuildingService } from '../../shared/service/buildings_service';
 import { Building } from '../../shared/utilitarios/buildings';
 import { AuthenticationService } from '../../shared/service/authentication';
@@ -26,10 +26,12 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   user!: User;
   buildings: Building[] = [];
+  buildingID: string = '';
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
               private toastr: ToastrService,
+              private route: ActivatedRoute,
               private router: Router,
               private buildingService: BuildingService,
               private authentication : AuthenticationService
@@ -37,9 +39,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     const user = this.authentication.getUser();
-    if(user && user.role.toLocaleUpperCase() !="ADMIN"){
-      this.router.navigate(['/content']);
-      return;
+    this.buildingID = this.route.snapshot.paramMap.get('id') ?? '';
+    if(this.buildingID ==""){
+      this.router.navigate(['/login']);
     }
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
@@ -59,14 +61,12 @@ export class RegisterComponent implements OnInit {
         confirmEmail: ['', [Validators.required, Validators.email]]
       }, { validator: ConfirmValidator('email', 'confirmEmail') }),
       passwordGroup: this.formBuilder.group({
-        password: ['', [Validators.required, Validators.minLength(8)]],
+        password: ['', [Validators.required, Validators.minLength(4)]],
         confirmPassword: ['', Validators.required]
       }, { validator: ConfirmValidator('password', 'confirmPassword') }),
       data_nasc: ['', Validators.required],
       telefone: ['', Validators.required],
       apt_name: ['', Validators.required], // Novo campo "apt_name" adicionado ao formulário
-      building_id: [null, Validators.required], // Use `null` as the initial value
-      role: ['', Validators.required], // Adicionando a validação para o campo role
       credito: [10]
     });
   }
@@ -81,6 +81,8 @@ export class RegisterComponent implements OnInit {
       };
       this.user.building_id = Number(this.user.building_id);
       this.user.data_nasc = new Date(this.user.data_nasc!);
+      this.user.role = 'usuario'
+      this.user.building_id = Number(this.buildingID);
       
       this.userService.addUser(this.user).subscribe(
         (res) => {

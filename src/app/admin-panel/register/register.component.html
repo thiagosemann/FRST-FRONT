@@ -52,31 +52,7 @@
             </div>
           </div>
 
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <div class="form-group mb-3">
-                <label class="form-label" for="building_id">Prédio ID:</label>
-                <select id="building_id" name="building_id" class="form-control" formControlName="building_id" required>
-                  <option value="" disabled selected>Selecione o ID do prédio</option>
-                  <!-- Loop through the buildings array and create an option for each building -->
-                  <option *ngFor="let building of buildings" [value]="building.id">{{ building.id }}</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group mb-3">
-                <label class="form-label" for="role">Função:</label>
-                <select id="role" name="role" class="form-control" formControlName="role" required>
-                  <option value="" disabled selected>Selecione a função</option>
-                  <option value="admin">admin</option>
-                  <option value="usuario">usuario</option>
-                  <option value="sindico">sindico</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          
+        
           <!-- Email e Confirmar Email na mesma linha -->
           <div formGroupName="emailGroup" class="row mb-3">
             <div class="col-md-6">
@@ -97,7 +73,7 @@
           <div formGroupName="passwordGroup" class="row mb-3">
             <div class="col-md-6">
               <div class="form-group mb-3">
-                <label class="form-label" for="password">Senha:</label>
+                <label class="form-label" for="password">Senha (Mínimo 4 Caracteres):</label>
                 <input type="password" id="password" name="password" placeholder="Digite a senha" formControlName="password" required
                 class="form-control ng-invalid ng-dirty ng-touched" autocomplete="new-password">
               </div>
