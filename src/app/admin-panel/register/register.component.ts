@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BuildingService } from '../../shared/service/buildings_service';
 import { Building } from '../../shared/utilitarios/buildings';
-import { AuthenticationService } from '../../shared/service/authentication';
 
 export const ConfirmValidator = (controlName: string, matchingControlName: string): ValidatorFn => {
   return (control: AbstractControl): {[key: string]: boolean} | null => {
@@ -26,31 +25,46 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   user!: User;
   buildings: Building[] = [];
-  buildingID: string = '';
+  buildingName: string = '';
+  errorMessages: { [key: string]: string } = {
+    first_name: 'Insira o primeiro nome',
+    last_name: 'Insira o sobrenome',
+    cpf: 'Insira o CPF',
+    telefone: 'Insira o telefone',
+    data_nasc: 'Insira a data de nascimento',
+    apt_name: 'Insira o nome apartamento',
+    emailGroup: 'Verifique os e-mails digitados',
+    passwordGroup: 'Verifique as senhas digitadas'
+  };
 
+  
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
               private toastr: ToastrService,
               private route: ActivatedRoute,
               private router: Router,
               private buildingService: BuildingService,
-              private authentication : AuthenticationService
   ) {}
 
   ngOnInit(): void {
-    const user = this.authentication.getUser();
-    this.buildingID = this.route.snapshot.paramMap.get('id') ?? '';
-    if(this.buildingID ==""){
-      this.router.navigate(['/login']);
-    }
+    this.buildingName = this.route.snapshot.paramMap.get('id') ?? '';
+
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
-        this.buildings = buildings; // Set the value inside the subscription
+        this.buildings = buildings;
+  
+        // Check if the buildingName exists in the buildings array
+        const buildingExists = this.buildings.some(building => building.name === this.buildingName);
+        
+        if (!buildingExists) {
+          this.router.navigate(['/login']);
+        }
       },
       (error) => {
         console.error('Error fetching buildings:', error);
       }
     );
+
 
     this.registerForm = this.formBuilder.group({
       first_name: ['', Validators.required],
@@ -74,38 +88,43 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void {
     if (this.registerForm.valid) {
       const { emailGroup, passwordGroup, ...rest } = this.registerForm.value;
+  
       this.user = {
         ...rest,
         email: emailGroup.email,
         password: passwordGroup.password,
       };
-      this.user.building_id = Number(this.user.building_id);
-      this.user.data_nasc = new Date(this.user.data_nasc!);
-      this.user.role = 'usuario'
-      this.user.building_id = Number(this.buildingID);
       
-      this.userService.addUser(this.user).subscribe(
-        (res) => {
-          
-          this.resetForm();
-        },
-        (err) => {
-          console.log(err)
-          this.toastr.error(err);
-        }
-      );
-    } else {
-          // Mostra quais campos estão inválidos e seus respectivos estados de validação
-    for (const controlName in this.registerForm.controls) {
-      const control = this.registerForm.get(controlName);
-
-      if (control && control.invalid) {
-        console.log(`Campo ${controlName} inválido. Estado de validação:`, control.errors);
+      this.user.data_nasc = new Date(this.user.data_nasc!);
+      this.user.role = 'usuario';
+      
+      const foundBuilding = this.buildings.find(building => building.name === this.buildingName);
+      
+      if (foundBuilding) {
+        this.user.building_id = foundBuilding.id;
+        this.userService.addUser(this.user).subscribe(
+          (res) => {
+            this.resetForm();
+            this.router.navigate(['/login']);
+          },
+          (err) => {
+            this.toastr.error(err);
+          }
+        );
+      } else {
+        this.toastr.error('Prédio não encontrado');
       }
-    }
-      this.toastr.error('Por favor, corrija os erros no formulário');
+    } else {
+      for (const controlName in this.registerForm.controls) {
+        const control = this.registerForm.get(controlName);
+        if (control && control.invalid) {
+            this.toastr.error(this.errorMessages[controlName]);
+        }
+      }
+      console.log(this.registerForm.controls)
     }
   }
+  
 
   resetForm(): void {
     this.registerForm.reset({

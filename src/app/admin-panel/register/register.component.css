@@ -15,3 +15,8 @@
 .invalid {
   border: 2px solid red;
 }
+/* Add this to your existing CSS styles */
+.scrollable-container {
+  max-height: 100vh; /* Adjust the value as needed */
+  overflow-y: auto;
+}
