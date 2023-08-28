@@ -12,10 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    if (!token) {
-      // Se não existe um token, redirecione para a página de login
-      this.router.navigate(['/login']);
-    } 
+
   }
 }
