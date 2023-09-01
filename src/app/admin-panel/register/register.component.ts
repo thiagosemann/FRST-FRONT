@@ -55,7 +55,6 @@ export class RegisterComponent implements OnInit {
   
         // Check if the buildingName exists in the buildings array
         const buildingExists = this.buildings.some(building => building.name === this.buildingName);
-        console.log(buildingExists)
         if (!buildingExists) {
           this.router.navigate(['/login']);
         }
@@ -102,13 +101,15 @@ export class RegisterComponent implements OnInit {
       
       if (foundBuilding) {
         this.user.building_id = foundBuilding.id;
+        console.log(this.user)
         this.userService.addUser(this.user).subscribe(
           (res) => {
             this.resetForm();
             this.router.navigate(['/login']);
           },
           (err) => {
-            this.toastr.error(err);
+            console.log(err)
+            this.toastr.error(err.error.error);
           }
         );
       } else {
