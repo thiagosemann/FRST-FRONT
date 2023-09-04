@@ -27,18 +27,32 @@ export class BuildingsControlComponent implements OnInit {
   users: User[] = [];
   myGroup: FormGroup; // Add a FormGroup property
   machines: Machine[] = [];
-  mesAtual: string = "";
+  selectedMonth: string ="";
+  selectedYear: string ="";
+  buildingId: number =0;
   valorTotal: number = 0;
   // Adicione a propriedade 'selectedUserGastos' ao seu componente
   selectedUser: User | null = null;
   selectedUserGastos: any[] = []; // Substitua 'any[]' pelo tipo apropriado
   showUserDetails = false;
-  userUsageHistory: any[] = [];
+  usageHistory: any[] = [];
   formattedUsageHistory: any[] = [];
-  months:any[] =[{name:"Janeiro",id:'1'}];
+  months:any[] =[ {name:"Janeiro",id:'01'},
+                  {name:"Fevereiro",id:'02'},
+                  {name:"Março",id:'03'},
+                  {name:"Abril",id:'04'},
+                  {name:"Maio",id:'05'},
+                  {name:"Junho",id:'06'},
+                  {name:"Julho",id:'07'},
+                  {name:"Agosto",id:'08'},
+                  {name:"Setembro",id:'09'},
+                  {name:"Outubro",id:'10'},
+                  {name:"Novembro",id:'11'},
+                  {name:"Dezembro",id:'12'}
+              ];
+  years:any[] =[ {name:"2023"},{name:"2024"},{name:"2025"},{name:"2026"},{name:"2027"}];    
+  consultaBDMonth: string ="";        
   excelArray : UsageHistory[] = [];
-
-
   constructor(
     private buildingService: BuildingService,
     private authentication: AuthenticationService,
@@ -60,8 +74,6 @@ export class BuildingsControlComponent implements OnInit {
   ngOnInit(): void {
     const user = this.authentication.getUser();
     
-    this.mesAtual = this.obterMesAtual();
-
     if (user && user.role.toLocaleUpperCase() != 'ADMIN') {
       this.router.navigate(['/content']);
       return;
@@ -75,86 +87,79 @@ export class BuildingsControlComponent implements OnInit {
         console.error('Error fetching buildings:', error);
       }
     );
-  }
-  
-  voltarParaLista(): void {
-    this.selectedUser = null;
-    this.showUserDetails = false;
-  }
-  // Atualize o método 'exibirDetalhesUsuario' para carregar os gastos do usuário
-  exibirDetalhesUsuario(user: User): void {
-    this.selectedUser = user;
 
-    if (user && user.id !== undefined) {
-      this.usageHistoryService.getUserUsageHistory( this.selectedUser.id)
-        .subscribe({
-          next: history => {
-            this.userUsageHistory = history;
-            this.formatUsageHistory(user);
-          },
-          error: error => {
-            console.log('Error getting user usage history:', error);
-          }
-        });
-
+    const numFakeMachines = 4 - this.machines.length;
+    for (let i = 0; i < numFakeMachines; i++) {
+      this.machines.push({
+        id: -1, // Um ID negativo para indicar uma máquina falsa
+        type: "Lavadora Falsa",
+        total_usage_time: 0,
+        is_in_use: true,
+        building_id: 1,
+        name: "Falsa " + (i + 1),
+        idNodemcu: "Falsa" + (i + 1),
+        apt_in_use: "Apt25",
+        isConnected: true
+      });
     }
   }
-  formatUsageHistory(user: User) {
-    console.log(this.userUsageHistory)
-    this.formattedUsageHistory = this.userUsageHistory.map(history => ({
-      id: history.id,
-      start_time: history.start_time 
-        ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-        : "--",
-      end_time: history.end_time 
-        ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-        : "--",
-      building: user.building_name,
-      date: history.end_time 
-        ? new Date(history.end_time).toLocaleDateString() 
-        : "--",
-      total_cost: history.total_cost 
-        ? parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
-        : "--"
-    }));
+  
 
+  formatUsageHistory() {
+  this.usageHistory.map(history => {
+        this.valorTotal += Number(history.total_cost)
+        const formattedHistory = {
+          id: history.id,
+          start_time: history.start_time 
+            ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+            : "--",
+          end_time: history.end_time 
+            ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+            : "--",
+          userName: history.apt_name,
+          date: history.end_time 
+            ? new Date(history.end_time).toLocaleDateString() 
+            : "--",
+          total_cost: history.total_cost 
+            ? parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
+            : "--"
+        };
+        this.formattedUsageHistory.push(formattedHistory); 
+  });
+  
     this.formattedUsageHistory.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateB.getTime() - dateA.getTime();
     });
   }
+  
 
   onBuildingSelect(event: any): void {
+    this.usageHistory = [];
+    this.formattedUsageHistory = [];
     this.valorTotal = 0;
-    const buildingId = event.target.value;
-    if (buildingId) {
-      this.userService.getUsersByBuilding(parseInt(buildingId, 10)).subscribe(
-        (users: User[]) => {
-          this.users = users;
-  
-          // Loop through each user and get the total usage history for each one
-          for (const user of this.users) {
-            this.obterHistoricoUsoUsuario(user.id, new Date().getMonth() + 1).subscribe(
-              (valorTotal: number) => {
-                user.valorTotal = valorTotal;
-              },
-              (error) => {
-                console.error('Error getting total usage history for user:', error);
-              }
-            );
-          }
+    this.buildingId = event.target.value;
+    if(this.buildingId && this.consultaBDMonth.length == 7) {
+      this.updateUsageHistory();
 
-        },
-        (error) => {
-          console.error('Error fetching users by building:', error);
-        }
-      );
-
-      this.machineService.getMachinesByBuilding(buildingId).subscribe(
+      this.machineService.getMachinesByBuilding(this.buildingId).subscribe(
         async (machines) => {
           this.machines = machines;
-          console.log(machines);
+          const numFakeMachines = 4 - machines.length;
+          for (let i = 0; i < numFakeMachines; i++) {
+            this.machines.push({
+              id: -1, // Um ID negativo para indicar uma máquina falsa
+              type: "Lavadora Falsa",
+              total_usage_time: 0,
+              is_in_use: false,
+              building_id: 1,
+              name: "Falsa " + (i + 1),
+              idNodemcu: "Falsa" + (i + 1),
+              apt_in_use: "",
+              isConnected: false
+            });
+          }
 
           for (const machine of this.machines) {
             const userId = await this.getUserUsingMachine(machine.id);
@@ -206,43 +211,6 @@ export class BuildingsControlComponent implements OnInit {
     });
   }
 
-  obterMesAtual(): string {
-    const currentDate = new Date();
-    const monthNames = [
-      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    ];
-    return monthNames[currentDate.getMonth()];
-  }
-
-  // Atualize a assinatura da função para retornar um Observable<number>.
-  obterHistoricoUsoUsuario(userId: number, month: number): Observable<number> {
-    // Retorne o Observable que foi criado dentro do subscribe.
-    return new Observable<number>(observer => {
-      this.usageHistoryService.getUserUsageHistory(userId, month.toString())
-        .subscribe({
-          next: history => {
-            history.forEach(x =>{
-              this.excelArray.push(x)
-            })
-            const valorTotal = this.calcularValorTotal(history);
-            this.valorTotal += valorTotal;
-            // Emita o valor total para o observador.
-            observer.next(valorTotal);
-            // Complete o observable.
-            observer.complete();
-          },
-          error: error => {
-            console.log('Error getting user usage history:', error);
-            // Se ocorrer um erro, notifique o observador com o erro.
-            observer.error(error);
-          }
-        });
-    });
-  }
-  calcularValorTotal(history: any[]): number {
-    return history.reduce((total, item) => total + Number(item.total_cost), 0);
-  }
 
 
   deleteUsageHistory(id: number) {
@@ -280,14 +248,12 @@ export class BuildingsControlComponent implements OnInit {
   }
   
   downloadTableData(){
-    console.log(this.excelArray);
-  
     const formattedExcelArray = this.excelArray.map(history => {
       const user = this.users.find(user => user.id === history.user_id);
       const userApt = user ? user.apt_name : "--";
       const userName = user ? user.first_name: "--";
       const userCPF = user ? user.cpf: "--";
-  
+
       return {
         userApt: userApt,
         userName: userName,
@@ -318,8 +284,34 @@ export class BuildingsControlComponent implements OnInit {
   }
   
   
-  onMonthSelect(){
+  onMonthSelect(event: any) {
+    this.selectedMonth = event.target.value;
+    this.consultaBDMonth = this.selectedYear + "-"+ this.selectedMonth
+    this.updateUsageHistory();
 
   }
-  
+  onYearSelect(event: any) {
+    this.selectedYear = event.target.value;
+    this.consultaBDMonth = this.selectedYear + "-"+ this.selectedMonth
+    this.updateUsageHistory();
+  }
+
+  updateUsageHistory(){
+    this.formattedUsageHistory = [];
+    this.usageHistory = [];
+    this.valorTotal=0;
+    if(this.buildingId != 0){
+      this.usageHistoryService.getAllUsageHistoryByBuildingAndMonth(this.buildingId,this.consultaBDMonth)
+      .subscribe({
+        next: history => {
+          console.log(history)
+          this.usageHistory = history;
+          this.formatUsageHistory();
+        },
+        error: error => {
+          console.log('Error getting user usage history:', error);
+        }
+      });
+    }
+  }
 }

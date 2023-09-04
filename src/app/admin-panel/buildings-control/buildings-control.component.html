@@ -1,12 +1,30 @@
 <!-- buildings-control.component.html -->
-<div class="container" [formGroup]="myGroup"> <!-- Add the formGroup directive -->
-  <select id="building_id" name="building_id" class="form-control" formControlName="building_id" required (change)="onBuildingSelect($event)">
-    <option value="" disabled selected>Selecione o prédio</option>
-    <!-- Loop through the buildings array and create an option for each building -->
-    <option *ngFor="let building of buildings" [value]="building.id">{{ building.name }}</option>
-  </select>
-  <div class="row">
-    <div class="col-md-8">
+<div class="containerAdmin" [formGroup]="myGroup"> <!-- Add the formGroup directive -->
+  <div class="row pt-5">
+    <div class="col-md-4" >
+      <select id="building_id" name="building_id" class="form-control selectMesAno" formControlName="building_id" required (change)="onBuildingSelect($event)">
+        <option value="" disabled selected>Selecione o prédio</option>
+        <!-- Loop through the buildings array and create an option for each building -->
+        <option *ngFor="let building of buildings" [value]="building.id">{{ building.name }}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="month_id" name="month_id" class="form-control selectMesAno" required (change)="onMonthSelect($event)">
+        
+        <option value="" disabled selected>Mês</option>
+        <option *ngFor="let month of months; let i = index" [value]="month.id">{{ month.name }}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="year_id" name="year_id" class="form-control selectMesAno" required (change)="onYearSelect($event)" >
+        <option value="" disabled selected>Ano</option>
+        <option *ngFor="let year of years; let i = index">{{ year.name }}</option>
+      </select>
+    </div>
+  </div>
+
+
+    <div class="col-md-12">
       <div class="col button-container" >
         <!-- Adicionamos a classe "button-row" para alinhar os botões à esquerda -->
         <div class="button-row" *ngFor="let machine of machines">
@@ -17,124 +35,76 @@
                 <img *ngIf= "!machine.isConnected" src="../../../assets/images/maquinaLavarDesconectada.svg" class="button-icon" />
                 <!-- Primeira imagem, mostrada quando trocarImagem for verdadeiro -->
                 <span class="button-text">{{ machine.name }}</span>
-                <p class="card-text" [class.free-machine]="!machine.is_in_use" [class.in-use-machine]="machine.is_in_use">
-                  <ng-container *ngIf="machine.is_in_use; else notInUse">
-                    Em uso - {{ machine.apt_in_use }}
-                  </ng-container>
-                  <ng-template #notInUse>
-                    Livre
-                  </ng-template>
-                </p>
+                <div class="row">
+                  <div class="col-md-6" style="display: flex; align-items: center;">
+                    <p class="card-text" [class.free-machine]="!machine.is_in_use" [class.in-use-machine]="machine.is_in_use">
+                      <ng-container *ngIf="machine.is_in_use; else notInUse">
+                        {{ machine.apt_in_use }}
+                      </ng-container>
+                      <ng-template #notInUse>
+                        Livre
+                      </ng-template>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <button class="btn buttonActionLigar mt-4" [ngClass]="{'buttonActionLigar': !machine.is_in_use, 'buttonActionDesligar': machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">
+                      {{ machine.is_in_use ? "Desligar" : "Ligar" }}
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button class="btn btn-success mt-4"  [ngClass]="{'btn-success': !machine.is_in_use, 'btn-danger':machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">{{machine.is_in_use ? "Desligar":"Ligar"}}</button>
             </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
-        <div class="row">
-          <div class="billing-info">
-            <div class="month-select">
-              <select id="month_id" name="month_id" class="form-control" required (change)="onMonthSelect()">
-                <option value="" disabled selected>Selecione o mês</option>
-                <option *ngFor="let month of months" [value]="month.id">{{ month.name }}</option>
-              </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 faturaMensalValor mt-4">
-                <span>COND: R$ {{valorTotal | number:'.2-2'}}</span>
-            </div>  
-            <div class="col-12 faturaMensalDescricao">
-                <span>Fatura para o mês de {{ mesAtual }}</span> 
-            </div>
-        </div>
-        <div class="row">
-          <div class="col-12 faturaMensalValor mt-4">
-              <span>FRST: R$ {{valorTotal*0.18 | number:'.2-2'}}</span>
-          </div>  
-          <div class="col-12 faturaMensalDescricao">
-              <span>Fatura para o mês de {{ mesAtual }}</span> 
-          </div>
-      </div>
-    </div>
-  </div>
-  <div class="row align-items-center">
-    <div class="col-md-9 text-center">
-    </div>
-    <div class="download-button-container col-md-3 text-center">
-      <button class="btn btn-primary download-button" (click)="downloadTableData()">
-        <i class="fas fa-download"></i> Download Table Data
-      </button>
-    </div>
-  </div>
-  <!-- Table to display user properties -->
-  <div class="table-wrapper" *ngIf="!selectedUser">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Apartamento</th>
-          <th scope="col">Nome</th>
-          <th scope="col" >CPF</th>
-          <th scope="col">Valor</th>
-          <th scope="col">Função</th>
-          <th scope="col">Ação</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
-          <td>{{ user.apt_name }}</td>
-          <td>{{ user.first_name }}</td>
-          <td>{{ user.cpf }}</td>
-          <td [ngClass]="{'valorTotal': user.valorTotal! > 0,}" >{{ user.valorTotal?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}}</td>
-          <td>{{ user.role }}</td>
-          <td>
-            <button class="btn btn-primary" (click)="exibirDetalhesUsuario(user)">
-              <i class=" fas fa-info"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div *ngIf="selectedUser" class="user-details">
-    <div class="row align-items-center">
-      <div class="col-md-9 text-center">
-        <h3>Últimos Gastos do Usuário</h3>
-      </div>
-      <div class="col-md-3">
-        <button class="btn btn-primary" (click)="voltarParaLista()">Voltar para a lista</button>
-        <button class="btn btn-primary" (click)="voltarParaLista()">Voltar para a lista</button>
-      </div>
-    </div>
+   <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-6">
         <div class="table-wrapper">
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" >Horário Inicial</th>
-                <th scope="col" >Horário Final</th>
-                <th scope="col" >Data</th>
-                <th scope="col" >Total Gasto</th>
-                <th scope="col" >Ação</th>
+                <th scope="col">Apartamento</th>
+                <th scope="col">Início</th>
+                <th scope="col" >Término</th>
+                <th scope="col">Data</th>
+                <th scope="col">Valor</th>
               </tr>
             </thead>
             <tbody>
-              <ng-container *ngFor="let usageHistory of formattedUsageHistory.slice().reverse(); let even = even">
-                <tr [class.table-light]="even" [class.table-light-gray]="!even">
-                  <td class="desktop-only">{{ usageHistory.start_time }}</td>
-                  <td >{{ usageHistory.end_time }}</td>
-                  <td >{{ usageHistory.date }}</td>
-                  <td >{{ usageHistory.total_cost }}</td>
-                  <button class="btn btn-danger delete-button" (click)="deleteUsageHistory(usageHistory.id)">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                  
-                </tr>
-              </ng-container>
+              <tr *ngFor="let history of formattedUsageHistory; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
+                <td> {{history.userName}}</td>
+                <td>{{ history.start_time }}</td>
+                <td>{{ history.end_time }}</td>
+                <td>{{ history.date }}</td>
+                <td> {{history.total_cost}}</td>
+             </tr>
             </tbody>
           </table>
         </div>
-  </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+
+          <div class="row">
+              <div class="col-12 faturaMensalValor mt-4">
+                  <span>R$ {{valorTotal | number:'.2-2'}}</span>
+              </div>  
+              <div class="col-12 faturaMensalDescricao">
+                  <span>Fatura para o mês de janeiro</span> 
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-12 faturaMensalValor mt-4">
+                <span>FRST: R$ {{valorTotal *0.18 | number:'.2-2'}}</span>
+            </div>  
+            <div class="col-12 faturaMensalDescricao">
+                <span>Fatura para o mês de janeiro</span> 
+            </div>
+        </div>
+      </div>
+      </div>
+    </div>
+   </div>
+
   
-</div>
