@@ -7,8 +7,8 @@ import { UsageHistory } from '../utilitarios/usageHistory';
   providedIn: 'root'
 })
 export class UsageHistoryService {
-  //private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/usageHistory';
-  private apiUrl = 'http://localhost:3333/usageHistory';
+  private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/usageHistory';
+  //private apiUrl = 'http://localhost:3333/usageHistory';
 
   constructor(private http: HttpClient) { }
 
