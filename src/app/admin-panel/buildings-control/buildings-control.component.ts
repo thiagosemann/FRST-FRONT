@@ -117,6 +117,7 @@ export class BuildingsControlComponent implements OnInit {
             ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
             : "--",
           userName: history.apt_name,
+          machineName: history.machine_name,
           date: history.end_time 
             ? new Date(history.end_time).toLocaleDateString() 
             : "--",

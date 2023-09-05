@@ -65,6 +65,7 @@
             <thead>
               <tr>
                 <th scope="col">Apartamento</th>
+                <th scope="col">Máquina</th>
                 <th scope="col">Início</th>
                 <th scope="col" >Término</th>
                 <th scope="col">Data</th>
@@ -74,9 +75,10 @@
             <tbody>
               <tr *ngFor="let history of formattedUsageHistory; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
                 <td> {{history.userName}}</td>
-                <td>{{ history.start_time }}</td>
-                <td>{{ history.end_time }}</td>
-                <td>{{ history.date }}</td>
+                <td> {{history.machineName}}</td>
+                <td> {{ history.start_time }}</td>
+                <td> {{ history.end_time }}</td>
+                <td> {{ history.date }}</td>
                 <td> {{history.total_cost}}</td>
              </tr>
             </tbody>
