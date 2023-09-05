@@ -16,9 +16,13 @@ export class LogGastosComponent implements OnInit {
 
   ngOnInit() {
     const user: User | null = this.getCurrentUser();
-
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; // Adiciona 1 ao mês (pois os meses em JavaScript são baseados em zero)
+    const monthConsulta = `${year}-${month.toString().padStart(2, '0')}`;
+    console.log(monthConsulta)
     if (user && user.id !== undefined) {
-      this.usageHistoryService.getUserUsageHistory(user.id)
+      this.usageHistoryService.getUserUsageHistory(user.id,monthConsulta)
         .subscribe({
           next: history => {
             this.userUsageHistory = history;
