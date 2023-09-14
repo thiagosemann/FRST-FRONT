@@ -70,6 +70,8 @@
                 <th scope="col" >Término</th>
                 <th scope="col">Data</th>
                 <th scope="col">Valor</th>
+                <th scope="col">Action</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -80,6 +82,10 @@
                 <td> {{ history.end_time }}</td>
                 <td> {{ history.date }}</td>
                 <td> {{history.total_cost}}</td>
+                <button class="btn btn-danger delete-button" (click)="deleteUsageHistory(history.id)">
+                  <i class="fas fa-trash"></i>
+                </button>
+                
              </tr>
             </tbody>
           </table>

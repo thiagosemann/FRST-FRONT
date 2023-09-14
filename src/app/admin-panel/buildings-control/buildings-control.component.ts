@@ -164,6 +164,7 @@ export class BuildingsControlComponent implements OnInit {
 
 
   deleteUsageHistory(id: number) {
+    console.log(id)
     this.transactionsService.getTransactionByUsageHistoryId(id).subscribe(
       (transaction: Transaction) => {
         if (transaction && transaction.id) {
