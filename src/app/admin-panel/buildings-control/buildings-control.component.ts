@@ -89,7 +89,7 @@ export class BuildingsControlComponent implements OnInit {
         this.selectedMonth = (new Date().getMonth() + 1).toString().padStart(2, '0'); // Current month
         this.buildingId = user?.building_id!;
         this.consultaBDMonth = this.selectedYear + "-"+ this.selectedMonth
-        this.updateUsageHistory();
+        this.updatePage();
 
         // Certifique-se de que this.myGroup não é nulo antes de acessar seus controles
         if (this.myGroup) {
@@ -338,7 +338,7 @@ export class BuildingsControlComponent implements OnInit {
       this.users = [];
     }
   }
-  
+
   getMonthName(selectedMonthId: string): string {
     const selectedMonthObject = this.months.find(month => month.id === selectedMonthId);
     return selectedMonthObject ? selectedMonthObject.name : 'Mês não encontrado';
