@@ -34,8 +34,11 @@ export class ContentComponent implements OnInit {
     const user: User | null = this.getCurrentUser();
 
     if (user && user.id !== undefined) {
-      const month = new Date().getMonth() + 1;
-      this.obterHistoricoUsoUsuario(user.id, month);
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth() + 1; // Adiciona 1 ao mês (pois os meses em JavaScript são baseados em zero)
+      const monthConsulta = `${year}-${month.toString().padStart(2, '0')}`;
+      this.obterHistoricoUsoUsuario(user.id, monthConsulta);
     }
   }
 
@@ -70,8 +73,8 @@ export class ContentComponent implements OnInit {
     return null;
   }
 
-  obterHistoricoUsoUsuario(userId: number, month: number): void {
-    this.usageHistoryService.getUserUsageHistory(userId, month.toString())
+  obterHistoricoUsoUsuario(userId: number, month: string): void {
+    this.usageHistoryService.getUserUsageHistory(userId, month)
       .subscribe({
         next: history => {
           this.calcularValorTotal(history);

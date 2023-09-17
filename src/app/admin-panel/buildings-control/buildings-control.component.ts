@@ -134,6 +134,7 @@ export class BuildingsControlComponent implements OnInit {
             ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
             : "--",
           userName: history.apt_name,
+          machineName: history.machine_name,
           date: history.end_time 
             ? new Date(history.end_time).toLocaleDateString() 
             : "--",
@@ -152,58 +153,7 @@ export class BuildingsControlComponent implements OnInit {
   }
   
 
-  onBuildingSelect(event: any): void {
-    this.usageHistory = [];
-    this.formattedUsageHistory = [];
-    this.valorTotal = 0;
-    this.buildingId = event.target.value;
-    if(this.buildingId && this.consultaBDMonth.length == 7) {
-      this.updateUsageHistory();
 
-      this.machineService.getMachinesByBuilding(this.buildingId).subscribe(
-        async (machines) => {
-          this.machines = machines;
-          const numFakeMachines = 4 - machines.length;
-          for (let i = 0; i < numFakeMachines; i++) {
-            this.machines.push({
-              id: -1, // Um ID negativo para indicar uma máquina falsa
-              type: "Lavadora Falsa",
-              total_usage_time: 0,
-              is_in_use: false,
-              building_id: 1,
-              name: "Falsa " + (i + 1),
-              idNodemcu: "Falsa" + (i + 1),
-              apt_in_use: "",
-              isConnected: false
-            });
-          }
-
-          for (const machine of this.machines) {
-            const userId = await this.getUserUsingMachine(machine.id);
-            const user = userId !== null ? await this.userService.getUser(userId).toPromise() : null;
-            machine.apt_in_use = user ? user.apt_name : '';
-
-
-            this.nodeMcuService.checkNodemcuStatus(machine.idNodemcu).subscribe(
-              (resp: any) => {
-                machine.isConnected = resp.success;
-              },
-              (error) => {
-                console.error('Error fetching buildings:', error);
-              }
-            );
-          }
-        },
-        (error) => {
-          console.error('Error fetching machines:', error);
-        }
-      );
-      console.log(this.users)
-    } else {
-      // Limpar a lista de usuários quando nenhum prédio for selecionado
-      this.users = [];
-    }
-  }
 
   mudarEstadoMaquina(machine:Machine):void{
     this.gerenciadorMaquinasService.verificacaoMaquinas(machine.id.toString());
@@ -231,6 +181,7 @@ export class BuildingsControlComponent implements OnInit {
 
 
   deleteUsageHistory(id: number) {
+    console.log(id)
     this.transactionsService.getTransactionByUsageHistoryId(id).subscribe(
       (transaction: Transaction) => {
         if (transaction && transaction.id) {
@@ -300,17 +251,21 @@ export class BuildingsControlComponent implements OnInit {
     this.excelService.exportToExcel(formattedExcelArray, "Teste");
   }
   
-  
+  onBuildingSelect(event: any): void {
+    this.buildingId = event.target.value;
+    this.updatePage();
+  }
+
   onMonthSelect(event: any) {
     this.selectedMonth = event.target.value;
     this.consultaBDMonth = this.selectedYear + "-"+ this.selectedMonth
-    this.updateUsageHistory();
+    this.updatePage();
 
   }
   onYearSelect(event: any) {
     this.selectedYear = event.target.value;
     this.consultaBDMonth = this.selectedYear + "-"+ this.selectedMonth
-    this.updateUsageHistory();
+    this.updatePage();
   }
 
   updateUsageHistory(){
@@ -329,6 +284,58 @@ export class BuildingsControlComponent implements OnInit {
           console.log('Error getting user usage history:', error);
         }
       });
+    }
+  }
+
+  updatePage(){
+    this.usageHistory = [];
+    this.formattedUsageHistory = [];
+    this.valorTotal = 0;
+    if(this.buildingId && this.consultaBDMonth.length == 7) {
+      this.updateUsageHistory();
+
+      this.machineService.getMachinesByBuilding(this.buildingId).subscribe(
+        async (machines) => {
+          this.machines = machines;
+          const numFakeMachines = 4 - machines.length;
+          for (let i = 0; i < numFakeMachines; i++) {
+            this.machines.push({
+              id: -1, // Um ID negativo para indicar uma máquina falsa
+              type: "Lavadora Falsa",
+              total_usage_time: 0,
+              is_in_use: false,
+              building_id: 1,
+              name: "Falsa " + (i + 1),
+              idNodemcu: "Falsa" + (i + 1),
+              apt_in_use: "",
+              isConnected: false
+            });
+          }
+
+          for (const machine of this.machines) {
+            const userId = await this.getUserUsingMachine(machine.id);
+            const user = userId !== null ? await this.userService.getUser(userId).toPromise() : null;
+            machine.apt_in_use = user ? user.apt_name : '';
+
+
+            this.nodeMcuService.checkNodemcuStatus(machine.idNodemcu).subscribe(
+              (resp: any) => {
+                machine.isConnected = resp.success;
+              },
+              (error) => {
+                console.error('Error fetching buildings:', error);
+              }
+            );
+          }
+        },
+        (error) => {
+          console.error('Error fetching machines:', error);
+        }
+      );
+
+    } else {
+      // Limpar a lista de usuários quando nenhum prédio for selecionado
+      this.users = [];
     }
   }
 }
