@@ -80,14 +80,14 @@ export class BuildingsControlComponent implements OnInit {
       this.router.navigate(['/content']);
       return;
     }
-
+    console.log(user)
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
         this.buildings = buildings; // Set the value inside the subscription
 
         this.selectedYear = new Date().getFullYear().toString(); // Current year
         this.selectedMonth = (new Date().getMonth() + 1).toString().padStart(2, '0'); // Current month
-        this.buildingId = this.buildings[0].id;
+        this.buildingId = user?.building_id!;
         this.consultaBDMonth = this.selectedYear + "-"+ this.selectedMonth
         this.updateUsageHistory();
 
