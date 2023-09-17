@@ -93,25 +93,31 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="row">
-
-          <div class="row">
-              <div class="col-12 faturaMensalValor mt-4">
-                  <span>R$ {{valorTotal | number:'.2-2'}}</span>
-              </div>  
-              <div class="col-12 faturaMensalDescricao">
-                  <span>Fatura para o mês de janeiro</span> 
-              </div>
+        <div class="row resumoGastos">
+          <div class="col-6"> <!-- Título à esquerda -->
+            <h1>Resumo Mensal</h1>
           </div>
-          <div class="row">
-            <div class="col-12 faturaMensalValor mt-4">
-                <span>FRST: R$ {{valorTotal *0.18 | number:'.2-2'}}</span>
-            </div>  
-            <div class="col-12 faturaMensalDescricao">
-                <span>Fatura para o mês de janeiro</span> 
+          <div class="col-3">
+          </div>
+          <div class="col-3"> <!-- Escrita com borda à direita -->
+            <div class="mesAnoSelecionado">
+              <p>{{ getMonthName(selectedMonth) }}-{{selectedYear}}</p>
             </div>
+          </div>
+          <div class="col-6"></div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12  mt-4">
+                <span>- Condomínio: R$ {{valorTotal | number:'.2-2'}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12  mt-4">
+                <span>- FRST:  R$ {{valorTotal *0.18 | number:'.2-2'}}</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
       </div>
     </div>
    </div>

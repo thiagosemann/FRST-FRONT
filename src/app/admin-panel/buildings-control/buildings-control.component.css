@@ -110,8 +110,9 @@ margin-left: 20px;
   }
   
   .table-wrapper {
-    max-height: 400px; /* You can change this value as needed */
+    max-height: 350px; /* You can change this value as needed */
     overflow-y: auto; /* Add scroll functionality if content overflows */
+    border-radius: 20px;
   }
   
   .table thead {
@@ -229,3 +230,27 @@ margin-left: 20px;
   border-radius: 10px;
 }
 
+.resumoGastos {
+  background-color: #f6f6f6; /* Sem cor de fundo */
+  border-radius: 15px;
+  color: #7B7B84; /* Texto em branco */
+  padding: 30px; /* Espaçamento em volta do conteúdo */
+  transition: transform 0.3s ease; /* Transição para efeito de hover */
+  font-family: 'LayarBahtera Doomsday';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+  margin-right: 25px;
+  height: 350px;
+}
+.mesAnoSelecionado{
+  border-radius: 5px;
+  border-color: #B7B7B7;
+  border-width: 2px;
+  border-style: solid;
+  height: 30px;
+  width: 150px;
+
+}

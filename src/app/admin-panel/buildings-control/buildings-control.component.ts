@@ -338,4 +338,9 @@ export class BuildingsControlComponent implements OnInit {
       this.users = [];
     }
   }
+  
+  getMonthName(selectedMonthId: string): string {
+    const selectedMonthObject = this.months.find(month => month.id === selectedMonthId);
+    return selectedMonthObject ? selectedMonthObject.name : 'Mês não encontrado';
+  }
 }
