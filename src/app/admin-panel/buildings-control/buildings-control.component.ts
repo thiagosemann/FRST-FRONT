@@ -50,7 +50,7 @@ export class BuildingsControlComponent implements OnInit {
                   {name:"Novembro",id:'11'},
                   {name:"Dezembro",id:'12'}
               ];
-  years:any[] =[ {name:"2023"},{name:"2024"},{name:"2025"},{name:"2026"},{name:"2027"}];    
+  years:any[] =["2023","2024","2025","2026","2027","2028",];    
   consultaBDMonth: string ="";        
   excelArray : UsageHistory[] = [];
   constructor(
@@ -67,7 +67,9 @@ export class BuildingsControlComponent implements OnInit {
 
   ) {
     this.myGroup = new FormGroup({
-      building_id: new FormControl('') // Create a form control for 'building_id'
+      building_id: new FormControl(''), // Create a form control for 'building_id'
+      month_id: new FormControl(''), // Create a form control for 'building_id'
+      year_id: new FormControl('') // Create a form control for 'building_id'
     });
   }
 
@@ -82,6 +84,20 @@ export class BuildingsControlComponent implements OnInit {
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
         this.buildings = buildings; // Set the value inside the subscription
+
+        this.selectedYear = new Date().getFullYear().toString(); // Current year
+        this.selectedMonth = (new Date().getMonth() + 1).toString().padStart(2, '0'); // Current month
+        this.buildingId = this.buildings[0].id;
+        this.consultaBDMonth = this.selectedYear + "-"+ this.selectedMonth
+        this.updateUsageHistory();
+
+        // Certifique-se de que this.myGroup não é nulo antes de acessar seus controles
+        if (this.myGroup) {
+          this.myGroup.get('building_id')?.setValue(this.buildingId);
+          this.myGroup.get('month_id')?.setValue(this.selectedMonth);
+
+          this.myGroup.get('year_id')?.setValue(this.selectedYear);
+        }
       },
       (error) => {
         console.error('Error fetching buildings:', error);
@@ -102,6 +118,7 @@ export class BuildingsControlComponent implements OnInit {
         isConnected: true
       });
     }
+   
   }
   
 

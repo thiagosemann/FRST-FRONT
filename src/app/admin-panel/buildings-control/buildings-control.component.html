@@ -10,16 +10,17 @@
     </div>
     <div class="col-md-2">
       <select id="month_id" name="month_id" class="form-control selectMesAno" required (change)="onMonthSelect($event)">
-        
         <option value="" disabled selected>Mês</option>
-        <option *ngFor="let month of months; let i = index" [value]="month.id">{{ month.name }}</option>
+        <option *ngFor="let month of months; let i = index" [value]="month.id"
+               [selected]="month.id === selectedMonth"> {{ month.name }}</option>
       </select>
     </div>
     <div class="col-md-2">
       <select id="year_id" name="year_id" class="form-control selectMesAno" required (change)="onYearSelect($event)" >
         <option value="" disabled selected>Ano</option>
-        <option *ngFor="let year of years; let i = index">{{ year.name }}</option>
+        <option *ngFor="let year of years; let i = index"  [value]="year"  [selected]="year === selectedYear" >{{ year }}</option>
       </select>
+
     </div>
   </div>
 
