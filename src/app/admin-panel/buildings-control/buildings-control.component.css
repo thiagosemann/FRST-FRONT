@@ -254,3 +254,45 @@ margin-left: 20px;
   width: 150px;
 
 }
+
+.bullet-point {
+  display: block; /* Altere de "inline-block" para "block" para centralizar o texto à esquerda */
+  font-size: 30px; /* Ajuste o tamanho da fonte conforme necessário */
+  margin-left: 0; /* Reduzir a margem à esquerda */
+  margin-top: 25px;
+  margin-bottom: 10px;
+  text-align: left; /* Centralizar o texto à esquerda */
+}
+.valueBullet{
+  display: block; /* Altere de "inline-block" para "block" para centralizar o texto à esquerda */
+  font-size: 30px; /* Ajuste o tamanho da fonte conforme necessário */
+  margin-left: 0; /* Reduzir a margem à esquerda */
+  text-align: left; /* Centralizar o texto à esquerda */ 
+  margin-bottom: 25px;
+
+}
+.gray-text {
+  color: gray;
+}
+
+.green-text {
+  color: green;
+}
+/* Classe para o botão de download */
+.download-button {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  background-color: green; /* Cor de fundo verde */
+  color: white; /* Cor do texto branca */
+  border-radius: 5px; /* Borda arredondada */
+  padding: 10px 20px; /* Espaçamento interno */
+  border: none; /* Remova a borda padrão */
+  cursor: pointer; /* Mude o cursor ao passar o mouse */
+}
+
+/* Estilo para o ícone do Font Awesome */
+.download-button i {
+  margin-right: 5px; /* Espaço à direita do ícone */
+}
+

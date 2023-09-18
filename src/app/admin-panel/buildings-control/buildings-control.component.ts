@@ -22,6 +22,7 @@ import { ExcelService } from 'src/app/shared/service/excelService';
   templateUrl: './buildings-control.component.html',
   styleUrls: ['./buildings-control.component.css']
 })
+
 export class BuildingsControlComponent implements OnInit {
   buildings: Building[] = [];
   users: User[] = [];
@@ -53,6 +54,8 @@ export class BuildingsControlComponent implements OnInit {
   years:any[] =["2023","2024","2025","2026","2027","2028",];    
   consultaBDMonth: string ="";        
   excelArray : UsageHistory[] = [];
+
+
   constructor(
     private buildingService: BuildingService,
     private authentication: AuthenticationService,
@@ -119,38 +122,52 @@ export class BuildingsControlComponent implements OnInit {
       });
     }
    
+
+
+
   }
   
 
   formatUsageHistory() {
-  this.usageHistory.map(history => {
-        this.valorTotal += Number(history.total_cost)
-        const formattedHistory = {
-          id: history.id,
-          start_time: history.start_time 
-            ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-            : "--",
-          end_time: history.end_time 
-            ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-            : "--",
-          userName: history.apt_name,
-          machineName: history.machine_name,
-          date: history.end_time 
-            ? new Date(history.end_time).toLocaleDateString() 
-            : "--",
-          total_cost: history.total_cost 
-            ? parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
-            : "--"
-        };
-        this.formattedUsageHistory.push(formattedHistory); 
-  });
+    this.usageHistory.map(history => {
+      this.valorTotal += Number(history.total_cost);
+      const formattedHistory = {
+        id: history.id,
+        start_time: history.start_time
+          ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          : "--",
+        end_time: history.end_time
+          ? new Date(history.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          : "--",
+        userName: history.apt_name,
+        machineName: history.machine_name,
+        date: history.end_time
+          ? new Date(history.end_time)
+          : null,
+        total_cost: history.total_cost
+          ? parseFloat(history.total_cost).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+          : "--"
+      };
+      this.formattedUsageHistory.push(formattedHistory);
+    });
   
     this.formattedUsageHistory.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
+      const dateA = a.date;
+      const dateB = b.date;
+      if (!dateA) return 1; // Lidar com valores nulos
+      if (!dateB) return -1;
       return dateB.getTime() - dateA.getTime();
     });
+  
+    // Formate as datas após a ordenação
+    this.formattedUsageHistory.forEach(history => {
+      if (history.date) {
+        history.date = history.date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      }
+    });
   }
+  
+  
   
 
 
@@ -216,16 +233,17 @@ export class BuildingsControlComponent implements OnInit {
   }
   
   downloadTableData(){
-    const formattedExcelArray = this.excelArray.map(history => {
+    const formattedExcelArray = this.usageHistory.map(history => {
       const user = this.users.find(user => user.id === history.user_id);
       const userApt = user ? user.apt_name : "--";
       const userName = user ? user.first_name: "--";
       const userCPF = user ? user.cpf: "--";
 
       return {
-        userApt: userApt,
+        userApt: history.apt_name,
         userName: userName,
         userCPF: userCPF,
+        machine:history.machine_name,
         start_time: history.start_time 
           ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
           : "--",

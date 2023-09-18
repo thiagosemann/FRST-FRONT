@@ -14,6 +14,7 @@ export class ExcelService {
       "Apartamento": item.userApt,
       "Nome": item.userName,
       "CPF": item.userCPF,
+      "Máquina":item.machine,
       "Horário Inicial": item.start_time,
       "Horário Final": item.end_time,
       "Data": item.date,
@@ -22,7 +23,7 @@ export class ExcelService {
   
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(mappedData, {
       header: [
-        "Apartamento", "Nome", "CPF", "Horário Inicial", "Horário Final", "Data", "Valor"
+        "Apartamento", "Nome", "CPF","Máquina", "Horário Inicial", "Horário Final", "Data", "Valor"
       ]
     });
   
