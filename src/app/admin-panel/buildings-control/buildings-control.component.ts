@@ -173,7 +173,7 @@ export class BuildingsControlComponent implements OnInit {
 
 
   mudarEstadoMaquina(machine:Machine):void{
-    this.gerenciadorMaquinasService.verificacaoMaquinas(machine.id.toString());
+    this.gerenciadorMaquinasService.verificacaoMaquinasAdmin(machine.id.toString());
   }
 
   getUserUsingMachine(machineId: number): Promise<number | null> {

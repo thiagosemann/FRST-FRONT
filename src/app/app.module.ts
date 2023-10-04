@@ -28,6 +28,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { BuildingsControlComponent } from './admin-panel/buildings-control/buildings-control.component';
 import { ProfileComponent } from './content/profile/profile.component';
 import { UserControlComponent } from './admin-panel/user-control/user-control.component';
+import { MachinesControlComponent } from './admin-panel/machines-control/machines-control.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { UserControlComponent } from './admin-panel/user-control/user-control.co
     AdminPanelComponent,
     BuildingsControlComponent,
     ProfileComponent,
-    UserControlComponent
+    UserControlComponent,
+    MachinesControlComponent
   ],
   imports: [
     BrowserModule,
