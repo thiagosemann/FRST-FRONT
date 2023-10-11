@@ -23,6 +23,7 @@ export class UserControlComponent implements OnInit {
   users: User[] = [];
   myGroup: FormGroup; // Add a FormGroup property
   machines: Machine[] = [];
+  isEditing: boolean = false;
 
   
   constructor(
@@ -81,9 +82,8 @@ export class UserControlComponent implements OnInit {
   }
 
   editUser(user: User): void {
-    // Implement the logic to navigate to the edit user page
-    // For example, you can use the Router to navigate:
-    this.router.navigate(['/edit-user', user.id]);
+    // Toggle the edit mode for the user
+    user.isEditing = !user.isEditing;
   }
 
   deleteUser(user: User): void {

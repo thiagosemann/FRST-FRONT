@@ -15,4 +15,8 @@ export interface User {
     role:string;
     create_time?:string;
     valorTotal?:number;
+    isEditing?: boolean ; // Add the isEditing property here
+    editValue?: string;
+    [key: string]: any; // Índice para acessar propriedades com base em uma string
+
   }
