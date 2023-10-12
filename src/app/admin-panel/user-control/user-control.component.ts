@@ -28,12 +28,8 @@ export class UserControlComponent implements OnInit {
   
   constructor(
     private buildingService: BuildingService,
-    private authentication: AuthenticationService,
     private router: Router,
     private userService: UserService,
-    private machineService: MachineService,
-    private nodeMcuService: NodemcuService,
-    private usageHistoryService: UsageHistoryService
 
   ) {
     this.myGroup = new FormGroup({
@@ -44,13 +40,6 @@ export class UserControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const user = this.authentication.getUser();
-    
-
-    if (user && user.role.toLocaleUpperCase() != 'ADMIN') {
-      this.router.navigate(['/content']);
-      return;
-    }
 
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
@@ -85,7 +74,9 @@ export class UserControlComponent implements OnInit {
 
   editUser(user: User): void {
     // Toggle the edit mode for the user
-    user.isEditing = !user.isEditing;
+    const rota = 'edit/' + user.id;
+
+    this.router.navigate([rota])
   }
 
   deleteUser(user: User): void {

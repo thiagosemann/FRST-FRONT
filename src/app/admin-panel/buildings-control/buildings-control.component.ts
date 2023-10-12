@@ -32,6 +32,7 @@ export class BuildingsControlComponent implements OnInit {
   selectedYear: string ="";
   buildingId: number =0;
   valorTotal: number = 0;
+  userRole:string = "";
   // Adicione a propriedade 'selectedUserGastos' ao seu componente
   selectedUser: User | null = null;
   selectedUserGastos: any[] = []; // Substitua 'any[]' pelo tipo apropriado
@@ -78,11 +79,11 @@ export class BuildingsControlComponent implements OnInit {
 
   ngOnInit(): void {
     const user = this.authentication.getUser();
+    this.userRole = user!.role.toLocaleUpperCase();
     
-    if (user && user.role.toLocaleUpperCase() != 'ADMIN') {
-      this.router.navigate(['/content']);
-      return;
-    }
+
+
+
     console.log(user)
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
@@ -106,24 +107,6 @@ export class BuildingsControlComponent implements OnInit {
         console.error('Error fetching buildings:', error);
       }
     );
-
-    const numFakeMachines = 4 - this.machines.length;
-    for (let i = 0; i < numFakeMachines; i++) {
-      this.machines.push({
-        id: -1, // Um ID negativo para indicar uma máquina falsa
-        type: "Lavadora Falsa",
-        total_usage_time: 0,
-        is_in_use: true,
-        building_id: 1,
-        name: "Falsa " + (i + 1),
-        idNodemcu: "Falsa" + (i + 1),
-        apt_in_use: "Apt25",
-        isConnected: true
-      });
-    }
-   
-
-
 
   }
   
@@ -315,20 +298,6 @@ export class BuildingsControlComponent implements OnInit {
       this.machineService.getMachinesByBuilding(this.buildingId).subscribe(
         async (machines) => {
           this.machines = machines;
-          const numFakeMachines = 4 - machines.length;
-          for (let i = 0; i < numFakeMachines; i++) {
-            this.machines.push({
-              id: -1, // Um ID negativo para indicar uma máquina falsa
-              type: "Lavadora Falsa",
-              total_usage_time: 0,
-              is_in_use: false,
-              building_id: 1,
-              name: "Falsa " + (i + 1),
-              idNodemcu: "Falsa" + (i + 1),
-              apt_in_use: "",
-              isConnected: false
-            });
-          }
 
           for (const machine of this.machines) {
             const userId = await this.getUserUsingMachine(machine.id);

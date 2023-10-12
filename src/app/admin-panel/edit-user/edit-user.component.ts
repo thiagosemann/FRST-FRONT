@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BuildingService } from '../../shared/service/buildings_service';
 import { Building } from '../../shared/utilitarios/buildings';
+import { AuthenticationService } from 'src/app/shared/service/authentication';
 
 
 export const ConfirmValidator = (controlName: string, matchingControlName: string): ValidatorFn => {
@@ -45,11 +46,20 @@ export class EditUserComponent {
               private route: ActivatedRoute,
               private router: Router,
               private buildingService: BuildingService,
+              private authentication: AuthenticationService,
+
   ) {}
 
   ngOnInit(): void {
     this.userID = this.route.snapshot.paramMap.get('id') ?? '';
   
+    const user = this.authentication.getUser();
+   
+    if (user && user.role.toLocaleUpperCase() != 'ADMIN' && user.role.toLocaleUpperCase() != 'SINDICO' ) {
+      this.router.navigate(['/content']);
+      return;
+    }
+
     this.userService.getUser(Number(this.userID)).subscribe(
       (user: User) => {
         this.user = user;

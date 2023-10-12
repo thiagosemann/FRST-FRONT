@@ -6,7 +6,7 @@
 
   <div class="navbar-nav ms-auto" *ngIf="isDesktopView">
     <button class="navbar-perfil-btn" (click)="content()"><i class="fas fa-home"></i> Home</button>
-    <ng-container *ngIf="this.user.role === 'admin'">
+    <ng-container *ngIf="this.user.role === 'admin' || this.user.role === 'sindico' ">
       <button class="navbar-perfil-btn" (click)="admin()"><i class="fas fa-gear"></i> Admin</button>
     </ng-container>
     <button class="navbar-perfil-btn" (click)="profile()"><i class="fas fa-user"></i> Perfil</button>
@@ -22,7 +22,7 @@
     <!-- Menu contendo os botões "Perfil" e "Sair" -->
     <div class="navbar-menu" *ngIf="isMenuOpen && !isDesktopView">
       <button class="navbar-perfil-btn" (click)="content()"><i class="fas fa-home"></i> Home</button>
-      <ng-container *ngIf="this.user.role === 'admin'">
+      <ng-container *ngIf="this.user.role === 'admin' || this.user.role === 'sindico' ">
         <button class="navbar-perfil-btn" (click)="admin()"><i class="fas fa-gear"></i> Admin</button>
       </ng-container>
       <button class="navbar-perfil-btn" (click)="profile()"><i class="fas fa-user"></i> Perfil</button>
