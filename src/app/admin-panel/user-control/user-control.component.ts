@@ -37,7 +37,9 @@ export class UserControlComponent implements OnInit {
 
   ) {
     this.myGroup = new FormGroup({
-      building_id: new FormControl('') // Create a form control for 'building_id'
+      building_id: new FormControl(''), // Create a form control for 'building_id'
+      apt_name: new FormControl('') // Create a form control for 'building_id'
+      
     });
   }
 

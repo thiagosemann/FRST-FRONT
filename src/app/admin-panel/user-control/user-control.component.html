@@ -25,73 +25,55 @@
       <tbody>
         <tr *ngFor="let user of users; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.apt_name }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.apt_name" class="form-control">
-            </ng-template>
           </td>
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.first_name }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.first_name" class="form-control">
-            </ng-template>
+
           </td>
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.last_name }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.last_name" class="form-control">
-            </ng-template>
+   
           </td>
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.cpf }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.cpf" class="form-control">
-            </ng-template>
+
           </td>
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.email }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.email" class="form-control">
-            </ng-template>
+
           </td>
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.telefone }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.telefone" class="form-control">
-            </ng-template>
+
           </td>
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.building_id }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.building_id" class="form-control">
-            </ng-template>
+
           </td>
           <td>
-            <ng-container *ngIf="!user.isEditing; else editMode">
+            <ng-container >
               {{ user.role }}
             </ng-container>
-            <ng-template #editMode>
-              <input type="text" [(ngModel)]="user.role" class="form-control">
-            </ng-template>
+
           </td>
           <td>
             <button class="btn btn-primary" (click)="editUser(user)">
-              <ng-container *ngIf="!user.isEditing">Edit</ng-container>
-              <ng-container *ngIf="user.isEditing">Save</ng-container>
+              <ng-container>Edit</ng-container>
             </button>
             <button class="btn btn-danger" (click)="deleteUser(user)">
               <i class="fas fa-trash"></i>
