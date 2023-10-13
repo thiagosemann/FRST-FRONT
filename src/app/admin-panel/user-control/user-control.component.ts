@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/service/authentication';
 import { BuildingService } from 'src/app/shared/service/buildings_service';
@@ -7,11 +7,7 @@ import { Building } from 'src/app/shared/utilitarios/buildings';
 import { User } from 'src/app/shared/utilitarios/user';
 import { FormGroup, FormControl } from '@angular/forms'; // Import form-related modules
 import { Machine } from 'src/app/shared/utilitarios/machines';
-import { MachineService } from 'src/app/shared/service/machines_service';
-import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
-import { UsageHistory } from 'src/app/shared/utilitarios/usageHistory';
-import { UsageHistoryService } from 'src/app/shared/service/usageHistory_service';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-user-control',
@@ -24,23 +20,30 @@ export class UserControlComponent implements OnInit {
   myGroup: FormGroup; // Add a FormGroup property
   machines: Machine[] = [];
   isEditing: boolean = false;
+  user: any = null; // Use o tipo de dado adequado para o usuário
+  private userToBeDeletedOrReset: User | null = null;
 
   
   constructor(
     private buildingService: BuildingService,
     private router: Router,
     private userService: UserService,
+    private authService: AuthenticationService,
+    private ngZone: NgZone // Adicione o NgZone
 
   ) {
     this.myGroup = new FormGroup({
       building_id: new FormControl(''), // Create a form control for 'building_id'
-      apt_name: new FormControl('') // Create a form control for 'building_id'
-      
     });
   }
 
   ngOnInit(): void {
+    this.manageSindico();
+    this.getAllBuildings();
 
+  }
+
+  getAllBuildings():void{
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
         this.buildings = buildings; // Set the value inside the subscription
@@ -48,13 +51,24 @@ export class UserControlComponent implements OnInit {
       (error) => {
         console.error('Error fetching buildings:', error);
       }
-    );
-
-
-
-  
+    ); 
   }
 
+  manageSindico():void{
+    this.user = this.authService.getUser(); // use o método apropriado para obter as informações do usuário
+    if(this.user && this.user.role && this.user.role == "sindico"){
+      this.myGroup.get("building_id")?.disable();
+      this.myGroup.patchValue({
+        building_id:this.user.building_id
+      });
+      let event ={
+        target:{
+          value:this.user.building_id
+        }
+      }
+      this.onBuildingSelect(event)
+    }
+  }
   onBuildingSelect(event: any): void {
     const buildingId = event.target.value;
     if (buildingId) {
@@ -67,41 +81,34 @@ export class UserControlComponent implements OnInit {
         }
       );
     } else {
-      // Limpar a lista de usuários quando nenhum prédio for selecionado
       this.users = [];
     }
   }
-
   editUser(user: User): void {
-    // Toggle the edit mode for the user
     const rota = 'edit/' + user.id;
-
     this.router.navigate([rota])
   }
-
   deleteUser(user: User): void {
-    // Implement the logic to delete the user
-    // For example, you can use the UserService to call the API to delete the user:
-    this.userService.deleteUser(user.id).subscribe(
-      () => {
-        // User deleted successfully, remove the user from the local array
-        this.users = this.users.filter((u) => u.id !== user.id);
-      },
-      (error) => {
-        console.error('Error deleting user:', error);
-        // Handle the error if needed
+    const isConfirmed = window.confirm(`Você tem certeza de que deseja EXCLUIR o usuário ${user.first_name} ${user.last_name}?`);
+    if (isConfirmed) {
+      this.ngZone.run(() => {
+        this.userService.deleteUser(user.id).subscribe(
+         () => {
+            this.users = this.users.filter((u) => u.id !== user.id);
+          },
+          (error) => {
+            console.error('Error deleting user:', error);
+          }
+        );  
+      });
+    }
+  }
+  
+    resetPassword(user: User): void {
+      const isConfirmed = window.confirm(`Você tem certeza de que deseja redefinir a senha do usuário ${user.first_name} ${user.last_name}?`);
+      if (isConfirmed) {
+        // Chame a função para redefinir a senha aqui
       }
-    );
-  }
-
-  mudarEstadoMaquina(machine:Machine):void{
-    console.log(machine)
-  }
-
-
-
-
-
-
-
+    }
+  
 }

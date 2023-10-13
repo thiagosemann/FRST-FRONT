@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/shared/service/authentication';
+import { User } from 'src/app/shared/utilitarios/user';
 
 @Component({
   selector: 'app-menu-lateral',
@@ -10,10 +12,13 @@ import { Router } from '@angular/router';
 export class MenuLateralComponent implements OnInit {
   @Output() componenteSelecionado = new EventEmitter<string>();
   componente: string = ''; // Inicialização com valor padrão
+  user: any = null; // Use o tipo de dado adequado para o usuário
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router,private authService: AuthenticationService){}
 
   ngOnInit() {
+    this.user = this.authService.getUser(); // use o método apropriado para obter as informações do usuário
+
     this.route.params.subscribe(params => {
       this.componente = params['componente'];
       this.selecionarComponente(this.componente)

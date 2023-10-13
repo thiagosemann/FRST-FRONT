@@ -9,7 +9,7 @@
 
     .app-content {
         overflow: auto;
-        margin-left: 20px;
+        margin-left: 10px;
     }
 
     .rectangle {
@@ -20,9 +20,25 @@
     .sidebar {
         display: none;
     }
+    .hidden-small-screen {
+      display: none;
+    }
+      /* Adicione uma classe à sua tabela para aplicar estilos específicos */
+    .narrow-table {
+      margin: 0; /* Remova as margens */
+    }
+
+    /* Se quiser, você pode ajustar a largura das colunas individualmente */
+    .narrow-table th,
+    .narrow-table td {
+      padding: 5px; /* Ajuste o preenchimento conforme necessário */
+    }
 }
 
-  
+  /* Adicione margem antes do select */
+  .container {
+    padding: 10px; /* Ajuste o preenchimento conforme necessário */
+  }
 
   .table-light-gray {
     background-color: #F6F6F6; /* Replace with your desired light green color */
@@ -63,20 +79,14 @@
   .table td,
   .table th {
     border: none;
+    font-size: 14px;
   }
 
 
   /* Style the input elements */
   input[type="text"],
   input[type="number"],
-  input[type="date"] {
-    width: 100%; /* Set the width to fill the container */
-    padding: 4px 8px; /* Add some padding for better appearance */
-    border: none; /* Remove the border */
-    background-color: #f2f2f2; /* Set a background color to distinguish the input area */
-    border-radius: 4px; /* Add a slight border radius for a subtle effect */
-    font-size: 14px; /* Adjust the font size as needed */
-  }
+ 
 
   /* Style the input placeholders */
   input::placeholder {

@@ -42,12 +42,9 @@ export class EditUserComponent {
   
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
-              private toastr: ToastrService,
               private route: ActivatedRoute,
               private router: Router,
-              private buildingService: BuildingService,
               private authentication: AuthenticationService,
-
   ) {}
 
   ngOnInit(): void {

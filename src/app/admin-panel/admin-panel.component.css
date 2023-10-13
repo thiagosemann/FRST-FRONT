@@ -24,7 +24,6 @@
 
 .app-content {
     margin-left: 50px;
-    margin-right: 20px;
     overflow: hidden;
     flex-grow: 1;
     width: calc(100% - 250px);

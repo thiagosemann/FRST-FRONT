@@ -1,6 +1,6 @@
 <!-- buildings-control.component.html -->
 <div class="container" [formGroup]="myGroup"> <!-- Add the formGroup directive -->
-  <select id="building_id" name="building_id" class="form-control" formControlName="building_id" required (change)="onBuildingSelect($event)">
+  <select id="building_id" name="building_id" class="form-control" formControlName="building_id" required (change)="onBuildingSelect($event)"  >
     <option value="" disabled selected>Selecione o prédio</option>
     <!-- Loop through the buildings array and create an option for each building -->
     <option *ngFor="let building of buildings" [value]="building.id">{{ building.name }}</option>
@@ -8,77 +8,32 @@
   <br>
   <!-- Table to display user properties -->
   <div class="table-wrapper">
-    <table class="table">
+    <table class="table narrow-table">
       <thead>
         <tr>
           <th scope="col">Apartamento</th>
-          <th scope="col">First_Name</th>
-          <th scope="col">Last_Name</th>
-          <th scope="col">CPF</th>
-          <th scope="col">E-mail</th>
-          <th scope="col">Telefone</th>
-          <th scope="col">Prédio_Id</th>
-          <th scope="col">Função</th>
-          <th scope="col">Ações</th>
+          <th scope="col">Nome</th>
+          <th scope="col" class="hidden-small-screen">Sobrenome</th>
+          <th scope="col" class="hidden-small-screen">Cpf</th>
+          <th scope="col" class="hidden-small-screen">E-mail</th>
+          <th scope="col" class="hidden-small-screen">Telefone</th>
+          <th scope="col">Editar</th>
+          <th scope="col">Reinicar Senha</th>
+          <th scope="col">Excluir</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of users; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
-          <td>
-            <ng-container >
-              {{ user.apt_name }}
-            </ng-container>
-          </td>
-          <td>
-            <ng-container >
-              {{ user.first_name }}
-            </ng-container>
-
-          </td>
-          <td>
-            <ng-container >
-              {{ user.last_name }}
-            </ng-container>
-   
-          </td>
-          <td>
-            <ng-container >
-              {{ user.cpf }}
-            </ng-container>
-
-          </td>
-          <td>
-            <ng-container >
-              {{ user.email }}
-            </ng-container>
-
-          </td>
-          <td>
-            <ng-container >
-              {{ user.telefone }}
-            </ng-container>
-
-          </td>
-          <td>
-            <ng-container >
-              {{ user.building_id }}
-            </ng-container>
-
-          </td>
-          <td>
-            <ng-container >
-              {{ user.role }}
-            </ng-container>
-
-          </td>
-          <td>
-            <button class="btn btn-primary" (click)="editUser(user)">
-              <ng-container>Edit</ng-container>
-            </button>
-            <button class="btn btn-danger" (click)="deleteUser(user)">
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>
+          <td>{{ user.apt_name }} </td>
+          <td>{{ user.first_name }}</td>
+          <td class="hidden-small-screen"> {{ user.last_name }}</td>
+          <td class="hidden-small-screen"> {{ user.cpf }}</td>
+          <td class="hidden-small-screen"> {{ user.email }}</td>
+          <td class="hidden-small-screen"> {{ user.telefone }}</td>
+          <td> <button class="btn btn-primary btn-sm" (click)="editUser(user)"><i class="fas fa-edit"></i></button></td>
+          <td> <button class="btn btn-warning btn-sm" (click)="resetPassword(user)"><i class="fa fa-refresh" aria-hidden="true"></i></button></td>
+          <td> <button class="btn btn-danger btn-sm" (click)="deleteUser(user)"><i class="fas fa-trash"></i></button></td>
+          
         </tr>
       </tbody>
     </table>

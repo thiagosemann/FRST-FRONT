@@ -2,7 +2,7 @@
   <div class="containerAdmin" [formGroup]="myGroup"> <!-- Add the formGroup directive -->
     <div class="row pt-5">
       <div class="col-md-4">
-        <select id="building_id" name="building_id" class="form-control selectMesAno" formControlName="building_id" required (change)="onBuildingSelect($event)" [disabled]="userRole === 'SINDICO'">
+        <select id="building_id" name="building_id" class="form-control selectMesAno" formControlName="building_id" required (change)="onBuildingSelect($event)" >
           <option value="" disabled selected>Selecione o prédio</option>
           <option *ngFor="let building of buildings" [value]="building.id">{{ building.name }}</option>
         </select>
