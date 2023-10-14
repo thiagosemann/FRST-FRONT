@@ -55,6 +55,7 @@ export class BuildingsControlComponent implements OnInit {
   years:any[] =["2023","2024","2025","2026","2027","2028",];    
   consultaBDMonth: string ="";        
   excelArray : UsageHistory[] = [];
+  user: any = null; // Use o tipo de dado adequado para o usuário
 
 
   constructor(
@@ -67,7 +68,9 @@ export class BuildingsControlComponent implements OnInit {
     private usageHistoryService: UsageHistoryService,
     private transactionsService: TransactionsService,
     private gerenciadorMaquinasService: GerenciadorMaquinasService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private authService: AuthenticationService,
+
 
   ) {
     this.myGroup = new FormGroup({
@@ -80,7 +83,8 @@ export class BuildingsControlComponent implements OnInit {
   ngOnInit(): void {
     const user = this.authentication.getUser();
     this.userRole = user!.role.toLocaleUpperCase();
-    
+    this.manageSindico();
+
 
 
 
@@ -108,6 +112,22 @@ export class BuildingsControlComponent implements OnInit {
       }
     );
 
+  }
+
+  manageSindico():void{
+    this.user = this.authService.getUser(); // use o método apropriado para obter as informações do usuário
+    if(this.user && this.user.role && this.user.role == "sindico"){
+      this.myGroup.get("building_id")?.disable();
+      this.myGroup.patchValue({
+        building_id:this.user.building_id
+      });
+      let event ={
+        target:{
+          value:this.user.building_id
+        }
+      }
+      this.onBuildingSelect(event)
+    }
   }
   
 
@@ -181,38 +201,40 @@ export class BuildingsControlComponent implements OnInit {
 
 
   deleteUsageHistory(id: number) {
-    console.log(id)
-    this.transactionsService.getTransactionByUsageHistoryId(id).subscribe(
-      (transaction: Transaction) => {
-        if (transaction && transaction.id) {
-          // Excluir a transação
-          this.transactionsService.deleteTransactionById(transaction.id).subscribe(
-            () => {  
-              // Excluir o histórico de uso
-              this.usageHistoryService.deleteUsageHistoryById(id).subscribe(
-                () => {  
-                  // Remova o item excluído do array formattedUsageHistory
-                  this.formattedUsageHistory = this.formattedUsageHistory.filter(item => item.id !== id);
-                  if(this.selectedUser && this.selectedUser.valorTotal){
-                    this.selectedUser.valorTotal = this.selectedUser?.valorTotal - Number(transaction.amount)
-                    this.valorTotal = this.valorTotal - Number(transaction.amount)
+    const isConfirmed = window.confirm('Você tem certeza de que deseja EXCLUIR este histórico de uso?');
+    if (isConfirmed) {
+      this.transactionsService.getTransactionByUsageHistoryId(id).subscribe(
+        (transaction: Transaction) => {
+          if (transaction && transaction.id) {
+            // Excluir a transação
+            this.transactionsService.deleteTransactionById(transaction.id).subscribe(
+              () => {  
+                // Excluir o histórico de uso
+                this.usageHistoryService.deleteUsageHistoryById(id).subscribe(
+                  () => {  
+                    // Remova o item excluído do array formattedUsageHistory
+                    this.formattedUsageHistory = this.formattedUsageHistory.filter(item => item.id !== id);
+                    if (this.selectedUser && this.selectedUser.valorTotal) {
+                      this.selectedUser.valorTotal = this.selectedUser.valorTotal - Number(transaction.amount);
+                      this.valorTotal = this.valorTotal - Number(transaction.amount);
+                    }
+                  },
+                  (deleteError: any) => {
+                    console.log('Error deleting usage history:', deleteError);
                   }
-                },
-                (deleteError: any) => {
-                  console.log('Error deleting usage history:', deleteError);
-                }
-              );
-            },
-            (deleteError: any) => {
-              console.log('Error deleting transaction:', deleteError);
-            }
-          );
+                );
+              },
+              (deleteError: any) => {
+                console.log('Error deleting transaction:', deleteError);
+              }
+            );
+          }
+        },
+        (error: any) => {
+          console.log('Error retrieving transaction by usage history:', error);
         }
-      },
-      (error: any) => {
-        console.log('Error retrieving transaction by usage history:', error);
-      }
-    );
+      );
+    }
   }
   
   downloadTableData(){

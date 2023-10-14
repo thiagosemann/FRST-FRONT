@@ -9,6 +9,7 @@
   margin-bottom: 10px; /* Adiciona um espaçamento na parte inferior para separar os itens do menu */
   width: 150px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .nav-link {

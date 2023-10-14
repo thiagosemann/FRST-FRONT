@@ -21,7 +21,6 @@ export class UserControlComponent implements OnInit {
   machines: Machine[] = [];
   isEditing: boolean = false;
   user: any = null; // Use o tipo de dado adequado para o usuário
-  private userToBeDeletedOrReset: User | null = null;
 
   
   constructor(
