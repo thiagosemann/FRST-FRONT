@@ -111,9 +111,9 @@
             <td class="hidden-small-screen">{{ usuario.cpf }}</td>
             <td class="hidden-small-screen">{{ usuario.email }}</td>
             <td class="hidden-small-screen">{{ usuario.telefone }}</td>
-            <td> <button class="btn btn-primary btn-sm" (click)="editUser(user)"  *ngIf="usuario.role!='admin' || user.role =='admin' "><i class="fas fa-edit"></i></button></td>
-            <td> <button class="btn btn-warning btn-sm" (click)="resetPassword(user)" *ngIf="usuario.role!='admin' || user.role =='admin'"><i class="fa fa-refresh" aria-hidden="true"></i></button></td>
-            <td> <button class="btn btn-danger btn-sm" (click)="deleteUser(user)" *ngIf="usuario.role!='admin' || user.role =='admin'"><i class="fas fa-trash"></i></button></td>
+            <td> <button class="btn btn-primary btn-sm" (click)="editUser(usuario)"  *ngIf="usuario.role!='admin' || user.role =='admin' "><i class="fas fa-edit"></i></button></td>
+            <td> <button class="btn btn-warning btn-sm" (click)="resetPassword(usuario)" *ngIf="usuario.role!='admin' || user.role =='admin'"><i class="fa fa-refresh" aria-hidden="true"></i></button></td>
+            <td> <button class="btn btn-danger btn-sm" (click)="deleteUser(usuario)" *ngIf="usuario.role!='admin' || user.role =='admin'"><i class="fas fa-trash"></i></button></td>
           </tr>
         </tbody>
       </table>

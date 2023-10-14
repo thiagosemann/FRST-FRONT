@@ -116,8 +116,8 @@ export class UserControlComponent implements OnInit {
       this.users = [];
     }
   }
-  editUser(user: User): void {
-    this.userEditing = user;
+  editUser(userAux: User): void {
+    this.userEditing = userAux;
     const formattedBirthDate = this.userEditing.data_nasc ? this.formatDate(this.userEditing.data_nasc.toString()) : '';
     this.registerForm.patchValue({
       first_name: this.userEditing.first_name,
