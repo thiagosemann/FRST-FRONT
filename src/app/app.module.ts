@@ -29,7 +29,6 @@ import { BuildingsControlComponent } from './admin-panel/buildings-control/build
 import { ProfileComponent } from './content/profile/profile.component';
 import { UserControlComponent } from './admin-panel/user-control/user-control.component';
 import { MachinesControlComponent } from './admin-panel/machines-control/machines-control.component';
-import { EditUserComponent } from './admin-panel/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +50,6 @@ import { EditUserComponent } from './admin-panel/edit-user/edit-user.component';
     ProfileComponent,
     UserControlComponent,
     MachinesControlComponent,
-    EditUserComponent
   ],
   imports: [
     BrowserModule,

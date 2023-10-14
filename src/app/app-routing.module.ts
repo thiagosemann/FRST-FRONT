@@ -10,13 +10,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ProfileComponent } from './content/profile/profile.component';
-import { EditUserComponent } from './admin-panel/edit-user/edit-user.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register/:id', component: RegisterComponent },
-  { path: 'edit/:id', component: EditUserComponent, canActivate: [AuthGuardService] },
   { path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: 'landing', component: LandingComponent, canActivate: [AuthGuardService] },
   { path: 'content/:id', component: ContentComponent, canActivate: [AuthGuardService] },
