@@ -1,25 +1,4 @@
 @media (max-width: 600px) {
-    .main-layout {
-        overflow: hidden;
-    }
-
-    .main-layout.row {
-        flex-direction: column;
-    }
-
-    .app-content {
-        overflow: auto;
-        margin-left: 20px;
-    }
-
-    .rectangle {
-        flex-direction: column;
-    }
-
-    /* Adicione esta regra para esconder a barra lateral em telas menores que 600px */
-    .sidebar {
-        display: none;
-    }
     /* Adicione uma classe à sua tabela para aplicar estilos específicos */
     .narrow-table {
       margin: 0; /* Remova as margens */
@@ -27,6 +6,9 @@
     }
     .hidden-small-screen {
       display: none;
+    }
+    .hide-big-screen{
+      display: block !important;
     }
     .larger-button {
       width: 120px !important;
@@ -38,9 +20,13 @@
       width: 60px !important; /* Largura da imagem */
       height: 60px !important; /* Altura da imagem */
     }
+
+}
+.hide-big-screen{
+  display: none;
 }
 .containerAdmin{
-margin-left: 20px;
+ margin-left: 5px;
 }
 /* buildings-control.component.css */
 .button-container {
@@ -166,31 +152,7 @@ margin-left: 20px;
   }
 
 
-  /* Style the input elements */
-  input[type="text"],
-  input[type="number"],
-  input[type="date"] {
-    width: 100%; /* Set the width to fill the container */
-    padding: 4px 8px; /* Add some padding for better appearance */
-    border: none; /* Remove the border */
-    background-color: #f2f2f2; /* Set a background color to distinguish the input area */
-    border-radius: 4px; /* Add a slight border radius for a subtle effect */
-    font-size: 14px; /* Adjust the font size as needed */
-  }
 
-  /* Style the input placeholders */
-  input::placeholder {
-    color: #777; /* Set a color for the placeholder text */
-  }
-
-  /* Optionally, you can add some margin between inputs for better spacing */
-  input[type="text"],
-  input[type="number"],
-  input[type="date"] + input[type="text"],
-  input[type="number"] + input[type="text"],
-  input[type="date"] + input[type="number"] {
-    margin-bottom: 8px; /* Adjust the margin as needed */
-  }
 
   .valorTotal{
     font-weight: bolder;
@@ -274,7 +236,6 @@ margin-left: 20px;
   border-style: solid;
   height: 30px;
   width: 150px;
-
 }
 
 .bullet-point {
@@ -315,5 +276,57 @@ margin-left: 20px;
 
 /* Estilo para o ícone do Font Awesome */
 .download-button i {
+  margin-right: 5px; /* Espaço à direita do ícone */
+}
+
+
+
+/* Classe MOBILE */
+.resumoGastosMobile {
+  background-color: #f6f6f6;
+  border-radius: 15px;
+  color: #7B7B84;
+  padding: 10px; /* Ajuste o preenchimento conforme necessário */
+  font-family: 'LayarBahtera Doomsday';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+  margin-right: 5px;
+}
+
+.mesAnoSelecionadoMobile {
+  border-radius: 5px;
+  border: 2px solid #B7B7B7; /* Atualize o estilo da borda */
+  padding: 10px; /* Ajuste o preenchimento conforme necessário */
+  width: 150px;
+  height: 40px;
+}
+
+.bullet-pointMobile {
+  font-size: 25px;
+  margin: 0; /* Ajuste a margem conforme necessário */
+}
+
+.valueBulletMobile {
+  font-size: 25px;
+  margin: 0; /* Ajuste a margem conforme necessário */
+}
+.download-buttonMobile {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  background-color: green; /* Cor de fundo verde */
+  color: white; /* Cor do texto branca */
+  border-radius: 5px; /* Borda arredondada */
+  padding: 10px 20px; /* Espaçamento interno */
+  border: none; /* Remova a borda padrão */
+  cursor: pointer; /* Mude o cursor ao passar o mouse */
+  width: 300px;
+}
+
+/* Estilo para o ícone do Font Awesome */
+.download-buttonMobile i {
   margin-right: 5px; /* Espaço à direita do ícone */
 }
