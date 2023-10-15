@@ -1,20 +1,20 @@
   <!-- buildings-control.component.html -->
   <div class="containerAdmin" [formGroup]="myGroup"> <!-- Add the formGroup directive -->
-    <div class="row pt-5">
-      <div class="col-md-4">
+    <div class="row pt-5 col-md-12">
+      <div class="col-md-4 mb-2">
         <select id="building_id" name="building_id" class="form-control selectMesAno" formControlName="building_id" required (change)="onBuildingSelect($event)" >
           <option value="" disabled selected>Selecione o prédio</option>
           <option *ngFor="let building of buildings" [value]="building.id">{{ building.name }}</option>
         </select>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 mb-2">
         <select id="month_id" name="month_id" class="form-control selectMesAno" required (change)="onMonthSelect($event)">
           <option value="" disabled selected>Mês</option>
           <option *ngFor="let month of months; let i = index" [value]="month.id"
                 [selected]="month.id === selectedMonth"> {{ month.name }}</option>
         </select>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 mb-2">
         <select id="year_id" name="year_id" class="form-control selectMesAno" required (change)="onYearSelect($event)" >
           <option value="" disabled selected>Ano</option>
           <option *ngFor="let year of years; let i = index"  [value]="year"  [selected]="year === selectedYear" >{{ year }}</option>
@@ -23,19 +23,19 @@
     </div>
 
 
-      <div class="col-md-12">
+      <div class="col-md-12" >
         <div class="col button-container" >
           <!-- Adicionamos a classe "button-row" para alinhar os botões à esquerda -->
-          <div class="button-row" *ngFor="let machine of machines">
+          <div class="button-row mb-3" *ngFor="let machine of machines">
             <!-- Repita esta estrutura para cada botão que deseja exibir -->
               <div class="larger-button" [ngClass]="{'card-body': machine.isConnected, 'card-body-off': !machine.isConnected}">
                 <div class="button-content" >
                   <img *ngIf= "machine.isConnected" src="../../../assets/images/maquinaLavar.svg" class="button-icon" />
                   <img *ngIf= "!machine.isConnected" src="../../../assets/images/maquinaLavarDesconectada.svg" class="button-icon" />
                   <!-- Primeira imagem, mostrada quando trocarImagem for verdadeiro -->
-                  <span class="button-text">{{ machine.name }}</span>
+                  <span class="button-text mb-2 mt-2">{{ machine.name }}</span>
                   <div class="row">
-                    <div class="col-md-6" style="display: flex; align-items: center;">
+                    <div class="col-md-12 mb-2" >
                       <p class="card-text" [class.free-machine]="!machine.is_in_use" [class.in-use-machine]="machine.is_in_use">
                         <ng-container *ngIf="machine.is_in_use; else notInUse">
                           {{ machine.apt_in_use }}
@@ -45,8 +45,8 @@
                         </ng-template>
                       </p>
                     </div>
-                    <div class="col-md-6">
-                      <button class="btn buttonActionLigar mt-4" [ngClass]="{'buttonActionLigar': !machine.is_in_use, 'buttonActionDesligar': machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">
+                    <div class="col-md-12 mb-2">
+                      <button class="btn buttonActionLigar" [ngClass]="{'buttonActionLigar': !machine.is_in_use, 'buttonActionDesligar': machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">
                         {{ machine.is_in_use ? "Desligar" : "Ligar" }}
                       </button>
                     </div>
@@ -56,17 +56,20 @@
           </div>
         </div>
       </div>
+
+
+
     <div class="col-md-12">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-5">
           <div class="table-wrapper">
-            <table class="table">
+            <table class="table narrow-table">
               <thead>
                 <tr>
                   <th scope="col">Apartamento</th>
-                  <th scope="col">Máquina</th>
-                  <th scope="col">Início</th>
-                  <th scope="col" >Término</th>
+                  <th scope="col"  class="hidden-small-screen">Máquina</th>
+                  <th scope="col"  class="hidden-small-screen">Início</th>
+                  <th scope="col" class="hidden-small-screen" >Término</th>
                   <th scope="col">Data</th>
                   <th scope="col">Valor</th>
                   <th scope="col">Action</th>
@@ -76,15 +79,14 @@
               <tbody>
                 <tr *ngFor="let history of formattedUsageHistory; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
                   <td> {{history.userName}}</td>
-                  <td> {{history.machineName}}</td>
-                  <td> {{ history.start_time }}</td>
-                  <td> {{ history.end_time }}</td>
+                  <td  class="hidden-small-screen"> {{history.machineName}}</td>
+                  <td  class="hidden-small-screen"> {{ history.start_time }}</td>
+                  <td  class="hidden-small-screen"> {{ history.end_time }}</td>
                   <td> {{ history.date }}</td>
                   <td> {{history.total_cost}}</td>
-                  <button class="btn btn-danger delete-button" (click)="deleteUsageHistory(history.id)">
+                  <button class="btn btn-danger delete-button btn-sm" (click)="deleteUsageHistory(history.id)">
                     <i class="fas fa-trash"></i>
                   </button>
-                  
               </tr>
               </tbody>
             </table>
@@ -95,7 +97,6 @@
             <div class="col-6"> <!-- Título à esquerda -->
               <h1>Resumo Mensal</h1>
             </div>
-            <div class="col-3"></div>
             <div class="col-3"> <!-- Escrita com borda à direita -->
               <div class="mesAnoSelecionado">
                 <p>{{ getMonthName(selectedMonth) }}-{{selectedYear}}</p>

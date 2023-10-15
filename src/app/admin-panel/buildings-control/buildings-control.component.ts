@@ -11,7 +11,6 @@ import { MachineService } from 'src/app/shared/service/machines_service';
 import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
 import { UsageHistory } from 'src/app/shared/utilitarios/usageHistory';
 import { UsageHistoryService } from 'src/app/shared/service/usageHistory_service';
-import { Observable } from 'rxjs';
 import { TransactionsService } from 'src/app/shared/service/transactionsService';
 import { Transaction } from 'src/app/shared/utilitarios/transactions';
 import { GerenciadorMaquinasService } from 'src/app/shared/service/gerenciadorMaquinas';
