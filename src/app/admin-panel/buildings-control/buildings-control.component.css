@@ -14,13 +14,11 @@
       width: 120px !important;
       margin-left: 20px !important;
       padding: 2px !important; /* Espaçamento em volta do conteúdo */
-
     }
     .button-icon {
       width: 60px !important; /* Largura da imagem */
       height: 60px !important; /* Altura da imagem */
     }
-
 }
 .hide-big-screen{
   display: none;
@@ -37,18 +35,16 @@
   align-items: center; /* Alinhar os botões verticalmente */
   flex-grow: 1; /* Ocupar todo o espaço disponível na direção do eixo principal */
 }
-  
 .button-icon {
   width: 80px; /* Largura da imagem */
   height: 80px; /* Altura da imagem */
 }
-  
 .larger-button {
-  background-color: #f6f6f6; /* Sem cor de fundo */
+  background-color: #f6f6f6; 
   border-radius: 15px;
-  color: #7B7B84; /* Texto em branco */
-  padding: 5px; /* Espaçamento em volta do conteúdo */
-  transition: transform 0.3s ease; /* Transição para efeito de hover */
+  color: #7B7B84; 
+  padding: 5px; 
+  transition: transform 0.3s ease; 
   font-family: 'LayarBahtera Doomsday';
   font-style: normal;
   font-weight: 400;
@@ -59,114 +55,112 @@
   margin-left: 15px;
   width: 150px;
 }
+.free-machine {
+  color: #0E7F3B;
+  font-size: 13px;
+  font-weight: 600;
+}
 
-  .free-machine {
-    color: #0E7F3B;
-    font-size: 13px;
-    font-weight: 600;
-  }
-  
-  /* Estilos para máquinas em uso */
-  .in-use-machine {
-    color: #E81515;
-    font-size: 13px;
-    font-weight: 600;
-    /* Outros estilos personalizados para máquinas em uso */
-  }
-  
-  .button-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .buttonActionLigar {
-    background-color: #0E7F3B;
-    color: whitesmoke;
-    font-weight: 600;
-    font-size: 15px; /* Reduzindo o tamanho da fonte */
-    height: 30px; /* Reduzindo a altura do botão */
-    padding: 5px 10px; /* Adicionando espaço interno ao botão */
-  }
-  .buttonActionDesligar{
-    background-color: #ff2a00;
-    color: #FFFFFF;
-    font-weight: 500;
-    font-size: 14px; /* Reduzindo o tamanho da fonte */
-    height: 30px; /* Reduzindo a altura do botão */
-    padding: 5px 10px; /* Adicionando espaço interno ao botão */
-  }
-  .buttonActionLigar:hover {
-    background-color: #12a54d; /* Slightly lighter shade of red on hover */
-    transform: scale(1.05); /* Slightly enlarge the button on hover */
-  }
-  .buttonActionDesligar:hover {
-    background-color: #a31c01; /* Slightly lighter shade of red on hover */
-    transform: scale(1.05); /* Slightly enlarge the button on hover */
-  }
+.in-use-machine {
+  color: #E81515;
+  font-size: 13px;
+  font-weight: 600;
+  
+}
+.button-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .button-text {
-    font-size: 15px;
-  }
+.buttonActionLigar {
+  background-color: #0E7F3B;
+  color: whitesmoke;
+  font-weight: 600;
+  font-size: 15px; 
+  height: 30px; 
+  padding: 5px 10px; 
+}
+.buttonActionDesligar{
+  background-color: #ff2a00;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 14px; 
+  height: 30px; 
+  padding: 5px 10px; 
+}
+.buttonActionLigar:hover {
+  background-color: #12a54d; 
+  transform: scale(1.05); 
+}
+.buttonActionDesligar:hover {
+  background-color: #a31c01; 
+  transform: scale(1.05); 
+}
 
-  .table-light-gray {
-    background-color: #F6F6F6; /* Replace with your desired light green color */
-  }
-  
-  .table-light {
-    background-color: white; /* Replace with your desired background color */
-  }
-  
-  .table-wrapper {
-    max-height: 350px; /* You can change this value as needed */
-    overflow-y: auto; /* Add scroll functionality if content overflows */
-    border-radius: 20px;
-  }
-  
-  .table thead {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background-color: #f8f9fa;
-    color: #494A50;
-    font-family: 'LayarBahtera Doomsday';
-  }
-  
-  .table-wrapper::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  .table-wrapper::-webkit-scrollbar-thumb {
-    background-color: #B7B7B7;
-    border-radius: 4px;
-  }
-  
-  .table-wrapper::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-  }
-  
-  .table tr,
-  .table td,
-  .table th {
-    border: none;
-  }
+.button-text {
+  font-size: 15px;
+}
+
+.table-light-gray {
+  background-color: #F6F6F6; 
+}
+
+.table-light {
+  background-color: white; 
+}
+
+.table-wrapper {
+  max-height: 350px; 
+  overflow-y: auto;
+  border-radius: 20px;
+}
+
+.table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #f8f9fa;
+  color: #494A50;
+  font-family: 'LayarBahtera Doomsday';
+}
+
+.table-wrapper::-webkit-scrollbar {
+  width: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #B7B7B7;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.table tr,
+.table td,
+.table th {
+  border: none;
+}
 
 
 
 
-  .valorTotal{
-    font-weight: bolder;
-  }
-  
-  .faturaMensal{
-    background-color: transparent; /* No background */
-    border: none; /* No border */
-    display: flex; /* Align image and text */
-    flex-direction: column; /* Stack image and text vertically */
-    align-items: center; /* Center the contents */
-    justify-content: center; /* Center the contents */
-    text-align: center; /* Center the text */
-    padding: 20px; /* Padding around the content */
+.valorTotal{
+  font-weight: bolder;
+}
+
+.faturaMensal{
+  background-color: transparent;
+  border: none; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  text-align: center; 
+  padding: 20px; 
 }
 .faturaMensalValor{
     font-family: 'LayarBahtera Doomsday';
@@ -191,35 +185,30 @@
     margin-bottom: 25px;
     margin-top:15px;
 }
-/* Add this to your styles.css or styles.scss file */
 .delete-button {
   background-color: red;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
-  font-size: 14px; /* Adjust the font size as needed */
-  padding: 5px 10px; /* Adjust the padding as needed */
+  font-size: 14px; 
+  padding: 5px 10px; 
 }
-
 .delete-button:hover {
-  background-color: #d9534f; /* Slightly lighter shade of red on hover */
-  transform: scale(1.05); /* Slightly enlarge the button on hover */
+  background-color: #d9534f; 
+  transform: scale(1.05); 
 }
-
-
 .selectMesAno{
   border-width: 1px;
   border-color: #828886;
   height: 50px;
   border-radius: 10px;
 }
-
 .resumoGastos {
-  background-color: #f6f6f6; /* Sem cor de fundo */
+  background-color: #f6f6f6; 
   border-radius: 15px;
-  color: #7B7B84; /* Texto em branco */
-  padding: 30px; /* Espaçamento em volta do conteúdo */
-  transition: transform 0.3s ease; /* Transição para efeito de hover */
+  color: #7B7B84;
+  padding: 30px; 
+  transition: transform 0.3s ease; 
   font-family: 'LayarBahtera Doomsday';
   font-style: normal;
   font-weight: 400;
@@ -237,56 +226,47 @@
   height: 30px;
   width: 150px;
 }
-
 .bullet-point {
-  display: block; /* Altere de "inline-block" para "block" para centralizar o texto à esquerda */
-  font-size: 30px; /* Ajuste o tamanho da fonte conforme necessário */
-  margin-left: 0; /* Reduzir a margem à esquerda */
+  display: block; 
+  font-size: 30px; 
+  margin-left: 0;
   margin-top: 25px;
   margin-bottom: 10px;
-  text-align: left; /* Centralizar o texto à esquerda */
+  text-align: left; 
 }
 .valueBullet{
-  display: block; /* Altere de "inline-block" para "block" para centralizar o texto à esquerda */
-  font-size: 30px; /* Ajuste o tamanho da fonte conforme necessário */
-  margin-left: 0; /* Reduzir a margem à esquerda */
-  text-align: left; /* Centralizar o texto à esquerda */ 
+  display: block; 
+  font-size: 30px; 
+  margin-left: 0; 
+  text-align: left; 
   margin-bottom: 25px;
-
 }
 .gray-text {
   color: gray;
 }
-
 .green-text {
   color: green;
 }
-/* Classe para o botão de download */
 .download-button {
   display: flex;
-  align-items: center; /* Centraliza verticalmente */
-  justify-content: center; /* Centraliza horizontalmente */
-  background-color: green; /* Cor de fundo verde */
-  color: white; /* Cor do texto branca */
-  border-radius: 5px; /* Borda arredondada */
-  padding: 10px 20px; /* Espaçamento interno */
-  border: none; /* Remova a borda padrão */
-  cursor: pointer; /* Mude o cursor ao passar o mouse */
+  align-items: center; 
+  justify-content: center; 
+  background-color: green; 
+  color: white; 
+  border-radius: 5px; 
+  padding: 10px 20px; 
+  border: none; 
+  cursor: pointer;
 }
-
-/* Estilo para o ícone do Font Awesome */
 .download-button i {
-  margin-right: 5px; /* Espaço à direita do ícone */
+  margin-right: 5px; 
 }
-
-
-
 /* Classe MOBILE */
 .resumoGastosMobile {
   background-color: #f6f6f6;
   border-radius: 15px;
   color: #7B7B84;
-  padding: 10px; /* Ajuste o preenchimento conforme necessário */
+  padding: 10px; 
   font-family: 'LayarBahtera Doomsday';
   font-style: normal;
   font-weight: 500;
@@ -295,38 +275,33 @@
   text-align: center;
   margin-right: 5px;
 }
-
 .mesAnoSelecionadoMobile {
   border-radius: 5px;
-  border: 2px solid #B7B7B7; /* Atualize o estilo da borda */
-  padding: 10px; /* Ajuste o preenchimento conforme necessário */
+  border: 2px solid #B7B7B7; 
+  padding: 10px; 
   width: 150px;
   height: 40px;
 }
-
 .bullet-pointMobile {
   font-size: 25px;
-  margin: 0; /* Ajuste a margem conforme necessário */
+  margin: 0; 
 }
-
 .valueBulletMobile {
   font-size: 25px;
-  margin: 0; /* Ajuste a margem conforme necessário */
+  margin: 0; 
 }
 .download-buttonMobile {
   display: flex;
-  align-items: center; /* Centraliza verticalmente */
-  justify-content: center; /* Centraliza horizontalmente */
-  background-color: green; /* Cor de fundo verde */
-  color: white; /* Cor do texto branca */
-  border-radius: 5px; /* Borda arredondada */
-  padding: 10px 20px; /* Espaçamento interno */
-  border: none; /* Remova a borda padrão */
-  cursor: pointer; /* Mude o cursor ao passar o mouse */
+  align-items: center; 
+  justify-content: center; 
+  background-color: green; 
+  color: white; 
+  border-radius: 5px; 
+  padding: 10px 20px; 
+  border: none;
+  cursor: pointer; 
   width: 300px;
 }
-
-/* Estilo para o ícone do Font Awesome */
 .download-buttonMobile i {
-  margin-right: 5px; /* Espaço à direita do ícone */
+  margin-right: 5px; 
 }
