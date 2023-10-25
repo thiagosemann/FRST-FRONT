@@ -27,7 +27,7 @@ export class MachinesControlComponent implements OnInit {
 
   ngOnInit(): void {
     // Suponha que você tenha dados de prédios em algum lugar, substitua isso com seus dados reais.
-    const buildingIds = [1, 3, 2]; // Exemplo: três prédios com IDs 1, 2 e 3.
+    const buildingIds = [1, 3, 4]; // Exemplo: três prédios com IDs 1, 2 e 3.
     // Itere pelos IDs dos prédios e obtenha as máquinas de cada prédio.
     for (const buildingId of buildingIds) {
       this.machineService.getMachinesByBuilding(buildingId).subscribe(
@@ -55,7 +55,7 @@ export class MachinesControlComponent implements OnInit {
             buildingData.buildingName = "Capri";
           }else if(buildingId==3){
             buildingData.buildingName = "Bergamo";
-          }else if(buildingId==2){
+          }else if(buildingId==4){
             buildingData.buildingName = "Rodes";
           }
           // Adicione dados do prédio à matriz de dados de prédios.
