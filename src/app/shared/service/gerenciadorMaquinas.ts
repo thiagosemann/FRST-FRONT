@@ -111,7 +111,6 @@ export class GerenciadorMaquinasService {
     //Liga a máquina
     this.turnOnMachine().subscribe({
       next: (data) => {
-        console.log('Resposta do servidor: ', data);
         this.createUsageHistory(); // Criar o histórico de uso e liga a máquina
         this.toastr.success('Máquina ligada com sucesso!');
       },
@@ -146,7 +145,6 @@ export class GerenciadorMaquinasService {
     // Atualiza o histórico de uso no backend e cria transação
     this.updateUsageHistoryAndCreateTransaction(lastUsage);
 
-    console.log('Máquina desligada');
   }
 
   calculateCost(hourlyRate: number, startTime: string, endTime: Date): number {

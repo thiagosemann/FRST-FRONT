@@ -101,7 +101,6 @@ export class RegisterComponent implements OnInit {
       
       if (foundBuilding) {
         this.user.building_id = foundBuilding.id;
-        console.log(this.user)
         this.userService.addUser(this.user).subscribe(
           (res) => {
             this.resetForm();
@@ -122,7 +121,6 @@ export class RegisterComponent implements OnInit {
             this.toastr.error(this.errorMessages[controlName]);
         }
       }
-      console.log(this.registerForm.controls)
     }
   }
   

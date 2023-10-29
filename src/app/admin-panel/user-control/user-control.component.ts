@@ -156,10 +156,8 @@ export class UserControlComponent implements OnInit {
       const isConfirmed = window.confirm(`Você tem certeza de que deseja redefinir a senha do usuário ${user.first_name} ${user.last_name}?`);
       if (isConfirmed) {
         user.password = "12345678";
-        console.log(user)
         this.userService.updateUser(user).subscribe(
           (response) => {
-            console.log(response)
             this.toastr.success(response.message);
           },
           (error) => {
@@ -176,11 +174,9 @@ export class UserControlComponent implements OnInit {
 
           const { id } = this.userEditing;
           const updatedUser = { id, ...this.registerForm.value};
-          console.log(updatedUser)
          
          this.userService.updateUser(updatedUser).subscribe(
             (response) => {
-              console.log(response)
               // Lógica após a atualização bem-sucedida (por exemplo, exibir uma mensagem de sucesso)
               let event ={
                 target:{
@@ -207,7 +203,6 @@ export class UserControlComponent implements OnInit {
             this.toastr.error(this.errorMessages[controlName]);
           }
         }
-        console.log(this.registerForm.controls);
       }
     }
     

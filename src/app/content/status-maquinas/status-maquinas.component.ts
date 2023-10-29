@@ -42,7 +42,6 @@ export class StatusMaquinasComponent implements OnInit {
     if (user !== null) {
       this.building_id = user?.building_id ? Number(user.building_id) : 0;
     } else {
-      console.log('Usuário não está logado ou não possui um building_id');
       this.router.navigate(['/login']);
     }
     this.fetchMachines();

@@ -21,7 +21,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { StatusMaquinasComponent } from './content/status-maquinas/status-maquinas.component';
 import { LogGastosComponent } from './content/log-gastos/log-gastos.component';
 import { LogMensalComponent } from './content/log-mensal/log-mensal.component';
-import { ComprarCreditoComponent } from './content/comprar-credito/comprar-credito.component';
 import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
 import { MenuLateralComponent } from './admin-panel/menu-lateral/menu-lateral.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
@@ -42,7 +41,6 @@ import { MachinesControlComponent } from './admin-panel/machines-control/machine
     StatusMaquinasComponent,
     LogGastosComponent,
     LogMensalComponent,
-    ComprarCreditoComponent,
     QrCodeScannerComponent,
     MenuLateralComponent,
     AdminPanelComponent,

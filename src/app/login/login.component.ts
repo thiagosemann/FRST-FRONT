@@ -46,9 +46,7 @@ export class LoginComponent {
     
     this.authService.login(this.username,  this.password, this.rememberMe).then(result => {
       if (result.logado) {
-        console.log('Logado com sucesso!');
         const user = this.authService.getUser()
-        console.log(user)
         if(user && user.role.toUpperCase() == 'ADMIN'){
           this.toastr.success("Bem vindo admin!")
           this.router.navigate(['/admin']);

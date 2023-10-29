@@ -83,11 +83,6 @@ export class BuildingsControlComponent implements OnInit {
     const user = this.authentication.getUser();
     this.userRole = user!.role.toLocaleUpperCase();
     this.manageSindico();
-
-
-
-
-    console.log(user)
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
         this.buildings = buildings; // Set the value inside the subscription
@@ -269,7 +264,6 @@ export class BuildingsControlComponent implements OnInit {
       return dateB.getTime() - dateA.getTime();
     });
   
-    console.log(formattedExcelArray);
     this.excelService.exportToExcel(formattedExcelArray, "Teste");
   }
   
@@ -298,7 +292,6 @@ export class BuildingsControlComponent implements OnInit {
       this.usageHistoryService.getAllUsageHistoryByBuildingAndMonth(this.buildingId,this.consultaBDMonth)
       .subscribe({
         next: history => {
-          console.log(history)
           this.usageHistory = history;
           this.formatUsageHistory();
         },

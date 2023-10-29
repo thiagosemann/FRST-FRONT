@@ -20,7 +20,6 @@ export class NavBarComponent implements OnInit {
   
   ngOnInit(): void {
     this.user = this.authService.getUser(); // use o método apropriado para obter as informações do usuário
-    console.log(this.user)
     this.checkViewport();
   }
 
@@ -38,6 +37,15 @@ export class NavBarComponent implements OnInit {
   }
   admin(): void {
       this.router.navigate(['/admin']);
+  }
+  predios(): void {
+    this.router.navigate(['/admin/buildings']);
+  }
+  usuarios(): void {
+    this.router.navigate(['/admin/userControl']);
+  }
+  maquinas(): void {
+    this.router.navigate(['/admin/machinesControl']);
   }
     
   toggleMenu(): void {

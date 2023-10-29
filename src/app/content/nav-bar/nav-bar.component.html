@@ -22,8 +22,10 @@
     <!-- Menu contendo os botões "Perfil" e "Sair" -->
     <div class="navbar-menu" *ngIf="isMenuOpen && !isDesktopView">
       <button class="navbar-perfil-btn" (click)="content()"><i class="fas fa-home"></i> Home</button>
+      <button class="navbar-perfil-btn" (click)="usuarios()"><i class="fas fa-gear"></i> Usuários</button>
+      <button class="navbar-perfil-btn" (click)="predios()"><i class="fas fa-gear"></i> Prédios</button>
       <ng-container *ngIf="this.user.role === 'admin' || this.user.role === 'sindico' ">
-        <button class="navbar-perfil-btn" (click)="admin()"><i class="fas fa-gear"></i> Admin</button>
+        <button class="navbar-perfil-btn" (click)="maquinas()"><i class="fas fa-gear"></i> Máquinas</button>
       </ng-container>
       <button class="navbar-perfil-btn" (click)="profile()"><i class="fas fa-user"></i> Perfil</button>
       <button class="navbar-logout-btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>

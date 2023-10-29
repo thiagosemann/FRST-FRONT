@@ -75,7 +75,6 @@ export class ProfileComponent implements OnInit {
     const date = new Date()
     this.user.create_time = date.getDate().toString();
     this.user.password = this.password;
-    console.log(this.user);
 
     // Se o formulário for válido e as senhas forem iguais e não vazias, prossiga com o salvamento
     this.userService.updateUser(this.user).subscribe(
