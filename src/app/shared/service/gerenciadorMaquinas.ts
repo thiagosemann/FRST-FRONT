@@ -102,7 +102,7 @@ export class GerenciadorMaquinasService {
         },
         error: (error) => {
           console.error('Erro ao desligar a máquina: ', error);
-          this.toastr.error('Erro ao desligar a máquina.');
+          this.toastr.error('Tente novamente mais tarde.');
         },
       });   
   }
@@ -116,10 +116,10 @@ export class GerenciadorMaquinasService {
       },
       error: (error) => {
         console.error('Erro ao ligar a máquina: ', error);
-        this.toastr.error('Máquina não conectada.');
+        this.toastr.error('Tente novamente mais tarde.');
+        //enviar e-mail de erro.
       }
     });
-    
   }
 
   async endUsageHistory(lastUsage: UsageHistory): Promise<void> {

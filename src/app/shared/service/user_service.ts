@@ -8,6 +8,8 @@ import { User } from '../utilitarios/user';
 })
 export class UserService {
   private url = 'https://frst-back-02b607761078.herokuapp.com';
+  //private url = 'http://localhost:80';
+
   private users: User[] = [];
   private userListSubject: Subject<User[]> = new Subject<User[]>();
 

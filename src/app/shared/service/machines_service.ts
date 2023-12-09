@@ -8,6 +8,7 @@ import { Machine } from '../utilitarios/machines';  // atualize o caminho se nec
 })
 export class MachineService {
   private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/machines';
+  //private apiUrl = 'http://localhost:80/machines';
 
   constructor(private http: HttpClient) { }
 

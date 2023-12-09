@@ -8,6 +8,7 @@ import { Building } from '../utilitarios/buildings';  // atualize o caminho se n
 })
 export class BuildingService {
   private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/buildings';  // atualize o URL se necessário
+  //private apiUrl = 'http://localhost:80/buildings';
 
   constructor(private http: HttpClient) { }
 

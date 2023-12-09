@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class NodemcuService {
   private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/nodemcu';  // Atualize o URL se necessário
+  //private apiUrl = 'http://localhost:80/nodemcu';
 
   constructor(private http: HttpClient) { }
 
