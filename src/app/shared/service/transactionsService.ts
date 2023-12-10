@@ -34,7 +34,12 @@ export class TransactionsService {
     const url = `${this.apiUrl}/${usageHistoryID}`;
     return this.http.get<Transaction>(url, { headers: this.getHeaders() });
   }
-  
+
+  updateTransactionById(id: number, updatedTransaction: Transaction): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put(url, updatedTransaction, { headers: this.getHeaders() });
+  }
+
   deleteTransactionById(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url, { headers: this.getHeaders() });

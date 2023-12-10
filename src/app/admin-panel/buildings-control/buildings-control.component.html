@@ -90,7 +90,7 @@
         </div>
         <div class="col-md-6">
           <div class="table-wrapper">
-            <table class="table narrow-table">
+            <table class="table narrow-table"  *ngIf="!isEditingHistory">
               <thead>
                 <tr>
                   <th scope="col">Apartamento</th>
@@ -99,7 +99,8 @@
                   <th scope="col" class="hidden-small-screen" >Término</th>
                   <th scope="col">Data</th>
                   <th scope="col">Valor</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Editar</th>
+                  <th scope="col">Deletar</th>
                   
                 </tr>
               </thead>
@@ -111,12 +112,55 @@
                   <td  class="hidden-small-screen"> {{ history.end_time }}</td>
                   <td> {{ history.date }}</td>
                   <td> {{history.total_cost}}</td>
-                  <button class="btn btn-danger delete-button btn-sm" (click)="deleteUsageHistory(history.id)">
-                    <i class="fas fa-trash"></i>
-                  </button>
+                  <td>
+                    <button class="btn btn-warning edit-button btn-sm" (click)="editUsageHistory(history)">
+                       <i class="fas fa-edit"></i>
+                    </button>
+                 </td> <!-- Adicione esta linha -->
+                  <td>
+                    <button class="btn btn-danger delete-button btn-sm" (click)="deleteUsageHistory(history.id)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
               </tr>
               </tbody>
             </table>
+            <div *ngIf="isEditingHistory" class="edit-form">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="editHistoryUserName" class="form-label">Usuário:</label>
+                  <select class="form-control" id="editHistoryUserName" formControlName="editHistoryUserName">
+                    <option *ngFor="let user of usersEdit" [value]="user.apt_name">{{"Apt: "+ user.apt_name + "   |  Nome: "+ user.first_name    }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="editHistoryMachineName" class="form-label">Máquinas:</label>
+                  <select class="form-control" id="editHistoryUserName" formControlName="editHistoryMachineName">
+                    <option *ngFor="let machine of machines" [value]="machine.name">{{ machine.name }}</option>
+                  </select>
+                </div>
+  
+            
+                <div class="col-md-6 mb-3">
+                  <label for="editHistoryStart_time" class="form-label">Horário de início:</label>
+                  <input type="datetime-local" class="form-control" id="editHistoryStart_time" formControlName="editHistoryStart_time" (change)="calculateTotalCost()"> 
+
+                </div>
+            
+                <div class="col-md-6 mb-3">
+                  <label for="editHistoryEnd_time" class="form-label">Horário de término:</label>
+                  <input type="datetime-local" class="form-control" id="editHistoryEnd_time" formControlName="editHistoryEnd_time"  (change)="calculateTotalCost()">
+                </div>
+  
+                <div class="col-md-6 mb-3">
+                  <label for="editHistoryTotal_cost" class="form-label">Total Cost:</label>
+                  <input type="text" class="form-control" id="editHistoryTotal_cost" formControlName="editHistoryTotal_cost">
+                </div>  
+              </div>
+            
+              <button class="btn btn-secondary" (click)="cancelEditHistory()">Cancel</button>
+            </div>
+            
           </div>
         </div>      
         

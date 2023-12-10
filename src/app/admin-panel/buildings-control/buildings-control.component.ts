@@ -15,6 +15,7 @@ import { TransactionsService } from 'src/app/shared/service/transactionsService'
 import { Transaction } from 'src/app/shared/utilitarios/transactions';
 import { GerenciadorMaquinasService } from 'src/app/shared/service/gerenciadorMaquinas';
 import { ExcelService } from 'src/app/shared/service/excelService';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-buildings-control',
@@ -25,6 +26,7 @@ import { ExcelService } from 'src/app/shared/service/excelService';
 export class BuildingsControlComponent implements OnInit {
   buildings: Building[] = [];
   users: User[] = [];
+  usersEdit: User[] = [];
   myGroup: FormGroup; // Add a FormGroup property
   machines: Machine[] = [];
   selectedMonth: string ="";
@@ -32,6 +34,8 @@ export class BuildingsControlComponent implements OnInit {
   buildingId: number =0;
   valorTotal: number = 0;
   userRole:string = "";
+  editingHistory! : any;
+  isEditingHistory!:boolean;
   // Adicione a propriedade 'selectedUserGastos' ao seu componente
   selectedUser: User | null = null;
   selectedUserGastos: any[] = []; // Substitua 'any[]' pelo tipo apropriado
@@ -69,14 +73,21 @@ export class BuildingsControlComponent implements OnInit {
     private gerenciadorMaquinasService: GerenciadorMaquinasService,
     private excelService: ExcelService,
     private authService: AuthenticationService,
-
+    private toastr: ToastrService
 
   ) {
     this.myGroup = new FormGroup({
       building_id: new FormControl(''), // Create a form control for 'building_id'
       month_id: new FormControl(''), // Create a form control for 'building_id'
-      year_id: new FormControl('') // Create a form control for 'building_id'
+      year_id: new FormControl(''), // Create a form control for 'building_id'
+      editHistoryUserName: new FormControl(''),
+      editHistoryMachineName: new FormControl(''),
+      editHistoryStart_time: new FormControl(''),
+      editHistoryEnd_time: new FormControl(''),
+      editHistoryTotal_cost: new FormControl('')
     });
+
+
   }
 
   ngOnInit(): void {
@@ -130,6 +141,8 @@ export class BuildingsControlComponent implements OnInit {
       this.valorTotal += Number(history.total_cost);
       const formattedHistory = {
         id: history.id,
+        start_timeEdit:history.start_time,
+        end_timeEdit:history.end_time,
         start_time: history.start_time
           ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           : "--",
@@ -231,6 +244,86 @@ export class BuildingsControlComponent implements OnInit {
     }
   }
   
+  editUsageHistory(history: any): void {
+    this.editingHistory = { ...history };
+    // Defina os valores do FormGroup com base no objeto editingHistory
+    this.myGroup.patchValue({
+      editHistoryUserName: this.editingHistory.userName,
+      editHistoryMachineName: this.editingHistory.machineName,
+      editHistoryStart_time: this.formatDate(this.editingHistory.start_timeEdit),
+      editHistoryEnd_time: this.formatDate(this.editingHistory.end_timeEdit),
+      editHistoryTotal_cost: this.editingHistory.total_cost
+    });
+    console.log(this.machines)
+    this.usersEdit = [];
+    this.userService.getUsersByBuilding(this.buildingId).subscribe(
+      (users: User[]) => {
+        this.usersEdit = users;
+        this.usersEdit.sort((a, b) => (a.apt_name > b.apt_name) ? 1 : -1);
+
+      },
+      (error) => {
+        console.error('Error fetching users by building:', error);
+      }
+    );
+
+    this.isEditingHistory = true;
+    console.log(this.editingHistory);
+  }
+  private formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:mm
+  }
+  private formatDate2(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+  cancelEditHistory(){
+    this.isEditingHistory =false;
+    this.editingHistory = {};
+  }
+calculateTotalCost(): void {
+    const startTime = this.myGroup.get('editHistoryStart_time')?.value;
+    const endTime = this.myGroup.get('editHistoryEnd_time')?.value;
+
+    if (startTime && endTime) {
+      const startDateTime = new Date(startTime);
+      const endDateTime = new Date(endTime);
+
+      // Verifica se o start_time é depois do end_time
+      if (startDateTime >= endDateTime) {
+        // Se for, ajusta o start_time para ser anterior ao end_time
+        this.toastr.error("Data de início maior que data final.");
+
+        startDateTime.setTime(endDateTime.getTime() - 60000); // Subtrai 1 minuto
+
+        // Atualiza o valor no FormGroup
+        this.myGroup.patchValue({
+          editHistoryStart_time: this.formatDate2(startDateTime) // Utiliza a função formatDate para formatar a data
+        });
+      }
+
+      // Calcula a diferença em milissegundos
+      const timeDifference = endDateTime.getTime() - startDateTime.getTime();
+
+      // Calcula o total_cost com base na diferença de tempo
+      const hours = timeDifference / (1000 * 60 * 60); // Convertendo milissegundos para horas
+      const hourlyRate = 7; // Valor por hora
+      const totalCost = hours * hourlyRate;
+
+      // Define o valor calculado no FormGroup
+      this.myGroup.patchValue({
+        editHistoryTotal_cost:  Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalCost) // Ajuste para 2 casas decimais
+      });
+    }
+  }
+
+
   downloadTableData(){
     const formattedExcelArray = this.usageHistory.map(history => {
       const user = this.users.find(user => user.id === history.user_id);
