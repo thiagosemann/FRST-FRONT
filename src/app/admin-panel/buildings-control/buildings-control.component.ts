@@ -206,16 +206,12 @@ export class BuildingsControlComponent implements OnInit {
   }
 
   changeUserUsageHistory(){
-    console.log(this.editingHistory)
-    console.log(this.myGroup.get('editHistoryUserId')?.value)
     this.editingHistory.user_id =  parseInt(this.myGroup.get('editHistoryUserId')?.value);
     this.myGroup.patchValue({
       editHistoryUserId: this.editingHistory.user_id
     });
   }
   changeMachineUsageHistory(){
-    console.log(this.editingHistory)
-    console.log(this.myGroup.get('editHistoryMachineId')?.value)
     this.editingHistory.machine_id =  parseInt(this.myGroup.get('editHistoryMachineId')?.value);
     this.myGroup.patchValue({
       editHistoryMachineId: this.editingHistory.machine_id  
@@ -265,7 +261,6 @@ export class BuildingsControlComponent implements OnInit {
   editUsageHistory(history: any): void {
     this.editingHistory = { ...history };
     // Defina os valores do FormGroup com base no objeto editingHistory
-    console.log(history)
 
     // Formata a data de volta para o formato desejado (ISO 8601)
     this.myGroup.patchValue({
@@ -275,7 +270,6 @@ export class BuildingsControlComponent implements OnInit {
       editHistoryEnd_time: this.formatDate(this.editingHistory.end_timeEdit),
       editHistoryTotal_cost: this.editingHistory.total_cost
     });
-    console.log(this.machines)
     this.usersEdit = [];
     this.userService.getUsersByBuilding(this.buildingId).subscribe(
       (users: User[]) => {
@@ -341,7 +335,6 @@ export class BuildingsControlComponent implements OnInit {
         total_cost: this.editingHistory.total_cost
       };
   
-    console.log(this.usageHistoryToUpdate);
   
     if (!this.usageHistoryToUpdate || !this.usageHistoryToUpdate.id) {
       return;
