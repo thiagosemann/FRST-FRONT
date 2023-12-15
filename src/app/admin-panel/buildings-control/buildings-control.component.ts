@@ -36,9 +36,7 @@ export class BuildingsControlComponent implements OnInit {
   userRole:string = "";
   editingHistory! : any;
   isEditingHistory!:boolean;
-  // Adicione a propriedade 'selectedUserGastos' ao seu componente
   selectedUser: User | null = null;
-  selectedUserGastos: any[] = []; // Substitua 'any[]' pelo tipo apropriado
   showUserDetails = false;
   usageHistory: any[] = [];
   formattedUsageHistory: any[] = [];
@@ -59,7 +57,7 @@ export class BuildingsControlComponent implements OnInit {
   consultaBDMonth: string ="";        
   excelArray : UsageHistory[] = [];
   user: any = null; // Use o tipo de dado adequado para o usuário
-
+  usageHistoryToUpdate!: UsageHistory;
 
   constructor(
     private buildingService: BuildingService,
@@ -80,8 +78,8 @@ export class BuildingsControlComponent implements OnInit {
       building_id: new FormControl(''), // Create a form control for 'building_id'
       month_id: new FormControl(''), // Create a form control for 'building_id'
       year_id: new FormControl(''), // Create a form control for 'building_id'
-      editHistoryUserName: new FormControl(''),
-      editHistoryMachineName: new FormControl(''),
+      editHistoryUserId: new FormControl(''),
+      editHistoryMachineId: new FormControl(''),
       editHistoryStart_time: new FormControl(''),
       editHistoryEnd_time: new FormControl(''),
       editHistoryTotal_cost: new FormControl('')
@@ -151,6 +149,8 @@ export class BuildingsControlComponent implements OnInit {
           : "--",
         userName: history.apt_name,
         machineName: history.machine_name,
+        machine_id: history.machine_id,
+        user_id:history.user_id,
         date: history.end_time
           ? new Date(history.end_time)
           : null,
@@ -205,7 +205,25 @@ export class BuildingsControlComponent implements OnInit {
     });
   }
 
+  changeUserUsageHistory(){
+    console.log(this.editingHistory)
+    console.log(this.myGroup.get('editHistoryUserId')?.value)
+    this.editingHistory.user_id =  parseInt(this.myGroup.get('editHistoryUserId')?.value);
+    this.myGroup.patchValue({
+      editHistoryUserId: this.editingHistory.user_id
+    });
+  }
+  changeMachineUsageHistory(){
+    console.log(this.editingHistory)
+    console.log(this.myGroup.get('editHistoryMachineId')?.value)
+    this.editingHistory.machine_id =  parseInt(this.myGroup.get('editHistoryMachineId')?.value);
+    this.myGroup.patchValue({
+      editHistoryMachineId: this.editingHistory.machine_id  
+    });
 
+
+    
+  }
 
   deleteUsageHistory(id: number) {
     const isConfirmed = window.confirm('Você tem certeza de que deseja EXCLUIR este histórico de uso?');
@@ -247,9 +265,12 @@ export class BuildingsControlComponent implements OnInit {
   editUsageHistory(history: any): void {
     this.editingHistory = { ...history };
     // Defina os valores do FormGroup com base no objeto editingHistory
+    console.log(history)
+
+    // Formata a data de volta para o formato desejado (ISO 8601)
     this.myGroup.patchValue({
-      editHistoryUserName: this.editingHistory.userName,
-      editHistoryMachineName: this.editingHistory.machineName,
+      editHistoryUserId: this.editingHistory.user_id,
+      editHistoryMachineId: this.editingHistory.machine_id,
       editHistoryStart_time: this.formatDate(this.editingHistory.start_timeEdit),
       editHistoryEnd_time: this.formatDate(this.editingHistory.end_timeEdit),
       editHistoryTotal_cost: this.editingHistory.total_cost
@@ -267,13 +288,20 @@ export class BuildingsControlComponent implements OnInit {
       }
     );
 
+    this.editingHistory.machine_id = history.machine_id;
     this.isEditingHistory = true;
-    console.log(this.editingHistory);
   }
   private formatDate(dateString: string): string {
     const date = new Date(dateString);
+  
+    // Subtrai 3 horas da data
+    date.setHours(date.getHours() - 3);
+  
     return date.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:mm
   }
+  
+
+  
   private formatDate2(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -287,41 +315,95 @@ export class BuildingsControlComponent implements OnInit {
     this.isEditingHistory =false;
     this.editingHistory = {};
   }
-calculateTotalCost(): void {
-    const startTime = this.myGroup.get('editHistoryStart_time')?.value;
-    const endTime = this.myGroup.get('editHistoryEnd_time')?.value;
 
-    if (startTime && endTime) {
-      const startDateTime = new Date(startTime);
-      const endDateTime = new Date(endTime);
-
-      // Verifica se o start_time é depois do end_time
-      if (startDateTime >= endDateTime) {
-        // Se for, ajusta o start_time para ser anterior ao end_time
-        this.toastr.error("Data de início maior que data final.");
-
-        startDateTime.setTime(endDateTime.getTime() - 60000); // Subtrai 1 minuto
-
-        // Atualiza o valor no FormGroup
-        this.myGroup.patchValue({
-          editHistoryStart_time: this.formatDate2(startDateTime) // Utiliza a função formatDate para formatar a data
-        });
-      }
-
-      // Calcula a diferença em milissegundos
-      const timeDifference = endDateTime.getTime() - startDateTime.getTime();
-
-      // Calcula o total_cost com base na diferença de tempo
-      const hours = timeDifference / (1000 * 60 * 60); // Convertendo milissegundos para horas
-      const hourlyRate = 7; // Valor por hora
-      const totalCost = hours * hourlyRate;
-
-      // Define o valor calculado no FormGroup
-      this.myGroup.patchValue({
-        editHistoryTotal_cost:  Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalCost) // Ajuste para 2 casas decimais
-      });
+  saveEditHistory() {
+    // Verifica se total_cost é uma string
+    if (typeof this.editingHistory.total_cost === 'string') {
+      // Extrai o valor numérico do total_cost removendo "R$"
+      this.editingHistory.total_cost = this.editingHistory.total_cost.replace(/[^\d,.]/g, '').replace(',', '.');
     }
+  
+      // Obtém as datas atuais do histórico
+      const startTime = new Date(this.editingHistory.start_timeEdit);
+      const endTime = new Date(this.editingHistory.end_timeEdit);
+
+      // Formata as datas para o formato aceito pelo MySQL (YYYY-MM-DD HH:MM:SS)
+      const formattedStartTime = startTime.toISOString().slice(0, 19).replace('T', ' ');
+      const formattedEndTime = endTime.toISOString().slice(0, 19).replace('T', ' ');
+
+      // Cria o objeto a ser enviado para a atualização
+      this.usageHistoryToUpdate = {
+        id: this.editingHistory.id,
+        user_id: this.editingHistory.user_id,
+        machine_id: this.editingHistory.machine_id,
+        start_time: formattedStartTime,
+        end_time: formattedEndTime,
+        total_cost: this.editingHistory.total_cost
+      };
+  
+    console.log(this.usageHistoryToUpdate);
+  
+    if (!this.usageHistoryToUpdate || !this.usageHistoryToUpdate.id) {
+      return;
+    }
+  
+    // Atualiza o histórico de uso
+    this.usageHistoryService.updateCompleteUsageHistory(this.usageHistoryToUpdate).subscribe(
+      (updatedHistory: any) => {
+        // Atualiza a transação associada
+        console.log("Updated", updatedHistory);
+      },
+      (updateHistoryError: any) => {
+        console.log('Error updating usage history:', updateHistoryError);
+      }
+    );
+    this.cancelEditHistory();
+    this.updateUsageHistory();
   }
+  
+  
+  calculateTotalCost(): void {
+      const startTime = this.myGroup.get('editHistoryStart_time')?.value;
+      const endTime = this.myGroup.get('editHistoryEnd_time')?.value;
+      this.editingHistory.start_timeEdit = startTime;
+      this.editingHistory.end_timeEdit = endTime;
+
+      if (startTime && endTime) {
+        const startDateTime = new Date(startTime);
+        const endDateTime = new Date(endTime);
+
+        // Verifica se o start_time é depois do end_time
+        if (startDateTime >= endDateTime) {
+          // Se for, ajusta o start_time para ser anterior ao end_time
+          this.toastr.error("Data de início maior que data final.");
+
+          startDateTime.setTime(endDateTime.getTime() - 60000); // Subtrai 1 minuto
+
+          // Atualiza o valor no FormGroup
+          this.myGroup.patchValue({
+            editHistoryStart_time: this.formatDate2(startDateTime) // Utiliza a função formatDate para formatar a data
+          });
+        }
+        const selectedBuilding = this.buildings.find(building => building.id === this.buildingId);
+        if(selectedBuilding && selectedBuilding.hourly_rate ){
+          // Calcula a diferença em milissegundos
+          const timeDifference = endDateTime.getTime() - startDateTime.getTime();
+
+          // Calcula o total_cost com base na diferença de tempo
+          const hours = timeDifference / (1000 * 60 * 60); // Convertendo milissegundos para horas
+          const hourlyRate = selectedBuilding?.hourly_rate; // Valor por hora 
+          const totalCost = hours * hourlyRate;
+
+          // Define o valor calculado no FormGroup
+          this.myGroup.patchValue({
+            editHistoryTotal_cost:  Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalCost) // Ajuste para 2 casas decimais
+          });
+
+          this.editingHistory.total_cost = totalCost;
+        }
+
+      }
+    }
 
 
   downloadTableData(){
@@ -336,6 +418,8 @@ calculateTotalCost(): void {
         userName: userName,
         userCPF: userCPF,
         machine:history.machine_name,
+        machine_id:history.machine_id,
+        
         start_time: history.start_time 
           ? new Date(history.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
           : "--",

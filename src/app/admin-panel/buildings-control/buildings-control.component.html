@@ -125,41 +125,42 @@
               </tr>
               </tbody>
             </table>
-            <div *ngIf="isEditingHistory" class="edit-form">
+            <div *ngIf="isEditingHistory" class="edit-form" style="width: 90%; overflow: hidden;">
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label for="editHistoryUserName" class="form-label">Usuário:</label>
-                  <select class="form-control" id="editHistoryUserName" formControlName="editHistoryUserName">
-                    <option *ngFor="let user of usersEdit" [value]="user.apt_name">{{"Apt: "+ user.apt_name + "   |  Nome: "+ user.first_name    }}</option>
+                  <label for="editHistoryUserId" class="form-label">Usuário:</label>
+                  <select class="form-select" id="editHistoryUserId" formControlName="editHistoryUserId" (change)="changeUserUsageHistory()">
+                    <option *ngFor="let user of usersEdit" [value]="user.id">{{"Apt: "+ user.apt_name + "   |  Nome: "+ user.first_name }}</option>
                   </select>
                 </div>
                 <div class="col-md-6 mb-3">
-                  <label for="editHistoryMachineName" class="form-label">Máquinas:</label>
-                  <select class="form-control" id="editHistoryUserName" formControlName="editHistoryMachineName">
-                    <option *ngFor="let machine of machines" [value]="machine.name">{{ machine.name }}</option>
+                  <label for="editHistoryMachineId" class="form-label">Máquinas:</label>
+                  <select class="form-select" id="editHistoryMachineId" formControlName="editHistoryMachineId" (change)="changeMachineUsageHistory()">
+                    <option *ngFor="let machine of machines" [value]="machine.id">{{ machine.name }}</option>
                   </select>
                 </div>
-  
-            
                 <div class="col-md-6 mb-3">
                   <label for="editHistoryStart_time" class="form-label">Horário de início:</label>
-                  <input type="datetime-local" class="form-control" id="editHistoryStart_time" formControlName="editHistoryStart_time" (change)="calculateTotalCost()"> 
-
+                  <input type="datetime-local" class="form-control" id="editHistoryStart_time" formControlName="editHistoryStart_time" (change)="calculateTotalCost()">
                 </div>
             
                 <div class="col-md-6 mb-3">
                   <label for="editHistoryEnd_time" class="form-label">Horário de término:</label>
-                  <input type="datetime-local" class="form-control" id="editHistoryEnd_time" formControlName="editHistoryEnd_time"  (change)="calculateTotalCost()">
+                  <input type="datetime-local" class="form-control" id="editHistoryEnd_time" formControlName="editHistoryEnd_time" (change)="calculateTotalCost()">
                 </div>
-  
+            
                 <div class="col-md-6 mb-3">
                   <label for="editHistoryTotal_cost" class="form-label">Total Cost:</label>
                   <input type="text" class="form-control" id="editHistoryTotal_cost" formControlName="editHistoryTotal_cost">
-                </div>  
+                </div>
               </div>
             
-              <button class="btn btn-secondary" (click)="cancelEditHistory()">Cancel</button>
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-outline-secondary me-2" (click)="cancelEditHistory()">Cancel</button>
+                <button class="btn btn-success" (click)="saveEditHistory()">Save</button>
+              </div>
             </div>
+            
             
           </div>
         </div>      

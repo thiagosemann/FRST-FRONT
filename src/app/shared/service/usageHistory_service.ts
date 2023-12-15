@@ -50,9 +50,14 @@ export class UsageHistoryService {
     const url = `${this.apiUrl}/${usageHistory.id}`;
     return this.http.put<UsageHistory>(url, usageHistory, { headers: this.getHeaders() });
   }
-  
+  updateCompleteUsageHistory(usageHistory: UsageHistory): Observable<UsageHistory> {
+    const url = `https://frst-back-02b607761078.herokuapp.com/updateCompleteUsageHistory/${usageHistory.id}`;
+    return this.http.put<UsageHistory>(url, usageHistory, { headers: this.getHeaders() });
+  }
   deleteUsageHistoryById(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url, { headers: this.getHeaders() });
   }
 }
+
+
