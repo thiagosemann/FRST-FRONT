@@ -11,7 +11,7 @@
                 <span class="visually-hidden">Carregando...</span>
             </div>
         </div>
-          <div [hidden]="loadingCamera" class="scanner-wrapper rounded">
+        <div [hidden]="loadingCamera" class="scanner-wrapper rounded">
             <zxing-scanner 
               [formats]="[BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13, BarcodeFormat.CODE_128, BarcodeFormat.DATA_MATRIX]"
               (scanSuccess)="handleQrCodeResult($event)"

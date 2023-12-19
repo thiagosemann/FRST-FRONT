@@ -47,6 +47,7 @@ export class UsageHistoryService {
   }
 
   updateUsageHistory(usageHistory: UsageHistory): Observable<UsageHistory> {
+    console.log(usageHistory)
     const url = `${this.apiUrl}/${usageHistory.id}`;
     return this.http.put<UsageHistory>(url, usageHistory, { headers: this.getHeaders() });
   }
