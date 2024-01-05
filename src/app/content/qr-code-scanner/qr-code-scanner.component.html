@@ -5,17 +5,17 @@
           <h3 class="mb-4">Liberação de máquina:</h3>
         </div>
         <div class="text-center mt-4">
-        <div [hidden]="!loadingCamera" class="text-center mt-4">
-            <!-- Elemento de loader com classe personalizada -->
-            <div class="spinner-border  spinner-custom" role="status">
-                <span class="visually-hidden">Carregando...</span>
-            </div>
-        </div>
-        <div [hidden]="loadingCamera" class="scanner-wrapper rounded">
-            <zxing-scanner 
-              [formats]="[BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13, BarcodeFormat.CODE_128, BarcodeFormat.DATA_MATRIX]"
-              (scanSuccess)="handleQrCodeResult($event)"
-            ></zxing-scanner>
+          <div [hidden]="!loadingCamera" class="text-center mt-4">
+              <!-- Elemento de loader com classe personalizada -->
+              <div class="spinner-border  spinner-custom" role="status">
+                  <span class="visually-hidden">Carregando...</span>
+              </div>
+          </div>
+          <div [hidden]="loadingCamera" class="scanner-wrapper rounded">
+              <zxing-scanner 
+                [formats]="[BarcodeFormat.QR_CODE, BarcodeFormat.EAN_13, BarcodeFormat.CODE_128, BarcodeFormat.DATA_MATRIX]"
+                (scanSuccess)="handleQrCodeResult($event)"
+              ></zxing-scanner>
           </div>
         </div>
         <div class="text-center mt-4">

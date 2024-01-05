@@ -107,7 +107,7 @@ export class GerenciadorMaquinasService {
       });   
   }
 
-  ligarMaquina(): void {
+ async ligarMaquina(): Promise<void> {
     //Liga a máquina
     this.turnOnMachine().subscribe({
       next: (data) => {
@@ -123,7 +123,7 @@ export class GerenciadorMaquinasService {
   }
 
   async endUsageHistory(lastUsage: UsageHistory): Promise<void> {
-    this.updateMachineStatus(false);
+    this.updateMachineStatus(false); // Liberar a máquina
     const endTime = new Date();
     let totalCost = 0; // valor default
 
