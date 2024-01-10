@@ -76,6 +76,9 @@ export class GerenciadorMaquinasService {
       this.toastr.info('Máquina sendo utilizada por outro apartamento.');
       return;
     }
+    const tempoDeUso = this.verificarTempoDeUso(lastUsage);
+    console.log(tempoDeUso)
+    if(tempoDeUso>60){
       this.turnOffMachine().subscribe({
         next: (data) => {
           this.endUsageHistory(lastUsage);
@@ -86,6 +89,9 @@ export class GerenciadorMaquinasService {
           this.toastr.error('Erro ao desligar a máquina.');
         },
       });   
+    }else{
+      this.toastr.error('Espere ' + (60 - tempoDeUso).toFixed(0) + ' segundos para desligar a máquina.');
+    }
   }
 
   async desligarMaquina(): Promise<void> {
@@ -95,6 +101,9 @@ export class GerenciadorMaquinasService {
       this.toastr.info('Máquina sendo utilizada por outro apartamento.');
       return;
     }
+    const tempoDeUso = this.verificarTempoDeUso(lastUsage);
+    console.log(tempoDeUso)
+    if(tempoDeUso>60){
       this.turnOffMachine().subscribe({
         next: (data) => {
           this.endUsageHistory(lastUsage);
@@ -105,7 +114,24 @@ export class GerenciadorMaquinasService {
           this.toastr.error('Tente novamente mais tarde.');
         },
       });   
+    }else{
+      this.toastr.error('Espere '+ (60-tempoDeUso) + 'para desligar a máquina.' );
+
+    }
+
+
   }
+
+  verificarTempoDeUso(lastUsage: UsageHistory): number {
+    const endTime = new Date();
+    if(lastUsage && lastUsage.start_time){
+      const start = new Date(lastUsage.start_time);
+      const end = new Date(endTime);
+      return  (end.getTime() - start.getTime()) / 1000;
+    }
+    return 0
+  }
+
 
  async ligarMaquina(): Promise<void> {
     //Liga a máquina
