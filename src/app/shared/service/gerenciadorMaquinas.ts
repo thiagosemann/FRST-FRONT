@@ -10,7 +10,7 @@ import { UsageHistory } from '..//utilitarios/usageHistory';
 import { BuildingService } from 'src/app/shared/service/buildings_service';
 import { TransactionsService } from '..//service/transactionsService';
 import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
-import { throwError, Observable, lastValueFrom } from 'rxjs';
+import { throwError, Observable, lastValueFrom, last } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -78,8 +78,7 @@ export class GerenciadorMaquinasService {
     }
     const tempoDeUso = this.verificarTempoDeUso(lastUsage);
     console.log(tempoDeUso)
-    if(tempoDeUso>60){
-      this.turnOffMachine().subscribe({
+       this.turnOffMachine().subscribe({
         next: (data) => {
           this.endUsageHistory(lastUsage);
           this.toastr.info('Máquina desligada com sucesso!');
@@ -89,9 +88,6 @@ export class GerenciadorMaquinasService {
           this.toastr.error('Erro ao desligar a máquina.');
         },
       });   
-    }else{
-      this.toastr.error('Espere ' + (60 - tempoDeUso).toFixed(0) + ' segundos para desligar a máquina.');
-    }
   }
 
   async desligarMaquina(): Promise<void> {
@@ -149,57 +145,21 @@ export class GerenciadorMaquinasService {
   }
 
   async endUsageHistory(lastUsage: UsageHistory): Promise<void> {
-    this.updateMachineStatus(false); // Liberar a máquina
-    const endTime = new Date();
-    let totalCost = 0; // valor default
-
-    // Se existir um prédio associado à máquina, obtemos a taxa horária
     if (this.machine?.building_id) {
       const building = await this.buildingService.getBuildingById(this.machine.building_id).toPromise();
-
-      // Verificamos se o building existe antes de tentar acessar a propriedade hourly_rate
       if (building && lastUsage.start_time) {
-        // Calcular totalCost com base na diferença de tempo e na taxa horária
-        totalCost = this.calculateCost(building.hourly_rate, lastUsage.start_time, endTime);
+        const obj = {
+          id: lastUsage.id,
+          hourly_rate: building.hourly_rate
+        }
+        this.updateMachineStatus(false); // Liberar a máquina
+        this.usageHistoryService.updateUsageHistory(obj).subscribe({
+          next: () => {},
+          error: (error: any) => console.log('Error updating usage history:', error)
+        });
       }
     }
 
-    // Atualiza o objeto lastUsage com end_time e total_cost.
-    lastUsage.end_time = endTime.toISOString().slice(0, 19).replace('T', ' ');
-    lastUsage.total_cost = totalCost;
-
-    // Atualiza o histórico de uso no backend e cria transação
-    this.updateUsageHistoryAndCreateTransaction(lastUsage);
-
-  }
-
-  calculateCost(hourlyRate: number, startTime: string, endTime: Date): number {
-    const start = new Date(startTime);
-    const end = new Date(endTime);
-    const timeDifferenceInSeconds = (end.getTime() - start.getTime()) / 1000;
-    return (hourlyRate / 3600) * timeDifferenceInSeconds;
-  }
-  
-  
-
-  updateUsageHistoryAndCreateTransaction(lastUsage: any): void {
-    this.usageHistoryService.updateUsageHistory(lastUsage).subscribe({
-      next: () => {
-        if (lastUsage.end_time && lastUsage.start_time) {
-          const transaction = {
-            user_id: lastUsage.user_id,
-            usage_history_id: lastUsage.id ?? 0,
-            transaction_time: lastUsage.end_time,
-            amount: lastUsage.total_cost ?? 0
-          };
-
-          this.transactionsService.createTransaction(transaction).subscribe({
-            error: (error: any) => console.log('Error creating transaction:', error)
-          });
-        }
-      },
-      error: (error: any) => console.log('Error updating usage history:', error)
-    });
   }
 
   isUserUsingMachine(user: User | null): Promise<UsageHistory | null> {
@@ -262,17 +222,10 @@ export class GerenciadorMaquinasService {
 
   createUsageHistory(): void {
     if (this.user && this.machine) {
-      const startTime = new Date();
-
-      // Para ajustar para o fuso horário de Brasília, adicione/subtraia a diferença em horas
-       const formattedStartTime = startTime.toISOString().slice(0, 19).replace('T', ' ');
-
       const usageHistory: UsageHistory = {
         user_id: this.user.id,
         machine_id: this.machine.id,
-        start_time: formattedStartTime
       };
-
       //Cria o historico se conseguir
       this.usageHistoryService.createUsageHistory(usageHistory).subscribe({
         next: () => this.updateMachineStatus(true),

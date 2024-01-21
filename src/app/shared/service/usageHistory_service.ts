@@ -7,8 +7,8 @@ import { UsageHistory } from '../utilitarios/usageHistory';
   providedIn: 'root'
 })
 export class UsageHistoryService {
-  private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/usageHistory';
- // private apiUrl = 'http://localhost:80/usageHistory';
+  //private apiUrl = 'https://frst-back-02b607761078.herokuapp.com/usageHistory';
+  private apiUrl = 'http://localhost:80/usageHistory';
 
   constructor(private http: HttpClient) { }
 
@@ -46,8 +46,7 @@ export class UsageHistoryService {
     return this.http.post<UsageHistory>(this.apiUrl, usageHistory, { headers: this.getHeaders() });
   }
 
-  updateUsageHistory(usageHistory: UsageHistory): Observable<UsageHistory> {
-    console.log(usageHistory)
+  updateUsageHistory(usageHistory: any): Observable<UsageHistory> {
     const url = `${this.apiUrl}/${usageHistory.id}`;
     return this.http.put<UsageHistory>(url, usageHistory, { headers: this.getHeaders() });
   }
