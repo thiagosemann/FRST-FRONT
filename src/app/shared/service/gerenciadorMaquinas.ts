@@ -63,13 +63,13 @@ export class GerenciadorMaquinasService {
         let data = { id_maquina: this.machine.id, id_user: this.user?.id }
         if (this.machine && this.machine.is_in_use) {
           console.log("Entrou2")
-          //this.desligarMaquinaAdmin();
+          this.desligarMaquinaAdmin();
 
-         this.controleMaquinaService.desligarMaquina(data);
+        // this.controleMaquinaService.desligarMaquina(data);
         } else {
           console.log("Entrou3")
-         // this.ligarMaquina();
-          this.controleMaquinaService.ligarMaquina(data);
+         this.ligarMaquina();
+         // this.controleMaquinaService.ligarMaquina(data);
         }
       },
       (error: any) => {
