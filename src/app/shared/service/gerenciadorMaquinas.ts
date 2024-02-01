@@ -41,10 +41,12 @@ export class GerenciadorMaquinasService {
       (machine: Machine) => {
         this.machine = machine;
         this.user = this.authService.getUser();
+        let data = { id_maquina: this.machine.id, id_user: this.user?.id }
+
         if (this.machine?.is_in_use) {
-          this.desligarMaquina();
+          this.desligarMaquinaNovo(data);
         } else {
-          this.ligarMaquina();
+          this.ligarMaquinaNovo(data);
         }
       },
       (error: any) => {
@@ -55,21 +57,15 @@ export class GerenciadorMaquinasService {
   }
 
   verificacaoMaquinasAdmin(id: string): void {
-    console.log("Entrou1")
     this.machineService.getMachineById(+id).subscribe(
       (machine: Machine) => {
         this.machine = machine;
         this.user = this.authService.getUser();
         let data = { id_maquina: this.machine.id, id_user: this.user?.id }
         if (this.machine && this.machine.is_in_use) {
-          console.log("Entrou2")
-          this.desligarMaquinaAdmin();
-
-        // this.controleMaquinaService.desligarMaquina(data);
+          this.desligarMaquinaNovo(data);
         } else {
-          console.log("Entrou3")
-         this.ligarMaquina();
-         // this.controleMaquinaService.ligarMaquina(data);
+          this.ligarMaquinaNovo(data);
         }
       },
       (error: any) => {
@@ -78,7 +74,35 @@ export class GerenciadorMaquinasService {
       }
     );
   }
-  
+
+  desligarMaquinaNovo(data:any):void{
+    this.controleMaquinaService.desligarMaquina(data).subscribe(
+      (res) => {
+        console.log(res)
+        this.toastr.success(res.message);
+
+        this.router.navigate(['/content']);
+      },
+      (err) => {
+        console.log(err)
+        this.toastr.error(err.error.error);
+      }
+    );
+  }
+  ligarMaquinaNovo(data:any):void{
+    this.controleMaquinaService.ligarMaquina(data).subscribe(
+      (res) => {
+        console.log(res)
+        this.toastr.success(res.message);
+
+        this.router.navigate(['/content']);
+      },
+      (err) => {
+        console.log(err)
+        this.toastr.error(err.error.error);
+      }
+    );
+  }
   
   
   async desligarMaquinaAdmin(): Promise<void> {

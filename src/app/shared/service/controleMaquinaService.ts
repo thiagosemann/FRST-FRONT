@@ -12,12 +12,10 @@ export class ControleMaquinaService {
   constructor(private http: HttpClient) {}
 
   ligarMaquina(data: any): Observable<any> {
-    console.log("Entrou4")
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     });
-    console.log(`${this.url}/gerenciadorMaquina/ligar`)
     return this.http.post(`${this.url}/gerenciadorMaquina/ligar`, data, { headers });
   }
 
