@@ -11,6 +11,7 @@ import { BuildingService } from 'src/app/shared/service/buildings_service';
 import { TransactionsService } from '..//service/transactionsService';
 import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
 import { throwError, Observable, lastValueFrom, last } from 'rxjs';
+import { ControleMaquinaService } from './controleMaquinaService';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class GerenciadorMaquinasService {
     private toastr: ToastrService,
     private buildingService: BuildingService,
     private transactionsService: TransactionsService,
-    private nodemcuService: NodemcuService
+    private nodemcuService: NodemcuService,
+    private controleMaquinaService: ControleMaquinaService
   ) {
     this.id = '';
   }
@@ -53,14 +55,21 @@ export class GerenciadorMaquinasService {
   }
 
   verificacaoMaquinasAdmin(id: string): void {
+    console.log("Entrou1")
     this.machineService.getMachineById(+id).subscribe(
       (machine: Machine) => {
         this.machine = machine;
         this.user = this.authService.getUser();
-        if (this.machine?.is_in_use) {
-          this.desligarMaquinaAdmin();
+        let data = { id_maquina: this.machine.id, id_user: this.user?.id }
+        if (this.machine && this.machine.is_in_use) {
+          console.log("Entrou2")
+          //this.desligarMaquinaAdmin();
+
+         this.controleMaquinaService.desligarMaquina(data);
         } else {
-          this.ligarMaquina();
+          console.log("Entrou3")
+         // this.ligarMaquina();
+          this.controleMaquinaService.ligarMaquina(data);
         }
       },
       (error: any) => {
@@ -69,6 +78,9 @@ export class GerenciadorMaquinasService {
       }
     );
   }
+  
+  
+  
   async desligarMaquinaAdmin(): Promise<void> {
     // Desliga a máquina
     const lastUsage = await this.getLastUsageFromMachine();
