@@ -377,7 +377,14 @@ export class BuildingsControlComponent implements OnInit {
             editHistoryStart_time: this.formatDate2(startDateTime) // Utiliza a função formatDate para formatar a data
           });
         }
-        const selectedBuilding = this.buildings.find(building => building.id === this.buildingId);
+        console.log(typeof this.buildings[0].id); // Verifica o tipo de id na primeira entrada do array
+        console.log(typeof this.buildingId); // Verifica o tipo de this.buildingId
+        
+        const selectedBuilding = this.buildings.find(building => building.id.toString() == this.buildingId.toString());
+
+        
+        console.log(selectedBuilding)
+
         if(selectedBuilding && selectedBuilding.hourly_rate ){
           // Calcula a diferença em milissegundos
           const timeDifference = endDateTime.getTime() - startDateTime.getTime();
