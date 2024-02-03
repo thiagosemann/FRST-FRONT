@@ -30,7 +30,7 @@ export class QrCodeScannerComponent implements OnInit {
 
   handleQrCodeResult(resultString: string) {
     this.loadingCamera  = true;
-    const route = resultString.replace('https://www.frst.com.br/content', '');
+    const route = resultString.replace('https://www.frst.com.br/content/', '');
     
     this.gerenciadorMaquinasService.verificacaoMaquinas(route).subscribe(
       (value: number) => {
