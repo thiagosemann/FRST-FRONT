@@ -20,7 +20,11 @@ export class GerenciadorMaquinasService {
   id: string;
   machine: Machine | undefined;
   user: User | null = null;
-
+  tempoLigar:number =60;
+  breaktempoLigar:boolean = false;
+  tempoDesligar:number =60;
+  breaktempoDesligar:boolean = false;
+  
   constructor(
     private route: ActivatedRoute,
     private machineService: MachineService,
@@ -76,30 +80,59 @@ export class GerenciadorMaquinasService {
   }
 
   desligarMaquinaNovo(data:any):void{
+    this.tempoDesligar =60;
+    const timer = setInterval(() => {
+      this.tempoDesligar--; // Reduz o tempo restante
+      if(this.tempoDesligar<55){
+        this.toastr.info(this.tempoDesligar.toString());
+      }
+
+      if (this.tempoDesligar <= 0 || this.breaktempoDesligar ) {
+        this.breaktempoDesligar = false;
+        clearInterval(timer); // Para o contador quando o tempo acabar
+      }
+    }, 1000); // 1000 milissegundos = 1 segundo
     this.controleMaquinaService.desligarMaquina(data).subscribe(
       (res) => {
         console.log(res)
         this.toastr.success(res.message);
+        this.breaktempoDesligar = true;
 
         this.router.navigate(['/content']);
       },
       (err) => {
         console.log(err)
         this.toastr.error(err.error.error);
+        this.breaktempoDesligar = true;
+
       }
     );
   }
   ligarMaquinaNovo(data:any):void{
+    this.tempoLigar =60;
+    const timer = setInterval(() => {
+      this.tempoLigar--; // Reduz o tempo restante
+      if(this.tempoLigar<55){
+        this.toastr.info(this.tempoLigar.toString());
+      }
+
+      if (this.tempoLigar <= 0 || this.breaktempoLigar ) {
+        this.breaktempoLigar = false;
+        clearInterval(timer); // Para o contador quando o tempo acabar
+      }
+    }, 1000); // 1000 milissegundos = 1 segundo
+    
     this.controleMaquinaService.ligarMaquina(data).subscribe(
       (res) => {
         console.log(res)
         this.toastr.success(res.message);
-
+        this.breaktempoLigar = true;
         this.router.navigate(['/content']);
-      },
+      },  
       (err) => {
         console.log(err)
         this.toastr.error(err.error.error);
+        this.breaktempoLigar = true;
       }
     );
   }
