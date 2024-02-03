@@ -41,37 +41,25 @@ export class GerenciadorMaquinasService {
   ) {
     this.id = '';
   }
-  verificacaoMaquinas(id: string): Observable<number> {
-    return new Observable<number>((observer) => {
-      const interval = 5000; // Intervalo de 5 segundos (em milissegundos)
-      let counter = 0;
-  
-      const subscription: Subscription = timer(0, interval).pipe(
-        switchMap(() => this.machineService.getMachineById(+id))
-      ).subscribe(
-        (machine: Machine) => {
-          this.machine = machine;
-          this.user = this.authService.getUser();
-          let data = { id_maquina: this.machine.id, id_user: this.user?.id };
-  
-          if (this.machine?.is_in_use) {
-            this.desligarMaquinaNovo(data);
-          } else {
-            this.ligarMaquinaNovo(data);
-          }
-          counter += interval;
-          observer.next(counter);
-        },
-        (error: any) => {
-          console.log('Error retrieving machine:', error);
-          this.toastr.error('Erro ao ligar a máquina.');
-          observer.error(error);
+
+  verificacaoMaquinas(id: string): void {
+    this.machineService.getMachineById(+id).subscribe(
+      (machine: Machine) => {
+        this.machine = machine;
+        this.user = this.authService.getUser();
+        let data = { id_maquina: this.machine.id, id_user: this.user?.id }
+
+        if (this.machine?.is_in_use) {
+          this.desligarMaquinaNovo(data);
+        } else {
+          this.ligarMaquinaNovo(data);
         }
-      );
-  
-      // Retornar uma função para cancelar a assinatura quando o Observable for descartado
-      return () => subscription.unsubscribe();
-    });
+      },
+      (error: any) => {
+        console.log('Error retrieving machine:', error);
+        this.toastr.error('Erro ao ligar a máquina.');
+      }
+    );
   }
 
   verificacaoMaquinasAdmin(id: string): void {
