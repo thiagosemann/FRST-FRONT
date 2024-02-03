@@ -10,7 +10,9 @@ import { UsageHistory } from '..//utilitarios/usageHistory';
 import { BuildingService } from 'src/app/shared/service/buildings_service';
 import { TransactionsService } from '..//service/transactionsService';
 import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
-import { throwError, Observable, lastValueFrom, last } from 'rxjs';
+import { throwError, Observable, lastValueFrom, last, Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { ControleMaquinaService } from './controleMaquinaService';
 
 @Injectable({
@@ -39,25 +41,37 @@ export class GerenciadorMaquinasService {
   ) {
     this.id = '';
   }
-
-  verificacaoMaquinas(id: string): void {
-    this.machineService.getMachineById(+id).subscribe(
-      (machine: Machine) => {
-        this.machine = machine;
-        this.user = this.authService.getUser();
-        let data = { id_maquina: this.machine.id, id_user: this.user?.id }
-
-        if (this.machine?.is_in_use) {
-          this.desligarMaquinaNovo(data);
-        } else {
-          this.ligarMaquinaNovo(data);
+  verificacaoMaquinas(id: string): Observable<number> {
+    return new Observable<number>((observer) => {
+      const interval = 5000; // Intervalo de 5 segundos (em milissegundos)
+      let counter = 0;
+  
+      const subscription: Subscription = timer(0, interval).pipe(
+        switchMap(() => this.machineService.getMachineById(+id))
+      ).subscribe(
+        (machine: Machine) => {
+          this.machine = machine;
+          this.user = this.authService.getUser();
+          let data = { id_maquina: this.machine.id, id_user: this.user?.id };
+  
+          if (this.machine?.is_in_use) {
+            this.desligarMaquinaNovo(data);
+          } else {
+            this.ligarMaquinaNovo(data);
+          }
+          counter += interval;
+          observer.next(counter);
+        },
+        (error: any) => {
+          console.log('Error retrieving machine:', error);
+          this.toastr.error('Erro ao ligar a máquina.');
+          observer.error(error);
         }
-      },
-      (error: any) => {
-        console.log('Error retrieving machine:', error);
-        this.toastr.error('Erro ao ligar a máquina.');
-      }
-    );
+      );
+  
+      // Retornar uma função para cancelar a assinatura quando o Observable for descartado
+      return () => subscription.unsubscribe();
+    });
   }
 
   verificacaoMaquinasAdmin(id: string): void {
@@ -83,7 +97,7 @@ export class GerenciadorMaquinasService {
     this.tempoDesligar =60;
     const timer = setInterval(() => {
       this.tempoDesligar--; // Reduz o tempo restante
-      if(this.tempoDesligar<55){
+      if(this.tempoDesligar<58){
         this.toastr.info(this.tempoDesligar.toString());
       }
 
@@ -112,7 +126,7 @@ export class GerenciadorMaquinasService {
     this.tempoLigar =60;
     const timer = setInterval(() => {
       this.tempoLigar--; // Reduz o tempo restante
-      if(this.tempoLigar<55){
+      if(this.tempoLigar<58){
         this.toastr.info(this.tempoLigar.toString());
       }
 

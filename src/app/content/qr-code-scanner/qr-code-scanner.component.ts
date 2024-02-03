@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
+import { GerenciadorMaquinasService } from 'src/app/shared/service/gerenciadorMaquinas';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -11,7 +13,7 @@ export class QrCodeScannerComponent implements OnInit {
   BarcodeFormat = BarcodeFormat; // Make BarcodeFormat available in template
   loadingCamera = true; // Variable to control camera loading
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private gerenciadorMaquinasService: GerenciadorMaquinasService,private toastr: ToastrService) {}
 
   ngOnInit(): void {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -28,7 +30,20 @@ export class QrCodeScannerComponent implements OnInit {
 
   handleQrCodeResult(resultString: string) {
     this.loadingCamera  = true;
-    const route = resultString.replace('https://www.frst.com.br', '');
+    const route = resultString.replace('https://www.frst.com.br/content', '');
+    
+    this.gerenciadorMaquinasService.verificacaoMaquinas(route).subscribe(
+      (value: number) => {
+        // Use o valor retornado aqui
+        this.toastr.info(`Valor retornado: ${value}`);
+      },
+      (error: any) => {
+        // Lide com erros aqui
+        console.error('Erro:', error);
+        this.toastr.error('Erro ao verificar as máquinas.');
+      }
+    );
+
     // Realize o redirecionamento
     this.router.navigateByUrl(route);
   }
