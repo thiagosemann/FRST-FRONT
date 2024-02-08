@@ -1,33 +1,67 @@
-.scanner-wrapper.rounded {
+  .scanner-wrapper {
     border-radius: 15px;
+    overflow: hidden; /* Para esconder as partes fora do contêiner */
+    width: 200px; /* largura do contêiner */
+    height: 200px; /* altura do contêiner */
+    position: relative; /* para permitir o posicionamento absoluto do filho */
+    justify-content: center; /* Para centralizar horizontalmente */
+    align-items: center; /* Para centralizar verticalmente */
+    margin-left: 20px;
   }
-  /* Estilos personalizados para o botão personalizado */
-.custom-button {
-    background-color: #006400;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
+
+  .scanner-zoom {
+    object-fit: cover; /* Para cobrir o contêiner */
+    transform: scale(3); /* Ajuste o valor de escala conforme necessário */
   }
-  
-  .custom-button:hover {
-    background-color: #45a049;
-  }
-  
-  .custom-button:focus {
-    outline: none;
-  }
-  
-  .spinner-custom {
-    color: #45a049; /* Substitua pela cor desejada */
-    width: 5rem;
-    height: 5rem;
-    border-width: 0.5em;
-  }
-  
-  .spinner-custom::after {
-    border-color: #45a049; /* Substitua pela cor desejada */
-  }
-  
+
+    /* Estilos personalizados para o botão personalizado */
+  .custom-button {
+      background-color: #006400;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .custom-button:hover {
+      background-color: #45a049;
+    }
+    
+    .custom-button:focus {
+      outline: none;
+    }
+    
+    .spinner-container {
+      position: relative;
+      width: 5rem;
+      height: 5rem;
+      margin: 0 auto; /* Centralizar horizontalmente */
+      display: flex;
+      justify-content: center; /* Centralizar horizontalmente */
+      align-items: center; /* Centralizar verticalmente */
+    }
+    
+    .spinner-custom {
+      position: absolute;
+      color: #45a049;
+      width: 5rem;
+      height: 5rem;
+      border-width: 0.5em;
+      animation: spinner-rotate 2s linear infinite;
+    }
+    
+    .spinner-custom::after {
+      border-color: #45a049;
+    }
+    
+    .spinner-text {
+      position: absolute;
+    }
+    
+    @keyframes spinner-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    

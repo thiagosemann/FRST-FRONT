@@ -6,12 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../utilitarios/user';
 import { AuthenticationService } from '../service/authentication';
 import { UsageHistoryService } from '../service/usageHistory_service';
-import { UsageHistory } from '..//utilitarios/usageHistory';
 import { BuildingService } from 'src/app/shared/service/buildings_service';
-import { TransactionsService } from '..//service/transactionsService';
 import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
-import { throwError, Observable, lastValueFrom, last, Subscription, timer } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 import { ControleMaquinaService } from './controleMaquinaService';
 
@@ -28,15 +24,10 @@ export class GerenciadorMaquinasService {
   breaktempoDesligar:boolean = false;
   
   constructor(
-    private route: ActivatedRoute,
     private machineService: MachineService,
     private authService: AuthenticationService,
-    private usageHistoryService: UsageHistoryService,
     private router: Router,
     private toastr: ToastrService,
-    private buildingService: BuildingService,
-    private transactionsService: TransactionsService,
-    private nodemcuService: NodemcuService,
     private controleMaquinaService: ControleMaquinaService
   ) {
     this.id = '';
@@ -82,24 +73,11 @@ export class GerenciadorMaquinasService {
   }
 
   desligarMaquinaNovo(data:any):void{
-    this.tempoDesligar =60;
-    const timer = setInterval(() => {
-      this.tempoDesligar--; // Reduz o tempo restante
-      if(this.tempoDesligar<58){
-        this.toastr.info(this.tempoDesligar.toString());
-      }
-
-      if (this.tempoDesligar <= 0 || this.breaktempoDesligar ) {
-        this.breaktempoDesligar = false;
-        clearInterval(timer); // Para o contador quando o tempo acabar
-      }
-    }, 1000); // 1000 milissegundos = 1 segundo
     this.controleMaquinaService.desligarMaquina(data).subscribe(
       (res) => {
         console.log(res)
         this.toastr.success(res.message);
         this.breaktempoDesligar = true;
-
         this.router.navigate(['/content']);
       },
       (err) => {
@@ -110,20 +88,7 @@ export class GerenciadorMaquinasService {
       }
     );
   }
-  ligarMaquinaNovo(data:any):void{
-    this.tempoLigar =60;
-    const timer = setInterval(() => {
-      this.tempoLigar--; // Reduz o tempo restante
-      if(this.tempoLigar<58){
-        this.toastr.info(this.tempoLigar.toString());
-      }
-
-      if (this.tempoLigar <= 0 || this.breaktempoLigar ) {
-        this.breaktempoLigar = false;
-        clearInterval(timer); // Para o contador quando o tempo acabar
-      }
-    }, 1000); // 1000 milissegundos = 1 segundo
-    
+  ligarMaquinaNovo(data:any):void{ 
     this.controleMaquinaService.ligarMaquina(data).subscribe(
       (res) => {
         console.log(res)
@@ -139,7 +104,7 @@ export class GerenciadorMaquinasService {
     );
   }
   
-  
+  /*
   async desligarMaquinaAdmin(): Promise<void> {
     // Desliga a máquina
     const lastUsage = await this.getLastUsageFromMachine();
@@ -320,4 +285,5 @@ export class GerenciadorMaquinasService {
       return throwError(new Error('Máquina não definida.'));
     }
   }
+  */
 }

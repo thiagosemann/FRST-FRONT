@@ -27,7 +27,6 @@ export class ContentComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    this.verificarMaquinas();
 
     this.mesAtual = this.obterMesAtual();
 
@@ -42,12 +41,7 @@ export class ContentComponent implements OnInit {
     }
   }
 
-  verificarMaquinas(): void {
-    const id = this.route.snapshot.paramMap.get('id') ?? '';
-    if (id) {
-      this.gerenciadorMaquinasService.verificacaoMaquinas(id);
-    }
-  }
+
 
   obterMesAtual(): string {
     const currentDate = new Date();
