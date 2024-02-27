@@ -40,7 +40,7 @@ export class GerenciadorMaquinasService {
         this.user = this.authService.getUser();
         let data = { id_maquina: this.machine.id, id_user: this.user?.id }
         if (this.machine?.is_in_use) {
-          if(this.machine.type =="Industrial"){
+          if(this.machine.type =="Industrial-Lava" || this.machine.type =="Industrial-Seca"){
              this.toastr.info("Espere o ciclo da máquina acabar!")
           }else{
             this.desligarMaquinaNovo(data);
