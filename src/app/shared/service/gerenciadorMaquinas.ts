@@ -39,11 +39,18 @@ export class GerenciadorMaquinasService {
         this.machine = machine;
         this.user = this.authService.getUser();
         let data = { id_maquina: this.machine.id, id_user: this.user?.id }
-
         if (this.machine?.is_in_use) {
-          this.desligarMaquinaNovo(data);
+          if(this.machine.type =="Industrial"){
+             this.toastr.info("Espere o ciclo da máquina acabar!")
+          }else{
+            this.desligarMaquinaNovo(data);
+          }
         } else {
-          this.ligarMaquinaNovo(data);
+          if(this.machine.type =="Industrial"){
+            this.ligarMaquinaIndustrial(data);
+          }else{
+            this.ligarMaquinaNovo(data);
+          }
         }
       },
       (error: any) => {
@@ -71,6 +78,21 @@ export class GerenciadorMaquinasService {
   }
   ligarMaquinaNovo(data:any):void{ 
     this.controleMaquinaService.ligarMaquina(data).subscribe(
+      (res) => {
+        console.log(res)
+        this.toastr.success(res.message);
+        this.breaktempoLigar = true;
+        this.router.navigate(['/content']);
+      },  
+      (err) => {
+        console.log(err)
+        this.toastr.error(err.error.error);
+        this.breaktempoLigar = true;
+      }
+    );
+  }
+  ligarMaquinaIndustrial(data:any):void{ 
+    this.controleMaquinaService.ligarMaquinaIndustrial(data).subscribe(
       (res) => {
         console.log(res)
         this.toastr.success(res.message);

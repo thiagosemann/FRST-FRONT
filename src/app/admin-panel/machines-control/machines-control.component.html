@@ -21,7 +21,7 @@
                 </p>
               </div>
               <div class="col-md-6">
-                <button class="btn buttonActionLigar mt-4" [ngClass]="{'buttonActionLigar': !machine.is_in_use, 'buttonActionDesligar': machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">
+                <button *ngIf="!(machine.machineType === 'Industrial' && machine.is_in_use)" class="btn buttonActionLigar mt-4" [ngClass]="{'buttonActionLigar': !machine.is_in_use, 'buttonActionDesligar': machine.is_in_use}" (click)="mudarEstadoMaquina(machine)">
                   {{ machine.is_in_use ? "Desligar" : "Ligar" }}
                 </button>
               </div>

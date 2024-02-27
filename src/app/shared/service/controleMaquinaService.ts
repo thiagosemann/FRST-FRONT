@@ -19,6 +19,14 @@ export class ControleMaquinaService {
     return this.http.post(`${this.url}/gerenciadorMaquina/ligar`, data, { headers });
   }
 
+  ligarMaquinaIndustrial(data: any): Observable<any> {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+    return this.http.post(`${this.url}/gerenciadorMaquina/ligarIndustrial`, data, { headers });
+  }
+
   desligarMaquina(data: any): Observable<any> {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders({
