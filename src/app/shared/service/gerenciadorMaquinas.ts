@@ -46,7 +46,7 @@ export class GerenciadorMaquinasService {
             this.desligarMaquinaNovo(data);
           }
         } else {
-          if(this.machine.type =="Industrial"){
+          if(this.machine.type =="Industrial-Lava" || this.machine.type =="Industrial-Seca" ){
             this.ligarMaquinaIndustrial(data);
           }else{
             this.ligarMaquinaNovo(data);
