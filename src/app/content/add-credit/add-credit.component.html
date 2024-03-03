@@ -1,0 +1,32 @@
+<app-nav-bar class="mb-4"></app-nav-bar>
+<section>
+    <div class="container">
+        <div class="credits-container">
+            <div class="credits-wrapper">
+                <h1 class="credits-title">Saldo</h1>
+                <div class="credits-info">
+                    <span class="credits-amount">R$ {{ user?.credito }}</span> 
+                </div>
+            </div>
+        </div>
+
+        <div class="catalog-container">
+            <h2 class="catalog-title">Escolha seu crédito</h2>
+            <div class="product-list">
+                <button *ngFor="let product of products" class="credit-button">
+                    <div class="credit-info">
+                        <span class="credit-amount">R$ {{ product.credits }}</span> 
+                        <br>
+                        Rende até {{ product.credits/10 }} lavagens
+                    </div>
+                </button>
+                <button class="credit-button">
+                    <div class="credit-info">
+                        <span class="credit-amount">Outros Valores</span> <br>
+
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

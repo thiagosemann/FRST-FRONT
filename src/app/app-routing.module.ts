@@ -10,6 +10,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { QrCodeScannerComponent } from './content/qr-code-scanner/qr-code-scanner.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ProfileComponent } from './content/profile/profile.component';
+import { AddCreditComponent } from './content/add-credit/add-credit.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,8 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'addCredit', component: AddCreditComponent, canActivate: [AuthGuardService] },
+  
   { path: 'qrCode', component: QrCodeScannerComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: '/content', pathMatch: 'full' }, // redireciona para '/home' quando o caminho é vazio
   { path: '**', component: ContentComponent, canActivate: [AuthGuardService] }, // rota de fallback quando nenhuma outra corresponder

@@ -17,6 +17,7 @@ export interface User {
     valorTotal?:number;
     isEditing?: boolean ; // Add the isEditing property here
     editValue?: string;
+    tipo_pagamento?: string;
     [key: string]: any; // Índice para acessar propriedades com base em uma string
 
   }

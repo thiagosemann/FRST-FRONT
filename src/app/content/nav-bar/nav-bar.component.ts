@@ -35,6 +35,9 @@ export class NavBarComponent implements OnInit {
   profile(): void {
     this.router.navigate(['/profile']);
   }
+  addCredit(): void {
+    this.router.navigate(['/addCredit']);
+  }
   admin(): void {
       this.router.navigate(['/admin']);
   }

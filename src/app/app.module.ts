@@ -28,6 +28,7 @@ import { BuildingsControlComponent } from './admin-panel/buildings-control/build
 import { ProfileComponent } from './content/profile/profile.component';
 import { UserControlComponent } from './admin-panel/user-control/user-control.component';
 import { MachinesControlComponent } from './admin-panel/machines-control/machines-control.component';
+import { AddCreditComponent } from './content/add-credit/add-credit.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { MachinesControlComponent } from './admin-panel/machines-control/machine
     ProfileComponent,
     UserControlComponent,
     MachinesControlComponent,
+    AddCreditComponent,
   ],
   imports: [
     BrowserModule,
