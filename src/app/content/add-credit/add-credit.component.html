@@ -13,14 +13,14 @@
         <div class="catalog-container">
             <h2 class="catalog-title">Escolha seu crédito</h2>
             <div class="product-list">
-                <button *ngFor="let product of products" class="credit-button">
+                <button *ngFor="let product of products" class="credit-button" (click)="criarPreferenciaMercadoPago(product)">
                     <div class="credit-info">
                         <span class="credit-amount">R$ {{ product.credits }}</span> 
                         <br>
                         Rende até {{ product.credits/10 }} lavagens
                     </div>
                 </button>
-                <button class="credit-button">
+                <button class="credit-button" >
                     <div class="credit-info">
                         <span class="credit-amount">Outros Valores</span> <br>
 
