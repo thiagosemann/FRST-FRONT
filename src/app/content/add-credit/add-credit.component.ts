@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/service/authentication';
 import { MercadoPagoService } from 'src/app/shared/service/mercadoPago_service';
 import { User } from 'src/app/shared/utilitarios/user';
@@ -11,6 +12,7 @@ import { User } from 'src/app/shared/utilitarios/user';
 export class AddCreditComponent implements OnInit {
   totalCredits: number = 100;
   user!: User | null;
+  selectedValue: number = 0;
   products = [
     { credits: 10 },
     { credits: 20 },
@@ -18,11 +20,17 @@ export class AddCreditComponent implements OnInit {
     { credits: 40 }
   ];
   showInput: boolean = false;
+  status: string = '';
 
-  constructor(private authService: AuthenticationService, private mercadoPagoService: MercadoPagoService) {}
+  constructor(private route: ActivatedRoute, private authService: AuthenticationService, private mercadoPagoService: MercadoPagoService) {}
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
+    this.route.params.subscribe(params => {
+      this.status = params['status'] || 'default';
+      // Aqui você pode tomar ações com base no status recebido
+      console.log(this.status)
+    });
   }
 
   criarPreferenciaMercadoPago(product :any): void {
@@ -31,9 +39,9 @@ export class AddCreditComponent implements OnInit {
         additional_info: 'Compra de créditos para usar no sistema Foreasy.',
         auto_return: 'approved',
         back_urls: {
-          failure: 'localhost:4200/addCredit',
-          pending: 'localhost:4200/addCredit',
-          success: 'localhost:4200/addCredit'
+          failure: 'https://www.frst.com.br/addCredit/failure',
+          pending: 'https://www.frst.com.br/addCredit/pending',
+          success: 'https://www.frst.com.br/addCredit/success'
         },
         date_created: new Date().toISOString(),
         items: [
@@ -51,12 +59,13 @@ export class AddCreditComponent implements OnInit {
         metadata: {},
         operation_type: 'regular_payment',
         redirect_urls: {
-          failure: 'localhost:4200/addCredit',
-          pending: 'localhost:4200/addCredit',
-          success: 'localhost:4200/addCredit'
+          failure: 'https://www.frst.com.br/addCredit/failure',
+          pending: 'https://www.frst.com.br/addCredit/pending',
+          success: 'https://www.frst.com.br/addCredit/success'
         },
         total_amount: product.credits, // Convertendo para centavos
-        site_id: 'MLB'
+        site_id: 'MLB',
+        user_id:this.user.id
       };
 
       this.mercadoPagoService.criarPreferencia(body).subscribe(

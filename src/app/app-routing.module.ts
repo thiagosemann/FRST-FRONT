@@ -30,6 +30,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'addCredit/:status', component: AddCreditComponent, canActivate: [AuthGuardService] },
   { path: 'addCredit', component: AddCreditComponent, canActivate: [AuthGuardService] },
   
   { path: 'qrCode', component: QrCodeScannerComponent, canActivate: [AuthGuardService] },
