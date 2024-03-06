@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../utilitarios/user';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from './user_service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class AuthenticationService {
   
   private user: User | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   login(email: string, password: string, rememberMe: boolean): Promise<{logado: boolean, erro: string}> {
     const loginData = { email, password };
@@ -65,14 +66,15 @@ export class AuthenticationService {
     return localStorage.getItem('token') !== null || sessionStorage.getItem('token') !== null;
   }
 
-getUser(): User | null {
-    if (!this.user) {
-        if (localStorage.getItem('user') !== null) {
-            this.user = JSON.parse(localStorage.getItem('user')!);
-        } else if (sessionStorage.getItem('user') !== null) {
-            this.user = JSON.parse(sessionStorage.getItem('user')!);
-        }
-    }
-    return this.user;
-}
+  getUser(): User | null {
+      if (!this.user) {
+          if (localStorage.getItem('user') !== null) {
+              this.user = JSON.parse(localStorage.getItem('user')!);
+          } else if (sessionStorage.getItem('user') !== null) {
+              this.user = JSON.parse(sessionStorage.getItem('user')!);
+          }
+      }
+      return this.user;
+  }
+
 }

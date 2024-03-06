@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/service/authentication';
 import { MercadoPagoService } from 'src/app/shared/service/mercadoPago_service';
+import { UserService } from 'src/app/shared/service/user_service';
 import { User } from 'src/app/shared/utilitarios/user';
 
 @Component({
@@ -22,15 +23,37 @@ export class AddCreditComponent implements OnInit {
   showInput: boolean = false;
   status: string = '';
 
-  constructor(private route: ActivatedRoute, private authService: AuthenticationService, private mercadoPagoService: MercadoPagoService) {}
+  constructor(private route: ActivatedRoute,
+              private authService: AuthenticationService, 
+              private mercadoPagoService: MercadoPagoService, 
+              private userService: UserService) {}
 
   ngOnInit(): void {
-    this.user = this.authService.getUser();
+    const userAux = this.authService.getUser();
+    if(userAux){
+      this.getUser(userAux.id)
+    }
     this.route.params.subscribe(params => {
       this.status = params['status'] || 'default';
       // Aqui você pode tomar ações com base no status recebido
       console.log(this.status)
     });
+  }
+
+  getUser(id:number){
+    this.userService.getUser(id).subscribe(
+      (updatedUser: User) => {
+        // Atualiza os dados do usuário no localStorage
+        if (updatedUser) {
+          this.user = updatedUser;
+        } else {
+          console.error('Usuário não encontrado.');
+        }
+      },
+      (error) => {
+        console.error('Erro ao buscar usuário:', error);
+      }
+    );
   }
 
   criarPreferenciaMercadoPago(product :any): void {
