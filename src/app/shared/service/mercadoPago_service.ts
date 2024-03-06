@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MercadoPagoService {
-  private url = 'https://frst-back-02b607761078.herokuapp.com';
-  //private url = 'http://localhost:80';
+  //private url = 'https://frst-back-02b607761078.herokuapp.com';
+  private url = 'http://localhost:80';
 
   constructor(private http: HttpClient) {}
 

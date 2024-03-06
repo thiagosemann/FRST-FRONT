@@ -56,18 +56,21 @@ export class AddCreditComponent implements OnInit {
           },
         ],
         marketplace: 'NONE',
-        metadata: {},
+        metadata: {
+          user_email: this.user.email, // Adicione o e-mail único do usuário
+          user_id: this.user.id // Adicione o ID único do usuário
+          },
         operation_type: 'regular_payment',
         redirect_urls: {
           failure: 'https://www.frst.com.br/addCredit/failure',
           pending: 'https://www.frst.com.br/addCredit/pending',
           success: 'https://www.frst.com.br/addCredit/success'
-        },
+        }, 
         total_amount: product.credits, // Convertendo para centavos
         site_id: 'MLB',
-        user_id:this.user.id
-      };
-
+        user_id: this.user.id
+    };
+    
       this.mercadoPagoService.criarPreferencia(body).subscribe(
         response => {
           // Lógica para lidar com a resposta do MercadoPago
