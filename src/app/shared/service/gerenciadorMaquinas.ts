@@ -5,10 +5,6 @@ import { Machine } from '../utilitarios/machines';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../utilitarios/user';
 import { AuthenticationService } from '../service/authentication';
-import { UsageHistoryService } from '../service/usageHistory_service';
-import { BuildingService } from 'src/app/shared/service/buildings_service';
-import { NodemcuService } from 'src/app/shared/service/nodemcu_service';
-
 import { ControleMaquinaService } from './controleMaquinaService';
 
 @Injectable({
@@ -38,20 +34,13 @@ export class GerenciadorMaquinasService {
       (machine: Machine) => {
         this.machine = machine;
         this.user = this.authService.getUser();
-        let data = { id_maquina: this.machine.id, id_user: this.user?.id }
-        if (this.machine?.is_in_use) {
-          if(this.machine.type =="Industrial-Lava" || this.machine.type =="Industrial-Seca"){
-             this.toastr.info("Espere o ciclo da máquina acabar!")
-          }else{
-            this.desligarMaquinaNovo(data);
-          }
-        } else {
-          if(this.machine.type =="Industrial-Lava" || this.machine.type =="Industrial-Seca" ){
-            this.ligarMaquinaIndustrial(data);
-          }else{
-            this.ligarMaquinaNovo(data);
-          }
+  
+        if (!this.machine || !this.user) {
+          return;
         }
+  
+        const data = { id_maquina: this.machine.id, id_user: this.user.id };
+        this.processMachine(data, this.machine.type, this.machine.is_in_use);
       },
       (error: any) => {
         console.log('Error retrieving machine:', error);
@@ -60,7 +49,57 @@ export class GerenciadorMaquinasService {
     );
   }
 
+  
+  
+  processMachine(data: any, type: string, is_in_use: boolean): void {
+    const isIndustrial = type === "Industrial-Lava" || type === "Industrial-Seca";
+    const isPosPago = this.user?.tipo_pagamento === "pos-pago";
+  
+    if (isPosPago) {
+      this.processPosPago(data, isIndustrial, is_in_use);
+    } else {
+      this.processPrePago(data, isIndustrial, is_in_use);
+    }
+  }
+  
+  processPosPago(data: any, isIndustrial: boolean, is_in_use: boolean): void {
+    if (is_in_use && !isIndustrial) {
+      this.desligarMaquinaNovo(data);
+    } else if (!is_in_use && !isIndustrial) {
+      this.ligarMaquinaNovo(data);
+    }
+  }
+  
+  processPrePago(data: any, isIndustrial: boolean, is_in_use: boolean): void {
+    if (is_in_use && isIndustrial) {
+      this.toastr.info("Espere o ciclo da máquina acabar!");
+    } else if (!is_in_use && isIndustrial) {
+      this.ligarMaquinaIndustrial(data);
+    } else if (!is_in_use && !isIndustrial && this.user && this.user.credito && parseInt(this.user.credito) > 10) {
+      this.ligarMaquinaNovo(data);
+    } else if (is_in_use && !isIndustrial) {
+      this.desligarMaquinaPrePago(data);
+    }
+  }
+
+
   desligarMaquinaNovo(data:any):void{
+    this.controleMaquinaService.desligarMaquina(data).subscribe(
+      (res) => {
+        console.log(res)
+        this.toastr.success(res.message);
+        this.breaktempoDesligar = true;
+        this.router.navigate(['/content']);
+      },
+      (err) => {
+        console.log(err)
+        this.toastr.error(err.error.error);
+        this.breaktempoDesligar = true;
+
+      }
+    );
+  }
+  desligarMaquinaPrePago(data:any):void{
     this.controleMaquinaService.desligarMaquina(data).subscribe(
       (res) => {
         console.log(res)
