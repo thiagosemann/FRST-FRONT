@@ -73,7 +73,7 @@ export class AddCreditComponent implements OnInit {
             title: 'Adicionar Crédito Foreasy',
             category_id: 'eletronicos',
             currency_id: 'BRL',
-            description: 'Descrição do Produto 1',
+            description: 'Crédito de 10 fichas no sistema da foreasy.',
             quantity: 1,
             unit_price: product.credits // Preço em centavos (R$20,00)
           },
