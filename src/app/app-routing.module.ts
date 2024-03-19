@@ -15,7 +15,7 @@ import { AddCreditComponent } from './content/add-credit/add-credit.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register/:id', component: RegisterComponent },
+  { path: 'register/:id/:type', component: RegisterComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: 'landing', component: LandingComponent, canActivate: [AuthGuardService] },
   { path: 'content/:id', component: ContentComponent, canActivate: [AuthGuardService] },

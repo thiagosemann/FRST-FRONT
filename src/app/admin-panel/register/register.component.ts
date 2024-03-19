@@ -26,6 +26,7 @@ export class RegisterComponent implements OnInit {
   user!: User;
   buildings: Building[] = [];
   buildingName: string = '';
+  subscriptionType: string = '';
   errorMessages: { [key: string]: string } = {
     first_name: 'Insira o primeiro nome',
     last_name: 'Insira o sobrenome',
@@ -48,6 +49,13 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildingName = this.route.snapshot.paramMap.get('id') ?? '';
+    this.subscriptionType = this.route.snapshot.paramMap.get('type') ?? '';
+    console.log(this.subscriptionType)
+    if(this.subscriptionType != "pre-pago" && this.subscriptionType != "pro-pago" ){
+      this.router.navigate(['/login']);
+    }
+
+
 
     this.buildingService.getAllBuildings().subscribe(
       (buildings: Building[]) => {
@@ -101,6 +109,7 @@ export class RegisterComponent implements OnInit {
       
       if (foundBuilding) {
         this.user.building_id = foundBuilding.id;
+        this.user.tipo_pagamento = this.subscriptionType;
         this.userService.addUser(this.user).subscribe(
           (res) => {
             this.resetForm();
