@@ -50,9 +50,14 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.buildingName = this.route.snapshot.paramMap.get('id') ?? '';
     this.subscriptionType = this.route.snapshot.paramMap.get('type') ?? '';
-    console.log(this.subscriptionType)
-    if(this.subscriptionType != "pre-pago" && this.subscriptionType != "pro-pago" ){
+    // Verificando se o tipo de inscrição é válido
+    if (this.subscriptionType != "pre-pago" && this.subscriptionType != "pos-pago" && this.subscriptionType != "") {
       this.router.navigate(['/login']);
+    }
+    
+    // Definindo um valor padrão para o tipo de inscrição, se não estiver presente na URL
+    if (this.subscriptionType == "") {
+      this.subscriptionType = "pos-pago"
     }
 
 
