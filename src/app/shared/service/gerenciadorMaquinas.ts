@@ -85,6 +85,7 @@ export class GerenciadorMaquinasService {
         console.log(err)
         this.toastr.error(err.error.message);
         this.breaktempoDesligar = true;
+        this.router.navigate(['/content']);
 
       }
     );
@@ -101,6 +102,8 @@ export class GerenciadorMaquinasService {
         console.log(err)
         this.toastr.error(err.error.message);
         this.breaktempoLigar = true;
+        this.router.navigate(['/content']);
+
       }
     );
   }
@@ -116,29 +119,10 @@ export class GerenciadorMaquinasService {
         console.log(err)
         this.toastr.error(err.error.message);
         this.breaktempoLigar = true;
-      }
-    );
-  }
-
-  desligarMaquinaPrePago(data:any):void{
-  }
-
-  ligarMaquinaPrePago(data:any):void{
-    this.controleMaquinaService.ligarMaquina(data).subscribe(
-      (res) => {
-        console.log(res)
-        this.toastr.success(res.message);
-        this.breaktempoLigar = true;
         this.router.navigate(['/content']);
-      },  
-      (err) => {
-        console.log(err)
-        this.toastr.error(err.error.message);
-        this.breaktempoLigar = true;
+
       }
     );
   }
 
-  ligarMaquinaIndustrialPrePago(data:any):void{
-  }
 }
