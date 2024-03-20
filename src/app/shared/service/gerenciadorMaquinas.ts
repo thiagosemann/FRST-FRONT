@@ -83,7 +83,7 @@ export class GerenciadorMaquinasService {
       },
       (err) => {
         console.log(err)
-        this.toastr.error(err.error.error);
+        this.toastr.error(err.error);
         this.breaktempoDesligar = true;
 
       }
@@ -99,7 +99,7 @@ export class GerenciadorMaquinasService {
       },  
       (err) => {
         console.log(err)
-        this.toastr.error(err.error.error);
+        this.toastr.error(err.error);
         this.breaktempoLigar = true;
       }
     );
@@ -114,7 +114,7 @@ export class GerenciadorMaquinasService {
       },  
       (err) => {
         console.log(err)
-        this.toastr.error(err.error.error);
+        this.toastr.error(err.error);
         this.breaktempoLigar = true;
       }
     );
