@@ -8,4 +8,5 @@ export interface Machine {
     idNodemcu: string;
     isConnected?:boolean;
     apt_in_use?:string;
+    tempo_uso?:string;
 }

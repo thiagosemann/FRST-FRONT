@@ -5,4 +5,5 @@ export interface UsageHistory {
     start_time?: string,
     end_time?: string,
     total_cost?: number,
+    type_usage?: string
   }
