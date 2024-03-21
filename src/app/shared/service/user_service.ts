@@ -7,8 +7,8 @@ import { User } from '../utilitarios/user';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'https://frst-back-02b607761078.herokuapp.com';
-  //private url = 'http://localhost:80';
+  //private url = 'https://frst-back-02b607761078.herokuapp.com';
+  private url = 'http://localhost:80';
 
   private users: User[] = [];
   private userListSubject: Subject<User[]> = new Subject<User[]>();
@@ -62,6 +62,15 @@ export class UserService {
     return this.http.get<User>(`${this.url}/users/${userId}`, { headers });
   }
   
+  resetPasswordByEmail(email: string): Observable<any> {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+    // Aqui você fará a solicitação POST para o endpoint apropriado
+    return this.http.post(`${this.url}/users/email/${email}`, null, { headers });
+  }
+
   updateUser(user: User): Observable<any> {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders({
