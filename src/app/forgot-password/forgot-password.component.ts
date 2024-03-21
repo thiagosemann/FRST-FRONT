@@ -27,6 +27,8 @@ export class ForgotPasswordComponent {
       error => {
         console.error('Erro ao redefinir senha:', error);
         // Adicione aqui qualquer tratamento de erro necessário
+        this.toastr.error("E-mail não encontrado.")
+
       }
     );
   }
