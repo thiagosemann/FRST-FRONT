@@ -12,7 +12,7 @@ import { UsageHistoryService } from '../shared/service/usageHistory_service';
 export class ContentComponent implements OnInit {
   mesAtual: string = "";
   valorTotal: number = 0;
-
+  user! : User | null;
   constructor(
     private router: Router,
     private gerenciadorMaquinasService: GerenciadorMaquinasService,
@@ -30,14 +30,14 @@ export class ContentComponent implements OnInit {
 
     this.mesAtual = this.obterMesAtual();
 
-    const user: User | null = this.getCurrentUser();
+    this.user = this.getCurrentUser();
 
-    if (user && user.id !== undefined) {
+    if (this.user && this.user.id !== undefined) {
       const today = new Date();
       const year = today.getFullYear();
       const month = today.getMonth() + 1; // Adiciona 1 ao mês (pois os meses em JavaScript são baseados em zero)
       const monthConsulta = `${year}-${month.toString().padStart(2, '0')}`;
-      this.obterHistoricoUsoUsuario(user.id, monthConsulta);
+      this.obterHistoricoUsoUsuario(this.user.id, monthConsulta);
     }
   }
 

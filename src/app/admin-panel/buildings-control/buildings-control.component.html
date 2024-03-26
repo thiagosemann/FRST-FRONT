@@ -105,23 +105,25 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let history of formattedUsageHistory; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0}">
-                  <td> {{history.userName}}</td>
-                  <td  class="hidden-small-screen"> {{history.machineName}}</td>
-                  <td  class="hidden-small-screen"> {{ history.start_time }}</td>
-                  <td  class="hidden-small-screen"> {{ history.end_time }}</td>
-                  <td> {{ history.date }}</td>
-                  <td> {{history.total_cost}}</td>
-                  <td>
-                    <button class="btn btn-warning edit-button btn-sm" (click)="editUsageHistory(history)">
-                       <i class="fas fa-edit"></i>
-                    </button>
-                 </td> <!-- Adicione esta linha -->
-                  <td>
-                    <button class="btn btn-danger delete-button btn-sm" (click)="deleteUsageHistory(history.id)">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
+                <tr *ngFor="let history of formattedUsageHistory; let i = index" [ngClass]="{'table-light': i % 2 === 0, 'table-light-gray': i % 2 !== 0, 'pre-pago-row': history.type === 'pre-pago'}">
+                  <ng-container *ngIf="history.type !='pre-pago'">
+                    <td> {{history.userName}}</td>
+                    <td  class="hidden-small-screen"> {{history.machineName}}</td>
+                    <td  class="hidden-small-screen"> {{ history.start_time }}</td>
+                    <td  class="hidden-small-screen"> {{ history.end_time }}</td>
+                    <td> {{ history.date }}</td>
+                    <td> {{history.total_cost}}</td>
+                    <td>
+                      <button class="btn btn-warning edit-button btn-sm" (click)="editUsageHistory(history)">
+                         <i class="fas fa-edit"></i>
+                      </button>
+                   </td> <!-- Adicione esta linha -->
+                    <td>
+                      <button class="btn btn-danger delete-button btn-sm" (click)="deleteUsageHistory(history.id)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </ng-container>
               </tr>
               </tbody>
             </table>
@@ -180,7 +182,7 @@
             <div class="col-6"> <!-- Ajustado para ocupar toda a largura -->
               <div class="row">
                 <div class="col-12">
-                  <span class="bullet-point"><span class="gray-text">Condomínio:</span></span>
+                  <span class="bullet-point"><span class="gray-text">Condomínio pós-pago:</span></span>
                 </div>
                 <div class="col-12">
                   <span class="valueBullet green-text"><strong>R$ {{valorTotal | number:'.2-2'}}</strong></span>
@@ -194,6 +196,7 @@
                   <span class="valueBullet green-text"><strong>R$ {{valorTotal*0.18 | number:'.2-2'}}</strong></span>
                 </div>
               </div>
+              
             </div>
             <div class="col-6">
               <button class="download-button" (click)="downloadTableData()">

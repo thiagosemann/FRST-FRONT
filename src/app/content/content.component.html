@@ -10,16 +10,33 @@
                             <span>LER QR CODE</span>
                         </button>
                     </div>
-                    <div class="col text-center button-container ">
-                        <div class="row">
-                            <div class="col-12 faturaMensalValor mt-4">
-                                <span>R$ {{valorTotal | number:'.2-2'}}</span>
-                            </div>  
-                            <div class="col-12 faturaMensalDescricao">
-                                <span>Fatura para o mês de {{ mesAtual }}</span> 
+
+                    <ng-container *ngIf="user && user.tipo_pagamento=='pos-pago'">
+                        <div  class="col text-center button-container ">
+                            <div class="row">
+                                <div class="col-12 faturaMensalValor mt-4">
+                                    <span>R$ {{valorTotal | number:'.2-2'}}</span>
+                                </div>  
+                                <div class="col-12 faturaMensalDescricao">
+                                    <span>Fatura para o mês de {{ mesAtual }}</span> 
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </ng-container>
+                    <ng-container *ngIf="user && user.tipo_pagamento === 'pre-pago'">
+                        <div class="col text-center button-container">
+                            <div class="row">
+                                <div class="col-12 faturaMensalValor mt-4">
+                                    <span >R$ {{ user.credito | number: '.2-2' }}</span>
+                                </div>
+                                <div class="col-12 faturaMensalDescricao">
+                                    <span>Créditos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    
+                    
                 </div>
             </div>
             <div class="row flex-grow-1 mobile-block d-flex justify-content-center align-items-center"> <!-- Segundo bloco -->
